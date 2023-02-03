@@ -32,7 +32,6 @@ class DatabaseSeeder extends Seeder
             'email' =>'admin@admin.com',
             'password'=> Hash::make('password'),
             'address' =>'fakeaddress',
-            'clinic'=>0,
             'contactno'=>'00000',
             'user_type' =>'superadmin',
             'fl'=>0,

@@ -39,13 +39,14 @@ class HomeController extends Controller
             return redirect()->route('checkpoint');
           }
       }else {
+        
         switch ($usertype) {
           case 'superadmin':
             return redirect()->route("superadmin.dashboard");
         
             break;
 
-            case 'admin':
+            case 'doctor':
               return redirect()->route("admin.dashboard");
               break;
 

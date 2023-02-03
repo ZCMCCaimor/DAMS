@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Clinic;
 use App\Models\Category;
-use App\Models\Doctor;
 use App\Models\User;
 use App\Models\Appointment;
 
@@ -14,7 +13,7 @@ class SuperadminController extends Controller
 {
     //
     public function dashboard(){
-       $Doctor= Doctor::all();
+       $Doctor= User::where('user_type','doctor')->get();
        $Appointment = Appointment::all();
        $Patients = User::where('user_type','patient')->get();
        $Clinic = Clinic::all();
@@ -31,27 +30,28 @@ class SuperadminController extends Controller
        return view('superadmin.clinics',compact('tab','data','doctor','category'));
     }
 
-    public function category(){
+    public function specialization(){
         $clinics = Clinic::all();
-        $doc = Doctor::all();
+        $doc = User::where('user_type','doctor')->get();
+        $data = Category::all();
         $tab = 'category';
-        return view('superadmin.category',compact('tab','clinics','doc'));
+        return view('superadmin.specialization',compact('tab','clinics','doc','data'));
     }
 
     public function doctors(){
-        $data = Doctor::all();
+        $data = User::where('user_type','doctor')->get();
         $category = Category::all();
-        $clinic = Clinic::all();
+        
       
         $tab = 'doctors';
-        return view('superadmin.doctors',compact('tab','data','category','clinic'));
+        return view('superadmin.doctors',compact('tab','data','category'));
     }
 
     public function admin(){
-        $data = User::where('user_type','admin')->get();
-        $clinic = Clinic::all();
+        $data = User::where('user_type','superadmin')->get();
+        
         $tab = 'admin';
-        return view('superadmin.admin',compact('tab','data','clinic'));
+        return view('superadmin.admin',compact('tab','data'));
     }
 
     public function patients(){
@@ -88,9 +88,9 @@ class SuperadminController extends Controller
 
     public function add_doctor(){
 
-        $clinics = Clinic::all();
+     
         $tab = 'doctors';
-        return view('superadmin.action.add_doctors',compact('tab','clinics'));
+        return view('superadmin.action.add_doctors',compact('tab'));
         
     }
 
@@ -107,7 +107,7 @@ class SuperadminController extends Controller
     }
 
     public function edit_doctor(Request $request){
-        $data = Doctor::where('id',$request->id)->get();
+        $data = User::where('id',$request->id)->get();
       
         $tab = 'doctors';
         return view('superadmin.action.edit_doctors',compact('tab','data'));
@@ -115,17 +115,16 @@ class SuperadminController extends Controller
     }
 
     public function add_admin(){
-        $clinics = Clinic::all();
+       
         $tab = 'admin';
-        return view('superadmin.action.add_admin',compact('tab','clinics'));
+        return view('superadmin.action.add_admin',compact('tab'));
     }
 
     public function edit_admin(Request $request){
      
         $data = User::where('id',$request->id)->get();
-        $clinics = Clinic::all();
         $tab = 'admin';
-        return view('superadmin.action.edit_admin',compact('tab','clinics','data'));
+        return view('superadmin.action.edit_admin',compact('tab','data'));
     }
     public function add_patient(){
         $tab = 'patients';

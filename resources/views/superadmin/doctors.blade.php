@@ -10,28 +10,28 @@
         <div class="card shadow-sm">
             <div class="card-body">
            <div class="container">
-            <button class="btn btn-dark btn-sm px-3 mb-2" onclick="window.location.href='{{route('superadmin.add_doctor')}}' ">Add</button>
+            <button class="btn btn-secondary btn-sm px-3 mb-2" onclick="window.location.href='{{route('superadmin.add_doctor')}}' ">Add</button>
 
             @if(Session::get('Success'))
             <div class="row">
-             <div class="col-md-8"></div>
-             <div class="col-md-6">
+             
                  <div class="alert alert-success alert-dismissible fade af show" role="alert">
                     {{Session::get('Success')}}
                      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                    </div>
-             </div>
+           
             </div>
             
          @endif
             <div class="table-responsive">
                 <table class="table table-striped table-sm af" style="font-size: 14px" id="myTable">
                     <thead>
-                      <tr class="table-primary">
+                      <tr class="table-success">
                         <th scope="col">Name</th>
-                        <th scope="col">Specialties & License</th>
+                        <th scope="col">License</th>
                         <th scope="col">Email & Contact No</th>
-                        <th scope="col">Clinic</th>
+                        <th scope="col">Specialization</th>
+                        <th scope="col">Appt-Schedules</th>
                         <th scope="col">Date-added</th>
                         <th scope="col">Action</th>
                       </tr>
@@ -39,27 +39,47 @@
                     <tbody>
                         @foreach ($data as $row)
                         <tr>
-                            <td style="font-weight: bold">Dr. {{$row->firstname.' '.$row->lastname}}</td>
+                            <td style="font-weight: bold">Dr. {{$row->name}}</td>
                             <td>
-                                @foreach ($category as $treatment)
-                                    @if($treatment->id == $row->category)
-                                 <span class="text-danger" style="font-weight:bold">{{$treatment->name}}</span>   
-                                    @endif
-                                @endforeach
-                                <br>
                                 License#: {{$row->license}}
                             </td>
                             <td>
                                {{$row->email}}
                                 <br>
-                                #{{$row->contact}}
+                                #{{$row->contactno}}
                             </td>
                             <td>
-                                @foreach ($clinic as $clinics)
-                                @if($clinics->id == $row->clinic)
-                                <span class="text-primary" style="font-weight: bold;text-transform:uppercase">{{$clinics->name}}</span>
+                          
+                                @foreach ($category as $ee)
+                                @if($ee->id == $row->specialization)
+                                <span class="text-primary" style="font-weight: bold;text-transform:uppercase">{{$ee->name}}</span>
                                 @endif
                             @endforeach
+                            </td>
+                            <td>
+                             <button class="btn btn-light text-primary border-success btn-sm" data-bs-toggle="modal" data-bs-target="#viewappt{{$row->id}}">View all  <span class="badge bg-danger">5</span></button>
+
+
+<!-- Modal -->
+<div class="modal fade" id="viewappt{{$row->id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h6 class="modal-title " id="exampleModalLabel"><span style="font-weight:bold">Dr. {{$row->name}}</span>  Schedules</h6>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        
+
+      
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Close</button>
+        
+      </div>
+    </div>
+  </div>
+</div>
                             </td>
                             <td>{{Date('@h:ia F j,Y',strtotime($row->created_at))}}</td>
                           

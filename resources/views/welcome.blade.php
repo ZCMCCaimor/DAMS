@@ -72,13 +72,17 @@
                                                 <span class="input-group-text" id="basic-addon1"><i class="fas fa-user text-secondary"></i></span>
                                                 <input required type="text"
                                             style="font-size:14px" class="form-control @error('email') is-invalid @enderror " autofocus name="email" value="{{ old('email') }}">
-                                                </div>
-                                          
-                                            @error('email')
-                                            <span style="font-size:12px" class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
-                                        @enderror
+                                            
+                                        </div>
+                                        @error('email')
+                                       
+                                           <span style="font-size:12px" class="text-danger mb-2" role="alert">
+                                               <strong>{{ $message }}</strong>
+                                           </span>
+                                       @enderror   
+                                            
+                                       
+                                      
                                             <h6 style="font-size:15px">Password:</h6>
                                             <div class="input-group mb-3">
   <span class="input-group-text" id="basic-addon1"><i class="fas fa-key text-secondary"></i></span>

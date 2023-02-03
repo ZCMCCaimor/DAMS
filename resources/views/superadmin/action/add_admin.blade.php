@@ -21,7 +21,7 @@
          <div class="row">
             
             
-            <div class="col-md-6">
+            <!-- <div class="col-md-6">
                <h6  class="af">Designation:</h6>  
                   
                <select name="Designation" class="form-select" required id="">
@@ -38,7 +38,7 @@
                   </div>
                @enderror
    </div>
-   <div class="col-md-6"></div>
+   <div class="col-md-6"></div> -->
 
             <div class="col-md-6">
                         <h6  class="af">Email:</h6>  
@@ -80,29 +80,26 @@
                      @enderror
             </div>
 
-            <div class="col-md-12">
-                         
-                        <h6  class="af">Clinic:</h6>  
-                     <select name="Clinic" class="form-select @error('Clinic') is-invalid @enderror" id="clinic">
-                        <option value="">Select Clinic</option>
-                        @foreach ($clinics as $item)
-                        <option value="{{$item->id}}">{{$item->name}}</option>
-                        @endforeach
-                      
-                     </select>
-                     @error('Clinic')
-                     <div class="invalid-feedback">
-                                 {{$message}}
-                     </div>
-                  @enderror   
-            </div>
-
            
+   
+            <div class="col-md-12 mt-2">
+         <h6  class="af">Password :</h6>  
+                        <input type="text" required name="password" id="pass" class="form-control @error('password') is-invalid  @enderror" value="{{old('password')}}">     
+                        @error('password')
+                        <div class="invalid-feedback">
+                                    {{$message}}
+                        </div>
+                     @enderror
+
+                     <button type="button" id="usedef" class="mt-2 btn btn-light text-primary btn-sm">Use Default Password <i class="fas fa-key"></i></button>
          
 
          </div>
+           
       
-         <button type="submit" class="btn btn-primary mt-3 px-4 ">Submit</button>
+         </div>
+      
+         <button type="submit" class="btn btn-success mt-3 px-4 ">Submit</button>
     </div>
                         
     </div>
@@ -112,5 +109,11 @@
 </div>
 
 </div>
+
+<script>
+   $('#usedef').click(function(){
+      $('#pass').val('secret');
+   })
+</script>
 
 @endsection

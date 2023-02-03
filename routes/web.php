@@ -3,7 +3,6 @@
 use Illuminate\Support\Facades\Route;
 use App\Models\Clinic;
 use App\Models\Category;
-use App\Models\Doctor;
 use App\Models\Email;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
@@ -40,18 +39,17 @@ Route::get('/', function () {
 
     }
 
-    $doc = Doctor::all();
+   
     $clinics = Clinic::all();
-    return view('welcome',compact('doc','clinics'));
+    return view('welcome',compact('clinics'));
 });
 
 Route::get('/Book',function(){
     $clinic = DB::select('select * from clinics where id in (select clinic from doctors) ');
-    $doctor = Doctor::all();
-    $doc = Doctor::all();
+  
     $clinics = Clinic::all();
     $category = Category::all();
-    return view('book',compact('clinic','clinics','doc'));
+    return view('book',compact('clinic','clinics'));
 });
 
 
@@ -96,7 +94,7 @@ Route::get('/Schedules',function(){
 });
 
 Route::get('/Doctors',function(){
-    $doctor = Doctor::all();
+    $doctor = User::where('user_type','doctor')->get();
     $clinics = Clinic::all();
     return view('doctors',compact('doctor','clinics'));
 });
@@ -112,7 +110,7 @@ Route::get('/AboutUs',function(){
 
 
 Route::controller(App\Http\Controllers\AdminController::class)->group(function(){
-    Route::prefix('Admin')->name('admin.')->group(function(){ 
+    Route::prefix('Account')->name('admin.')->group(function(){ 
 
         Route::get('Dashboard','dashboard')->name('dashboard');
         Route::get('Appointments','appointment')->name('appointment');
@@ -164,11 +162,11 @@ Route::controller(App\Http\Controllers\UserController::class)->group(function(){
 
 
 Route::controller(App\Http\Controllers\SuperadminController::class)->group(function(){
-    Route::prefix('MD-Admin')->name('superadmin.')->group(function(){ 
+    Route::prefix('Admin')->name('superadmin.')->group(function(){ 
 
         Route::get('Dashboard','dashboard')->name('dashboard');
         Route::get('Clinics','clinics')->name('clinics');
-        Route::get('Category','category')->name('category');
+        Route::get('Specialization','specialization')->name('specialization');
         Route::get('Doctors','doctors')->name('doctors');
         Route::get('Admin','admin')->name('admin');
         Route::get('Patients','patients')->name('patients');
@@ -179,7 +177,7 @@ Route::controller(App\Http\Controllers\SuperadminController::class)->group(funct
         Route::get('Adding/Doctors','add_doctor')->name('add_doctor');
         Route::get('getcategory','getcategory')->name('getcategory');
         Route::get('Adding/Admin','add_admin')->name('add_admin');
-        Route::get('{id}/Updating/Admin/MD-admins','edit_admin')->name('edit_admin');
+        Route::get('{id}/Updating/Admin/Administrator','edit_admin')->name('edit_admin');
 
         Route::get('Adding/Patient','add_patient')->name('add_patient');
 

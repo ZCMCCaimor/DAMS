@@ -30,7 +30,7 @@
             </div>
             <div class="col-md-6">
                         <h6  class="af">Last Name :</h6>  
-                        <input type="text" name="Lastname" class="form-control mb-2 @error('Lastname') is-invalid  @enderror" value="{{old('Lastname')}}">        
+                        <input type="text" name="Lastname" id="lastname" class="form-control mb-2 @error('Lastname') is-invalid  @enderror" value="{{old('Lastname')}}">        
                         @error('Lastname')
                            <div class="invalid-feedback">
                                        {{$message}}
@@ -99,38 +99,40 @@
             </div>
 
 
-            <div class="col-md-12">
-                         
-                        <h6  class="af">Clinic:</h6>  
-                     <select name="Clinic" class="form-select @error('Clinic') is-invalid @enderror" id="clinic">
-                        <option value="">Select Clinic</option>
-                        @foreach ($clinics as $item)
-                        <option value="{{$item->id}}">{{$item->name}}</option>
-                        @endforeach
-                      
-                     </select>
-                     @error('Clinic')
-                     <div class="invalid-feedback">
-                                 {{$message}}
-                     </div>
-                  @enderror   
-            </div>
+      
 
             
             <div class="col-md-12">
                      
-                     <h6 class="af">Select Category:</h6>  
-                     <div id="category_select">
-                        <select disabled name="Category" class="form-select" >
-                                    <option value=""></option>
+                   
+                     <div>
+                        <select  name="specialization" class="form-select mt-3" >
+                           @php
+                              $sp = DB::select('SELECT * FROM `categories`');
+                           @endphp
+                           <option style="text-align:center" value="">-- Select Specialization -- </option>
+                                 @foreach($sp as $row)
+                                 <option value="{{$row->id}}">{{$row->name}}</option>
+                                 @endforeach
+                                  
                                  </select>
                      </div>
                
          
          </div>
          </div>
+
+         <div class="col-md-12 mt-2">
+         <h6  class="af">Password :</h6>  
+                        <input type="text" name="password" id="pass" class="form-control @error('password') is-invalid  @enderror" value="{{old('password')}}">     
+                        @error('password')
+                        <div class="invalid-feedback">
+                                    {{$message}}
+                        </div>
+                     @enderror
+         </div>
       
-         <button type="submit" class="btn btn-primary mt-3 px-4 ">Submit</button>
+         <button type="submit" class="btn btn-success mt-3 px-4 ">Submit</button>
     </div>
                         
     </div>
@@ -141,6 +143,11 @@
 
 </div>
 <script>
+   $('#lastname').keyup(function(){
+      var val = $(this).val();
+
+      $('#pass').val('doc_'+val);
+   })
 $('#clinic').change(function(){
 var id = $(this).val();
 $.ajax({

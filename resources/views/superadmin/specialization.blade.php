@@ -5,71 +5,23 @@
             <h4 class="hf mb-3">Specialization</h4>
             <div class="card shadow-sm">
                 <div class="card-body">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-md-5">
-                            
-                               
-                                     <h6 class="af" style="font-weight: bolder">Clinic</h6>
-                                        <select style="" name="" class="form-select af" id="select_clinic" >
-                                            @isset($clinic_id)
-                                             <option value="{{$clinic_id}}">{{$clinic_name}}</option>
 
-                                             @else
-                                             <option value="">Select Clinic</option>
-                                          @endisset
-                                             @foreach ($clinics as $clinic)
-                                             
-                                            <option data-name="{{$clinic->name}}" value="{{$clinic->id}}">{{$clinic->name}}</option>
-                                          
-                                          
-                                            @endforeach
-                                          
-                                        </select>
-                                      
-                                   
-                            </div>
-                        </div>
-                  
-                    </div>
-                    @if(empty($data))
-                    <div class="container mt-5 mb-5">
-                          
+                <button data-bs-toggle="modal" data-bs-target="#add" class="btn btn-secondary btn-sm px-3 mb-2">Add</button>
 
-                        <h6 class="text-secondary" style="text-align: center">
-                            <img src="https://th.bing.com/th/id/R.8812c95c88f1695fc150b00250c0726f?rik=X1%2bd95kcnnq%2bPg&riu=http%3a%2f%2fmedicsww.org%2fimages%2fno-data.png&ehk=18X%2b44lq6215cwtDSTcnUaYhiSRpOjPBK32mLyIomhs%3d&risl=&pid=ImgRaw&r=0" style="width: 360px" alt="">
-                            <br>
-                          
-                            No Selected Clinic. Select Clinic First to Manage Specializations
+@if(Session::get('Success'))
+<div class="row">
+ <div class="alert alert-success alert-dismissible fade af show" role="alert">
+        {{Session::get('Success')}}
+         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+       </div>
 
-                        </h6>
+</div>
 
-                       </div>
-                    @else
-
-                    @if(count($data)>=1)
-                    
-               <div class="container mt-5" id="tablebelow">
-                <button data-bs-toggle="modal" data-bs-target="#add" class="btn btn-dark btn-sm px-3 mb-2">Add</button>
-
-                @if(Session::get('Success'))
-                <div class="row">
-                 <div class="col-md-8"></div>
-                 <div class="col-md-6">
-                     <div class="alert alert-success alert-dismissible fade af show" role="alert">
-                        {{Session::get('Success')}}
-                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                       </div>
-                 </div>
-                </div>
-                
-             @endif
-         
-                
+@endif
                 <div class="table-responsive">
                     <table class="table table-striped table-sm af" style="font-size: 14px" id="myTable">
                         <thead>
-                          <tr class="table-primary">
+                          <tr class="table-success">
                             <th scope="col">Name</th>
                             <th scope="col">Date-Created</th>
                             <th scope="col">Status</th>
@@ -78,6 +30,7 @@
                           </tr>
                         </thead>
                         <tbody>
+                            @if(count($data) >= 1)
                             @foreach ($data as $row)
                             <tr>
                                 <td style="font-weight: bold" class="text-primary">{{$row->name}}</td>
@@ -87,7 +40,7 @@
                                     $count = 0;
                                 @endphp
                                 @foreach ($doc as $item)
-                                    @if($item->category == $row->id)
+                                    @if($item->specialization == $row->id)
                                     
                                   @php
                                       $count++;
@@ -137,29 +90,14 @@ Update Specialization
 </div>
 </div> 
                             @endforeach
-                          
+                        @else
+
+
+                          @endif
                          
                         </tbody>
                       </table>
                 </div>
-               </div>
-
-                    @else
-                           <div class="container mt-5 mb-5">
-                          
-
-                            <h6 style="text-align: center">
-                                <img src="https://th.bing.com/th/id/R.8812c95c88f1695fc150b00250c0726f?rik=X1%2bd95kcnnq%2bPg&riu=http%3a%2f%2fmedicsww.org%2fimages%2fno-data.png&ehk=18X%2b44lq6215cwtDSTcnUaYhiSRpOjPBK32mLyIomhs%3d&risl=&pid=ImgRaw&r=0" style="width: 360px" alt="">
-                                <br>
-                                <button data-bs-toggle="modal" data-bs-target="#add" class="btn btn-dark btn-sm px-3 mb-2">Add Specialization</button><br>
-                                No Specialization Found in <span class="text-danger">{{$clinic_name}}</span>.
-
-                            </h6>
-
-                           </div>
-                    @endif
-
-                    @endif
 
                 </div>
             </div>
@@ -190,7 +128,7 @@ Add Specialization
 </div>
 <div class="modal-footer">
 
-<button type="submit" class="af btn btn-primary btn-sm px-3 py-2">Save</button>
+<button type="submit" class="af btn btn-success btn-sm px-3 py-2">Save</button>
 </div>
 </form>
 </div>

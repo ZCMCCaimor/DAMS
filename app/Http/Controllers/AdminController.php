@@ -17,23 +17,23 @@ class AdminController extends Controller
 {
     public function dashboard(){
 
-        $id = Auth::user()->clinic;
-        $cli = Clinic::where('id',$id)->get();
-        $clinicsName =  $cli[0]['name'];
+        $id = Auth::user()->specialization;
+      
+      
         $appt = Appointment::where('clinic',$id)->get();
-        $Doctor= Doctor::where('clinic',$id)->get();
-        $category = Category::where('clinic',$id)->get();
+        $Doctor= User::where('user_type','doctor')->where('id',Auth::user()->id)->get();
+        $category = Category::where('id',$id)->get();
         $Appointment = Appointment::where('clinic',$id)->get();
         $data = Appointment::where('clinic',$id)->where('status',0)->limit(4)->get();
          $user = User::all();
         $Patients = DB::select('select * from users where user_type="patient" and id in (select user_id from appointments where clinic ='.$id.' )');
-        $Clinic = Clinic::all();
+      
         $feedback = Feedback::where('clinic',$id)->get();
         $refer =   DB::select('select * from clinics where id in (select clinic from appointments where status=4 and refferedto ='.$id.' ) ');
      
     
         $tab = 'dashboard';
-       return view('admin.dashboard',compact('tab','appt','clinicsName','Doctor','Appointment','Patients','Clinic','category','data','user','feedback','refer'));
+       return view('admin.dashboard',compact('tab','appt','Doctor','Appointment','Patients','category','data','user','feedback','refer'));
     }
     public function appointment(){
 

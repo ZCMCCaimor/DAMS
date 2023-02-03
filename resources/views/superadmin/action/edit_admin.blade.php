@@ -64,37 +64,14 @@
                      @enderror
             </div>
 
-            <div class="col-md-12">
-                         
-                        <h6  class="af">Clinic:</h6>  
-                     <select name="Clinic" class="form-select @error('Clinic') is-invalid @enderror" id="clinic">
-                                   
-                     
-                        @foreach ($clinics as $current)
-                        @if($row->clinic == $current->id)
-                        <option value="{{$current->id}}">{{$current->name}}</option>
-                        @endif
-                        @endforeach
-
-                        @foreach ($clinics as $item)
-                        <option value="{{$item->id}}">{{$item->name}}</option>
-                            
-                        @endforeach
-                      
-                     </select>
-                     @error('Clinic')
-                     <div class="invalid-feedback">
-                                 {{$message}}
-                     </div>
-                  @enderror   
-            </div>
+        
 
            
          
 
          </div>
       
-         <button type="submit" class="btn btn-primary mt-3 px-4 ">Submit</button>
+         <button type="submit" class="btn btn-success mt-3 px-4 ">Submit</button>
     </div>
                         
     </div>

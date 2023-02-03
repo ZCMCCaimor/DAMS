@@ -19,9 +19,10 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->text('address');
             $table->string('contactno');
-            $table->integer('clinic');
-            $table->string('user_type');
+            $table->string('license')->nullable();
+            $table->string('user_type')->comment('admin=admin,doctor=doctor,patient=patient');
             $table->timestamp('email_verified_at')->nullable();
+            $table->integer('specialization')->default('0');
             $table->string('password');
             $table->string('image')->nullable();
             $table->integer('fl');

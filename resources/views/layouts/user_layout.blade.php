@@ -21,7 +21,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>MD-Appointment-MyAccount</title>
+    <title>Doctor Appointment-MS</title>
 
     <!-- Scripts -->
      <!-- Fonts -->
@@ -54,7 +54,7 @@
         <nav class="sidenav shadow" id="navitems">
             <div class="userinfo">
                 @if(Auth::user()->image == null)
-                <img src="https://cdn.dribbble.com/users/244309/screenshots/14872040/01_4x.jpg" alt="" class="img-thumbnnail shadow rounded-circle"
+                <img src="https://img.freepik.com/free-icon/user_318-875902.jpg?w=2000" alt="" class="img-thumbnnail shadow rounded-circle"
                 style="width: 60px;height: 60px;border-radius: 30px;">
                 @else 
                 <img src="{{asset('profile'.'/'.Auth::user()->image)}}" alt="" class="img-thumbnnail shadow rounded-circle"

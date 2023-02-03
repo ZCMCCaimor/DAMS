@@ -23,7 +23,7 @@ class Edit_Controller extends Controller
                 'name'=>$name,
             ]);
 
-        return redirect()->back()->with('Success','Category was Updated Successfully!');
+        return redirect()->back()->with('Success','Specialization was Updated Successfully!');
     }
 
     public function edit_clinic(Request $request){
@@ -40,50 +40,50 @@ class Edit_Controller extends Controller
     }
 
     public function edit_doctor(Request $request){
+       
         $id = $request->input('id');
 
         $request->validate([
-            'Firstname'=> 'required',
-            'Lastname' => 'required',
+            'name'=> 'required',
+            'Email' => 'required',
             'Contact' => 'required',
-            'Street' =>'required',
-            'Barangay' =>'required',
-            'City' => 'required',
+            'address' =>'required',
+           
         ]);
 
-        Doctor::where('id',$id)->update([
-            'firstname' => $request->input('Firstname'),
-            'lastname'=>$request->input('Lastname'),
-            'contact'=>$request->input('Contact'),
-            'street' =>$request->input('Street'),
-            'barangay'=>$request->input('Barangay'),
-            'city'=>$request->input('City'),
+        User::findorFail($id)->update([
+            'name' => $request->name,
+            'email' => $request->Email,
+            'address' => $request->address,
+            'contactno' => $request->Contact,
+            'specialization'=> $request->specialization,
+           
         ]);
-
+        
+       return redirect()->route('superadmin.doctors')->with('Success','New Doctor was Added Successfully!');
      
-        if(Auth::user()->user_type == 'superadmin'){
-            return redirect()->route('superadmin.doctors')->with('Success','New Doctor was Added Successfully!');
-        }else {
-            return redirect()->route('admin.doctors')->with('Success','New Doctor was Added Successfully!');
-        }
+        // if(Auth::user()->user_type == 'superadmin'){
+        //     return redirect()->route('superadmin.doctors')->with('Success','New Doctor was Added Successfully!');
+        // }else {
+        //     return redirect()->route('admin.doctors')->with('Success','New Doctor was Added Successfully!');
+        // }
       
     }
 
     public function edit_admin(Request $request){
+     
         $request->validate([
             'Contact'=>'required',
             'Name' =>'required',
             'Address'=>'required',
-            'Clinic'=>'required',
         ]);
-
+       
 
         User::where('id',$request->input('id'))->update([
             
             'contactno'=>$request->input('Contact'),
             'name'=>$request->input('Name'),
             'address'=>$request->input('Address'),
-            'clinic'=>$request->input('Clinic'),
         ]);
 
         return redirect()->route('superadmin.admin')->with('Success','Admin Data was Updated Successfully!');

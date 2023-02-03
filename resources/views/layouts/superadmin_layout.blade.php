@@ -21,7 +21,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>MD-Admin</title>
+    <title>Doctor Appointment-MS</title>
 
     <!-- Scripts -->
     <!-- Fonts -->
@@ -50,13 +50,13 @@
 
 </head>
 
-<body style="background-color: aliceblue">
+<body style="background-color:#F1DBBF">
 
     <div id="app">
         <nav class="sidenav shadow" id="navitems">
             <div class="userinfo">
                 @if(Auth::user()->image == null)
-                <img src="https://cdn.dribbble.com/users/244309/screenshots/14872040/01_4x.jpg" alt="" class="img-thumbnnail shadow rounded-circle"
+                <img src="https://img.freepik.com/free-icon/user_318-875902.jpg?w=2000" alt="" class="img-thumbnnail shadow rounded-circle"
                 style="width: 60px;height: 60px;border-radius: 30px;">
                 @else 
                 <img src="{{asset('profile'.'/'.Auth::user()->image)}}" alt="" class="img-thumbnnail shadow rounded-circle"
@@ -144,24 +144,23 @@
                         MANAGE
                     </div>
 
-                    <li class="nav-item navitems" id="clinics">
-                        <a class="nav-link navlinks  " href="{{ route('superadmin.clinics') }}">
-
-                            <i class="fas fa-house-chimney-medical"></i>
-                            <span>Clinics</span></a>
-                    </li>
-
+                          
                     <li class="nav-item navitems" id="category">
-                        <a class="nav-link navlinks  " href="{{ route('superadmin.category') }}">
+                        <a class="nav-link navlinks  " href="{{ route('superadmin.specialization') }}">
                             <i class="fas fa-clipboard-list"></i>
                             <span>Specialization</span></a>
                     </li>
+
 
                     <li class="nav-item navitems" id="doctors">
                         <a class="nav-link navlinks  " href="{{ route('superadmin.doctors') }}">
                             <i class="fas fa-user-doctor"></i>
                             <span>Doctors</span></a>
-                    </li>
+                    </li>   
+
+ 
+
+                 
 
                     <div class="sidebar-heading text-dark " style="font-size: 10px">
                         ACCOUNTS
@@ -173,12 +172,15 @@
                             <span>Admin</span></a>
                     </li>
 
+                    
                     <li class="nav-item navitems" id="patients">
                         <a class="nav-link navlinks  " href="{{ route('superadmin.patients') }}">
                             <i class="fas fa-users"></i>
-                            <span>Patients</span></a>
+                            <span>User/Patients</span></a>
                     </li>
 
+
+              
 
 
 
@@ -204,7 +206,7 @@
 
 
         <div class="topbar">
-            <span class="topbartitle" style="">MD-APPOINTMENT</span>
+            <span class="topbartitle" style=""></span>
 
             <a class=" hf" id="canvas" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button"
                 aria-controls="offcanvasExample">
@@ -214,7 +216,7 @@
 
             <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample"
                 aria-labelledby="offcanvasExampleLabel">
-                <div class="offcanvas-header" style=" background-color: #9aa1bd;">
+                <div class="offcanvas-header" style=" background-color: #a6bb8d;">
                     <h5 class="offcanvas-title text-light" id="offcanvasExampleLabel"></h5>
                     <button type="button" class="btn-close " data-bs-dismiss="offcanvas"
                         style="background-color: white;" aria-label="Close"></button>
@@ -261,7 +263,7 @@
             </div> --}}
         </main>
     </div>
-    <h6 id="res" class="">All rights Reserved &middot; 2022</h6>
+    <h6 id="res" class="">Doctor Appointment-MS &middot; All rights Reserved | 2023</h6>
 
     @if (Auth::user()->fl == 0)
         <button type="button" id="btnfirstlogin" class="btn btn-primary" data-bs-toggle="modal"
@@ -272,14 +274,14 @@
 
         <div class="modal fade" id="firstlogin" tabindex="-1" aria-labelledby="exampleModalLabel"
             aria-hidden="true">
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title hf" id="exampleModalLabel">Change Password</h5>
+                    <div class="modal-header ">
+                        <h6 class="modal-title hf " id="exampleModalLabel">Change Default Password</h6>
                         <button type="button" class="btn-close" data-bs-dismiss="modal"
                             aria-label="Close"></button>
                     </div>
-                    <div class="modal-body">
+                    <div class="modal-body ">
                         <h6 class="text-secondary af">We have Notice that this is your first Login . Please Change your
                             password..</h6>
 
@@ -294,10 +296,10 @@
                         <input type="password" class="form-control" id="cp">
                         <div class="invalid-feedback" id="cpfeed"></div>
 
-                        <button class="btn btn-primary  mt-3" id="sc">Save Changes</button>
+                      
                     </div>
                     <div class="modal-footer">
-
+                    <button class="btn btn-success  mt-3" id="sc">Save Password</button>
                     </div>
                 </div>
             </div>
@@ -389,7 +391,7 @@
         $(document).ready(function() {
             $('#myTable').DataTable();
 
-            $('#{{ $tab }}').attr('style', 'background-color: #b3bce2;');
+            $('#{{ $tab }}').attr('style', 'background-color: #EAE7B1;');
         });
     </script>
 

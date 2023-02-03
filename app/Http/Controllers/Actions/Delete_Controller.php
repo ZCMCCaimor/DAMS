@@ -26,7 +26,7 @@ class Delete_Controller extends Controller
     }
 
     public function delete_doctor(Request $request){
-        Doctor::where('id',$request->id)->delete();
+        User::where('id',$request->id)->delete();
 
         return redirect()->back()->with('Success','Doctors data  was Deleted Successfully!');
     }

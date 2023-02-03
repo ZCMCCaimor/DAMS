@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Actions;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Clinic;
-use App\Models\Doctor;
 use App\Models\User;
 use App\Models\Feedback;
 use Illuminate\Http\Request;
@@ -17,9 +16,8 @@ class Add_Controller extends Controller
     public function add_category(Request $request){
        Category::create([
         'name' => $request->input('category'),
-        'clinic' => $request->input('clinic'),
        ]);
-       return redirect()->back()->with('Success','Category was Added Successfully!');
+       return redirect()->back()->with('Success','Specialization was Added Successfully!');
 
     }
 
@@ -45,33 +43,31 @@ class Add_Controller extends Controller
         $request->validate([
             'Firstname'=> 'required',
             'Lastname' => 'required',
-            'Email' => 'required|unique:doctors',
+            'Email' => 'required',
             'Contact' => 'required',
             'License' => 'required',
             'Street' =>'required',
             'Barangay' =>'required',
             'City' => 'required',
-            'Clinic' => 'required',
-
+            'password'=>'required'
            
-            
         ]);
-
-        Doctor::create([
-            'firstname' => $request->input('Firstname'),
-            'lastname'=>$request->input('Lastname'),
-            'email'=>$request->input('Email'),
-            'contact'=>$request->input('Contact'),
-            'license'=>$request->input('License'),
-            'street' =>$request->input('Street'),
-            'barangay'=>$request->input('Barangay'),
-            'city'=>$request->input('City'),
-            'clinic'=>$request->input('Clinic'),
-            'category'=>$request->input('Category'),
-            'isavailable'=>0,
-            
+    
+        User::create([
+            'name' => $request->input('Firstname').' '.$request->input('Lastname'),
+            'email' => $request->input('Email'),
+            'address' => $request->input('Street').' '.$request->input('Barangay').' '.$request->input('City'),
+            'contactno' => $request->input('Contact'),
+            'license'=> $request->input('License'),
+            'specialization'=>$request->specialization,
+            'user_type' => 'doctor',
+            'specialization'=>$request->input('specialization'),
+            'password' => Hash::make($request->input('password')),
+            'fl'=>0,
+            'otp'=>0,
+            'designation'=>'doctor',
         ]);
-
+        return redirect()->route('superadmin.doctors')->with('Success','New Doctor was Added Successfully!');
         if(Auth::user()->user_type == 'superadmin'){
             return redirect()->route('superadmin.doctors')->with('Success','New Doctor was Added Successfully!');
         }else {
@@ -82,29 +78,29 @@ class Add_Controller extends Controller
     }
 
     public function add_admin(Request $request){
+       
      
         $request->validate([
-            'Designation'=>'required',
+          //  'Designation'=>'required',
             'Email' => 'required|unique:users',
             'Contact'=>'required',
             'Name' =>'required',
             'Address'=>'required',
-            'Clinic'=>'required',
         ]);
-
-       
+    
         $default_password = Hash::make('admin_1234');
        User::create([
             'email'=>$request->input('Email'),
             'contactno'=>$request->input('Contact'),
             'name'=>$request->input('Name'),
-            'user_type'=>'admin',
+            'user_type'=>'superadmin',
             'password'=>$default_password,
             'address'=>$request->input('Address'),
             'clinic'=>$request->input('Clinic'),
             'fl'=>0,
             'otp'=>0,
-            'designation'=>$request->input('Designation'),
+            'designation'=>'admin',
+          //  'designation'=>$request->input('Designation'),
         ]);
 
         
