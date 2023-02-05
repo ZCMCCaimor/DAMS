@@ -17,8 +17,6 @@ class UserController extends Controller
     public function dashboard(){
         $tab = 'dashboard';
         $userid =  Auth::user()->id;
-        $clinic = Clinic::all();
-        $doctor = Doctor::all();
         $pending = Appointment::where('user_id',$userid)->where('status',0)->get();
         $approved = Appointment::where('user_id',$userid)->where('status',1)->get();
 
@@ -56,7 +54,7 @@ class UserController extends Controller
                 return view('user.dashboard',compact('tab'))->with('Success','Booked Successfully!');
 
               }else {
-                return view('user.dashboard',compact('tab','pending','approved','disapproved','completed','referred','cancelled','clinic','doctor'));
+                return view('user.dashboard',compact('tab','pending','approved','disapproved','completed','referred','cancelled'));
               }
            
        

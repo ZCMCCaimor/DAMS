@@ -61,33 +61,36 @@
                         <div class="col-md-8" style="margin-top: 120px;">
                                         <h3 style="font-weight:bold;color:rgb(78, 142, 226)">LIST OF DOCTORS</h3>
                             <div class="container reveal" >
-                            <table class="table table-bordered mt-4 table-hover">
+                            <table class="table table-sm table-bordered mt-4 table-hover" style="font-size:14px">
   <thead>
     <tr class="table-success">
-      <th scope="col">#</th>
-      <th scope="col">First</th>
-      <th scope="col">Last</th>
-      <th scope="col">Handle</th>
+      <th scope="col">Name</th>
+      <th scope="col">Email</th>
+      <th scope="col">Contact#</th>
+      <th scope="col">Address</th>
+      <th scope="col">Specialization</th>
     </tr>
   </thead>
   <tbody>
+    @foreach ($doctor as $item)
     <tr>
-      <th scope="row">1</th>
-      <td>Mark</td>
-      <td>Otto</td>
-      <td>@mdo</td>
-    </tr>
-    <tr>
-      <th scope="row">2</th>
-      <td>Jacob</td>
-      <td>Thornton</td>
-      <td>@fat</td>
-    </tr>
-    <tr>
-      <th scope="row">3</th>
-      <td colspan="2">Larry the Bird</td>
-      <td>@twitter</td>
-    </tr>
+        <td scope="row" style="font-weight:bold">Dr.{{$item->name}}</td>
+        <td>{{$item->email}}</td>
+        <td>{{$item->contactno}}</td>
+        <td>{{$item->address}}</td>
+        <td>
+            @php
+                $spec = DB::select('select * from categories where id = '.$item->specialization.' ');
+            @endphp
+        @foreach ($spec as $sp)
+           {{$sp->name}} 
+        @endforeach
+
+        </td>
+      </tr>
+      
+    @endforeach
+  
   </tbody>
 </table>
                                       

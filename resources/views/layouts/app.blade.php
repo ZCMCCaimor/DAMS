@@ -7,7 +7,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>MD-Appointment</title>
+    <title>Doctor Appointment-MS</title>
 
     <!-- Fonts -->
     <link rel="stylesheet" href="{{asset('css/app.css')}}"
@@ -26,7 +26,7 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
 </head>
-<body style="background-color: rgb(255, 255, 255);">
+<body style="background-color: white;">
     <div id="app">
       {{--   <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
@@ -83,37 +83,7 @@
         </nav> --}}
 
         
-        <nav class="shadow">
-            <div class="logo" onclick="window.location.href='..' ">
-                <span class="">MD-Appointment
-                 
-                </span>
-    
-            </div>
-            <div class="tabs">
-               <ul>
-              
-
-                @if (Route::has('login'))
-              
-                    @auth
-                      {{-- if loginn --}}
-                    @else
-                      {{--   <a href="{{ route('login') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Log in</a> --}}
-                     
-
-                       {{--  @if (Route::has('register'))
-                            <a href="{{ route('register') }}" class="ml-4 text-sm text-gray-700 dark:text-gray-500 underline">Register</a>
-                        @endif --}}
-                    @endauth
-               
-            @endif 
-               
-               
-               </ul>
-            </div>
-
-        </nav>
+   
 
         <div class="banner-2">
           <div class="auth">
@@ -129,5 +99,7 @@
          
         </main>
     </div>
+    
+    <span id="footer">Doctor Appointment-MS &middot; All rights Reserved | 2023</span>
 </body>
 </html>

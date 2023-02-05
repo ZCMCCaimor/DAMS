@@ -9,6 +9,7 @@ use App\Models\Clinic;
 use App\Models\Feedback;
 use App\Models\attachments;
 use App\Models\Ref_history;
+use App\Models\Schedule;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -20,29 +21,28 @@ class AdminController extends Controller
         $id = Auth::user()->specialization;
       
       
-        $appt = Appointment::where('clinic',$id)->get();
+        $appt = Appointment::where('category',$id)->get();
         $Doctor= User::where('user_type','doctor')->where('id',Auth::user()->id)->get();
         $category = Category::where('id',$id)->get();
-        $Appointment = Appointment::where('clinic',$id)->get();
-        $data = Appointment::where('clinic',$id)->where('status',0)->limit(4)->get();
+        $Appointment = Appointment::where('category',$id)->get();
+        $data = Appointment::where('category',$id)->where('status',0)->limit(4)->get();
          $user = User::all();
-        $Patients = DB::select('select * from users where user_type="patient" and id in (select user_id from appointments where clinic ='.$id.' )');
+        $Patients = DB::select('select * from users where user_type="patient" and id in (select user_id from appointments where category ='.$id.' )');
       
         $feedback = Feedback::where('clinic',$id)->get();
-        $refer =   DB::select('select * from clinics where id in (select clinic from appointments where status=4 and refferedto ='.$id.' ) ');
-     
+        // $refer =   DB::select('select * from category where id in (select category from appointments where status=4 and refferedto ='.$id.' ) ');
+      $refer = [];
     
         $tab = 'dashboard';
        return view('admin.dashboard',compact('tab','appt','Doctor','Appointment','Patients','category','data','user','feedback','refer'));
     }
     public function appointment(){
 
-        $id = Auth::user()->clinic;
-        $cli = Clinic::where('id',$id)->get();
-        $clinicsName =  $cli[0]['name'];
+     
+        $id = Auth::user()->id;
         $datenow = date('Y-m-d');
-        $data = Appointment::where('clinic',$id)->where('status',0)->get();
-        $datawexpiry = DB::select('select * from appointments  where clinic = '.$id.' and status = 0 and  "'.$datenow.'" > dateofappointment;');
+        $data = Appointment::where('doctor',$id)->where('status',0)->get();
+        $datawexpiry = DB::select('select * from appointments  where doctor = '.$id.' and status = 0 and  "'.$datenow.'" > dateofappointment;');
         
       if(count($datawexpiry)>=1){
        foreach ($datawexpiry as $key => $value) {
@@ -61,29 +61,31 @@ class AdminController extends Controller
       }
    
 
-        $Doctor = Doctor::where('clinic',$id)->get();  
+        $Doctor = Auth::user();  
         $completeappt = Appointment::where('status',3)->get();
-        $alldoctor = Doctor::all();
-        $allclinic = Clinic::all();
         $user = User::all();
         $tab = 'appointment';
 
-        // /* 
-        //   $completeappt = Appointment::where('status',3)->get();
-        // $alldoctor = Doctor::all();
-        // $allclinic = Clinic::all();
-        // 'completeappt','alldoctor','allclinic'
-        // */
-        return view('admin.appointment',compact('tab','data','Doctor','user','clinicsName','completeappt','alldoctor','allclinic'));
+        return view('admin.appointment',compact('tab','data','Doctor','user','completeappt'));
     }
+
+    public function schedules(){
+      $tab = 'schedules';
+
+    
+      $data = Schedule::where('doctorid',Auth::user()->id)->get();
+
+      return view('admin.schedules',compact('tab','data'));
+    }
+
     public function patient(){
-        $id = Auth::user()->clinic;
-        $cli = Clinic::where('id',$id)->get();
-        $clinicsName =  $cli[0]['name'];
-        $data = DB::select('select * from users where user_type="patient" and id in (select user_id from appointments where clinic ='.$id.') ');
+        $id = Auth::user()->id;
+      
+        
+        $data = DB::select('select * from users where user_type="patient" and id in (select user_id from appointments where doctor ='.$id.') ');
         $tab = 'patient';
-        $appt = Appointment::where('clinic',$id)->get();
-        return view('admin.patient',compact('tab','data','appt','clinicsName'));
+        $appt = Appointment::where('doctor',$id)->get();
+        return view('admin.patient',compact('tab','data','appt'));
     }
     public function referral(){
         $id = Auth::user()->clinic;
@@ -101,38 +103,20 @@ class AdminController extends Controller
         return view('admin.referral',compact('tab','data','user','doctor','clinic','referred','appr_appointments','clinicsName','refhistory'));
     }
 
-    public function category(){
-        $clinic_id = Auth::user()->clinic; 
-        $cli = Clinic::where('id',$clinic_id)->get();
-        $clinicsName =  $cli[0]['name'];
-        $data = Category::where('clinic',$clinic_id)->get();
-        $doc = Doctor::where('clinic',$clinic_id)->get();
-        $tab = 'category';
-        return view('admin.category',compact('tab','data','doc','clinicsName'));
-    }
+  
 
-    public function doctors(){
-        $clinic_id = Auth::user()->clinic; 
-        $cli = Clinic::where('id',$clinic_id)->get();
-        $clinicsName =  $cli[0]['name'];
-        $data = Doctor::where('clinic',$clinic_id)->get();
-        $category = Category::where('clinic',$clinic_id)->get();
-       
-        $tab = 'doctors';
-        return view('admin.doctors',compact('tab','data','category','clinicsName'));
-    }
+   
     public function feedback(){
-        $clinic_id = Auth::user()->clinic; 
-        $user = User::all();
-        $cli = Clinic::findorFail($clinic_id);   
-        $clinicsName =  $cli->name;
 
-        $alluser = DB::select('select * from users where id in (select user_id from feedback where clinic = '.$clinic_id.' )');
-        $data = Feedback::where('clinic',$clinic_id)->orderBy("created_at", "desc")->get();
+     
+       echo 'maintenance';
+        // $user = User::all();
+        // $alluser = DB::select('select * from users where id in (select user_id from feedback where clinic = '.$clinic_id.' )');
+        // $data = Feedback::where('clinic',$clinic_id)->orderBy("created_at", "desc")->get();
 
 
-        $tab = 'feedback';
-        return view('admin.feedback',compact('tab','data','user','clinicsName','alluser'));
+        // $tab = 'feedback';
+        // return view('admin.feedback',compact('tab','data','user','clinicsName','alluser'));
     }
 
     public function adddoctor(){

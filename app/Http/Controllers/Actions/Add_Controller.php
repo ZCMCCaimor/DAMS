@@ -8,6 +8,8 @@ use App\Models\Clinic;
 use App\Models\User;
 use App\Models\Feedback;
 use Illuminate\Http\Request;
+use App\Models\Schedule;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 
@@ -87,8 +89,8 @@ class Add_Controller extends Controller
             'Name' =>'required',
             'Address'=>'required',
         ]);
-    
-        $default_password = Hash::make('admin_1234');
+   
+        $default_password = Hash::make($request->password);
        User::create([
             'email'=>$request->input('Email'),
             'contactno'=>$request->input('Contact'),
@@ -189,6 +191,40 @@ class Add_Controller extends Controller
         
   
   
+    }
+
+    public function saveschedule(Request $request){
+      $doa = $request->doa;
+      $timestart = $request->timestart;
+      $timeend   = $request->timeend;
+      $remarks   = $request->remarks;
+      $noofpatient = $request->noofpatient;
+
+      if(date('Y-m-d') > $doa){
+        return redirect()->back()->with('Error','Date is Invalid. Please provide future dates.');
+      }
+    
+        $check = DB::select('SELECT * FROM `schedules` WHERE dateofappt = "'.$doa.'" and "'.$timestart.'" between timestart and timeend and "'.$timeend.'" between timestart and timeend');
+
+        if(count($check)>=1){
+         
+        return redirect()->back()->with('Error','Conflict Schedules.Please Check the Date of Appointment and its time.');
+        }else {
+         
+        Schedule::create([
+            'doctorid'  =>Auth::user()->id,
+            'dateofappt'=>$doa,
+            'timestart'=>$timestart,
+            'timeend'=>$timeend,
+            'remarks'=>$remarks,
+            'status'=>0,
+            'specializationID'=>Auth::user()->specialization,
+            'noofpatients'=>$noofpatient,
+        ]);
+
+        return redirect()->back()->with('Success','Schedule Saved Successfully!');
+        }
+
     }
 
 }

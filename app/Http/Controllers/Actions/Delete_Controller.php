@@ -10,6 +10,7 @@ use App\Models\Appointment;
 use App\Models\User;
 use App\Models\Feedback;
 use Illuminate\Http\Request;
+use App\Models\Schedule;
 
 
 class Delete_Controller extends Controller
@@ -44,5 +45,10 @@ class Delete_Controller extends Controller
     public function delete_appt(Request $request){
         Appointment::where('id',$request->id)->delete();
         return redirect()->back()->with('Success','Appointment was Deleted Successfully!');
+    }
+
+    public function deletesched(Request $request){
+        Schedule::findorFail($request->id)->delete();
+        return redirect()->back()->with('Success','Schedule Deleted Successfully!');
     }
 }

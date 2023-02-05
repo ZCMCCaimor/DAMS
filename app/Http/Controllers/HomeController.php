@@ -26,7 +26,7 @@ class HomeController extends Controller
     public function index()
     {
       $usertype = Auth::user()->user_type;
-   
+      echo 'aww';
       if(Auth::user()->otp == 0){
 
         //Send OTP hold User.
@@ -39,7 +39,7 @@ class HomeController extends Controller
             return redirect()->route('checkpoint');
           }
       }else {
-        
+    
         switch ($usertype) {
           case 'superadmin':
             return redirect()->route("superadmin.dashboard");
@@ -47,6 +47,7 @@ class HomeController extends Controller
             break;
 
             case 'doctor':
+             
               return redirect()->route("admin.dashboard");
               break;
 
@@ -83,6 +84,11 @@ class HomeController extends Controller
             case 'admin':
               return redirect()->route("admin.dashboard");
               break;
+
+              case 'doctor':
+             
+                return redirect()->route("admin.dashboard");
+                break;
 
               case 'patient' :
                 return redirect()->route('user.dashboard');

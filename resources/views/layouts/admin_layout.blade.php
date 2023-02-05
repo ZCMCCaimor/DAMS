@@ -48,7 +48,7 @@
 
 </head>
 
-<body style="background-color: aliceblue">
+<body style="background-color:#F1DBBF">
 
     <div id="app">
         <nav class="sidenav shadow" id="navitems">
@@ -67,7 +67,7 @@
 
                 <div class="dropdown " style="font-weight: bolder;z-index: 9999">
 
-                    @if(Auth::check())  {{ Auth::user()->name }} @endif
+                  <span style="font-size:14px">  @if(Auth::check())  Dr.{{ Auth::user()->name }} @endif</span>
                   
                   
               
@@ -134,26 +134,16 @@
                     <div class="sidebar-heading text-dark " style="font-size: 10px">
                         MANAGE
                     </div>
-
+                    <li class="nav-item navitems" id="schedules">
+                        <a class="nav-link navlinks  " href="{{route('admin.schedules')}}">
+                            <i class="fas fa-clock"></i>
+                            <span>Schedules</span></a>
+                    </li>
                     <li class="nav-item navitems" id="patient">
                         <a class="nav-link navlinks  " href="{{route('admin.patient')}}">
                             <i class="fas fa-users"></i>
                             <span>Patients</span></a>
                     </li>
-
-                    <li class="nav-item navitems" id="category">
-                        <a class="nav-link navlinks  " href="{{route('admin.category')}}">
-                            <i class="fas fa-clipboard-list"></i>
-                            <span>Specialization</span></a>
-                    </li>
-
-                    <li class="nav-item navitems" id="doctors">
-                        <a class="nav-link navlinks  " href="{{route('admin.doctors')}}">
-                            <i class="fas fa-user-doctor"></i>
-                            <span>Doctors</span></a>
-                    </li>
-
-                  
 
                     <li class="nav-item navitems" id="referral">
                         <a class="nav-link navlinks  " href="{{route('admin.referral')}}">
@@ -192,7 +182,7 @@
 
 
         <div class="topbar">
-            <span class="topbartitle" style="">MD-APPOINTMENT</span>
+            <span class="topbartitle" style=""></span>
             <a class=" hf" id="canvas" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button"
                 aria-controls="offcanvasExample">
                <i class="fas fa-bars"></i>
@@ -211,10 +201,7 @@
             </div>
 
 
-            <h6 class="  hf" id="abtext">
-            
            
-            </h6>
 
         </div>
 
@@ -224,8 +211,7 @@
             @yield('content')
         </main>
     </div>
-    <h6 id="res" class="">All rights Reserved &middot; 2022</h6>
-    
+    <h6 id="res" class="">Doctor Appointment-MS &middot; All rights Reserved | 2023</h6>
     @if(Auth::user()->fl == 0)
 
     
@@ -238,7 +224,7 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title hf" id="exampleModalLabel">Change Password</h5>
+          <h6 class="modal-title hf" id="exampleModalLabel">Change Password</h6>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
@@ -255,7 +241,7 @@
          <input type="password" class="form-control" id="cp">
          <div class="invalid-feedback" id="cpfeed"></div>
 
-         <button class="btn btn-primary  mt-3" id="sc">Save Changes</button>
+         <button class="btn btn-success  mt-3" id="sc">Save Password</button>
         </div>
         <div class="modal-footer">
         
@@ -338,7 +324,7 @@
 $(document).ready( function () {
             $('#myTable').DataTable();
 
-            $('#{{$tab}}').attr('style','background-color: #b3bce2;');
+            $('#{{ $tab }}').attr('style', 'background-color: #EAE7B1;');
 } );
 </script>   
 

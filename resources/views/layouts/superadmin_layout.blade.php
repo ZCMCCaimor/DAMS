@@ -392,6 +392,8 @@
             $('#myTable').DataTable();
 
             $('#{{ $tab }}').attr('style', 'background-color: #EAE7B1;');
+          
+         
         });
     </script>
 

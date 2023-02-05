@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Models\Clinic;
 use App\Models\Category;
 use App\Models\Email;
+use App\Models\User;
+use App\Models\Schedule;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
@@ -89,8 +91,12 @@ Route::get('checkpoint', [App\Http\Controllers\HomeController::class, 'checkpoin
 Route::post('/home', [App\Http\Controllers\HomeController::class, 'verify'])->name('verifyotp');
 
 Route::get('/Schedules',function(){
-    $clinics = Clinic::all();
-    return view('schedules',compact('clinics'));
+    $sched = Schedule::all();
+    $datenow = date('Y-m-d');
+    $doctorwsched = DB::select('select * from users where user_type = "doctor" and id in (select doctorid from schedules where "'.$datenow.'" < dateofappt  ) ');
+
+  
+    return view('schedules',compact('sched','doctorwsched'));
 });
 
 Route::get('/Doctors',function(){
@@ -132,6 +138,8 @@ Route::controller(App\Http\Controllers\AdminController::class)->group(function()
 
         Route::post('attachedfile','attachedfile')->name('attachedfile');
         Route::get('removeAttachment','removeAttachment')->name('removeAttachment');
+
+        Route::get('Schedules','schedules')->name('schedules');
     
     });
 
@@ -199,6 +207,8 @@ Route::controller(App\Http\Controllers\Actions\Add_Controller::class)->group(fun
         Route::post('add_admin','add_admin')->name('add_admin');
         Route::post('add_patient','add_patient')->name('add_patient');
         Route::post('sendfeedback','sendfeedback')->name('sendfeedback');
+
+        Route::post('saveschedule','saveschedule')->name('saveschedule');
     });
 
 
@@ -247,6 +257,8 @@ Route::controller(App\Http\Controllers\Actions\Delete_Controller::class)->group(
         Route::get('delete_admin','delete_admin')->name('delete_admin');
         Route::get('delete_feedback','delete_feedback')->name('delete_feedback');
         Route::get('delete_appt','delete_appt')->name('delete_appt');
+
+        Route::get('deletesched','deletesched')->name('deletesched');
     });
 
 

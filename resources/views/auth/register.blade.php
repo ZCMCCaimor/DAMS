@@ -6,10 +6,10 @@
         <div class="col-md-6 " >
                     <form method="POST" action="{{ route('register') }}">
                         @csrf
-                        <h1 style="color:rgb(132, 130, 245)">Register</h1>
+                        <h5 style="color:rgb(68, 68, 71);font-weight:bold" class="mb-3">REGISTER</h5>
                         
                         <div class="row">
-                            <div class="col-md-6 mb-2">
+                            <div class="col-md-12 mb-2">
                                 <label for="name" class="">{{ __('Name') }}</label>
 
                          
@@ -21,7 +21,7 @@
                                     </span>
                                 @enderror
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-12">
                                 <label for="contactno" class="">{{ __('Contact No') }}</label>
 
                          
@@ -105,7 +105,7 @@
                                     Already have an Account?
                                     </a>
                                    
-                                    <button type="submit" class="btn btn-primary mt-5" style="float: right">
+                                    <button type="submit" class="btn btn-success form-control mt-2" style="float: right">
                                         {{ __('Register') }}
                                     </button>
                                     <br><br>

@@ -48,7 +48,7 @@
 
 </head>
 
-<body style="background-color: aliceblue">
+<body style="background-color: #F1DBBF">
 
     <div id="app">
         <nav class="sidenav shadow" id="navitems">
@@ -166,7 +166,7 @@
 
 
         <div class="topbar">
-            <span class="topbartitle" style="">MD-APPOINTMENT</span>
+            <span class="topbartitle" style=""></span>
             <a class=" hf" id="canvas" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button"
                 aria-controls="offcanvasExample">
                <i class="fas fa-bars"></i>
@@ -311,7 +311,7 @@
 $(document).ready( function () {
             $('#myTable').DataTable();
 
-            $('#{{$tab}}').attr('style','background-color: #b3bce2;');
+            $('#{{ $tab }}').attr('style', 'background-color: #EAE7B1;');
 } );
 </script>   
 
