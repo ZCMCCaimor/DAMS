@@ -100,9 +100,7 @@
 
 
 
-                    <div class="sidebar-heading text-dark " style="font-size: 10px">
-                        REPORTS
-                    </div>
+                  
 
                     <li class="nav-item navitems" id="dashboard">
                   <a class="nav-link navlinks " href="{{route('user.dashboard')}}">
@@ -120,9 +118,7 @@
                 {{--     <hr class="sidebar-divider">
  --}}
                     <!-- Heading -->
-                    <div class="sidebar-heading text-dark " style="font-size: 10px">
-                        MANAGE APPOINTMENT
-                    </div>
+                  
 
                     <li class="nav-item navitems" id="book">
                         <a class="nav-link navlinks  " href="{{route('user.book')}}">

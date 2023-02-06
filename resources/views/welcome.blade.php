@@ -57,14 +57,15 @@
                                
                                    
                                     <div class="card-body">
-                                        @if(Session::has('book'))
-                                        <h6 class="text-secondary">
-                                            Please Login to Submit Booking.
-                                        </h6>
-                                        @endif
                                         <form method="POST" action="{{ route('login') }}" autocomplete="off">
                                             @csrf
                                         <h6 class="text-success" style="text-transform:uppercase;font-weight: bold;text-align:center">Sign In</h6>
+                                @if(session()->has('saveappt'))
+                                  <span style="font-size:13px" class="badge bg-danger">
+                                    Please Login First to Book your appointment schedule.
+                                  </span>
+                                
+                                @endif
                                         <div class="container mt-4">
                                             <h6 style="font-size:15px;">Email:</h6>
 

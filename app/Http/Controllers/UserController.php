@@ -27,35 +27,57 @@ class UserController extends Controller
 
         $cancelled = Appointment::where('user_id',$userid)->where('status',5)->get();
 
-    
+        if(session()->has('saveappt')){
+
+            //checkpoint 
+
+                $check = Appointment::where('user_id',Auth::user()->id)->where('apptID',session()->get('saveappt')['schedid'])->get();
+
+                if(count($check)>=1){
+                    session(['saveappt' => 'error']);
+                         
+                        return view('user.dashboard',compact('tab'))->with('Error','Booking unsuccessful!');
+                    
+                   
+                    
+                }else {
+                       
+               $save = Appointment::create([
+                'user_id'=>Auth::user()->id,
+                'apptID'=>session()->get('saveappt')['schedid'],
+                'category'=>session()->get('saveappt')['specialization'],
+                'doctor'=>session()->get('saveappt')['doctorid'],
+                'dateofappointment'=>null,
+                'timeofappointment'=>null,
+                'refferedto'=>0,
+                'refferedto_doctor'=>0,
+                'remarks'=>'',
+                'purpose'=>session()->get('saveappt')['purpose'],
+                'diagnostics'=>'',
+                'treatment'=>'',
+                'attachedfile'=>null,
+                'status'=>0,
+                'ad_status'=>0,
+                'laps'=>0
+            ]);
+
+               if($save){
+
+           
+              return view('user.dashboard',compact('tab'))->with('Success','Booked Successfully!');
+
+               }
+                }
+                
+     
+       }else{
+         return view('user.dashboard',compact('tab','pending','approved','disapproved','completed','referred','cancelled'));
+       }
+
+   
 
 
-              if(session()->has('book')){
-                $myappoint = session()->get('book');
-             
-                Appointment::create([
-                    'user_id'=> Auth::user()->id,
-                    'clinic'=> $myappoint['Clinic'],
-                    'category'=> $myappoint['Category'],
-                    'doctor' => $myappoint['Doctor'],
-                    'dateofappointment'=> $myappoint['dateofappointment'],
-                    'timeofappointment'=> $myappoint['timeofappointment'],
-                    'refferedto'=>0,
-                    'refferedto_doctor'=>0,
-                    'remarks'=>'',
-                    'purpose'=>$myappoint['purpose'],
-                    'diagnostics'=>'',
-                    'treatment'=>'',
-                    'attachedfile'=>null,
-                    'status'=> 0,
-                    'ad_status'=>0,
-                    'laps'=>0,
-                ]);
-                return view('user.dashboard',compact('tab'))->with('Success','Booked Successfully!');
-
-              }else {
-                return view('user.dashboard',compact('tab','pending','approved','disapproved','completed','referred','cancelled'));
-              }
+        
            
        
     }

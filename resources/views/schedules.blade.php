@@ -87,7 +87,14 @@
         @if($item->doctorid == $row->id )
           <tr>
             <td>
-                <button class="btn btn-primary btn-sm  px-5">Book Now <i class="fas fa-arrow-right"></i></button>
+                <form action="{{route('home.submit')}}" method="post">
+                    @csrf
+                <textarea style="font-size:13px" name="purpose" class="form-control" placeholder="State your purpose *" required id="" cols="5" rows="5"></textarea>
+                    <input type="hidden" name="schedid" value="{{$item->id}}">
+                    <input type="hidden" name="specialization" value="{{$row->specialization}}">
+                    <input type="hidden" name="doctorid" value="{{$row->id}}">
+                <button type="submit" class="btn btn-primary btn-sm  px-5">Book Now <i class="fas fa-arrow-right"></i></button>
+            </form>
             </td>
             <td>
               {{date('F j,Y',strtotime($item->dateofappt))}}

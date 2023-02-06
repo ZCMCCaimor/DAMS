@@ -70,7 +70,7 @@ class MailController extends Controller
 
            $mail->setFrom(session()->get('email'),session()->get('e_name'));
            $mail->addAddress($receiver, $name);
-           $mail->Subject = 'Login Credentials to Medical Clinic WebApp';
+           $mail->Subject = 'Login Credentials';
            $mail->CharSet = PHPMailer::CHARSET_UTF8;
            $body = '<!DOCTYPE html>
            <html lang="en">
@@ -82,9 +82,9 @@ class MailController extends Controller
                <title></title>
            </head>
            
-           <body style="background-color: aquamarine;text-align:center">
+           <body style="background-color: white">
            <p><br><br><br></p>
-               <h2><a target="_blank" href="#">Medical Clinic</a></h2>
+               <h2><a target="_blank" href="#">Online Doctor Appointment Management System</a></h2>
            
                <h3 style="color:rgb(14, 87, 136)">Welcome new Administrator!
            
@@ -161,7 +161,7 @@ class MailController extends Controller
 
            $mail->setFrom(session()->get('email'),session()->get('e_name'));
            $mail->addAddress($receiver, $name);
-           $mail->Subject = 'Login Credentials to Medical Clinic WebApp';
+           $mail->Subject = 'Login Credentials';
            $mail->CharSet = PHPMailer::CHARSET_UTF8;
            $body = '<!DOCTYPE html>
            <html lang="en">
@@ -173,9 +173,9 @@ class MailController extends Controller
                <title></title>
            </head>
            
-           <body style="background-color: aquamarine;text-align:center">
+           <body style="background-color:white">
            <p><br><br><br></p>
-               <h2><a target="_blank" href="#">Medical Clinic</a></h2>
+               <h2><a target="_blank" href="#">Online Doctor Appointment Management System</a></h2>
            
                <h3 style="color:rgb(14, 87, 136)">Welcome '.$name.'!
            
@@ -260,9 +260,9 @@ class MailController extends Controller
                <title></title>
            </head>
            
-           <body style="background-color: aquamarine; padding:10px;text-align:center">
+           <body style="background-color: white">
            <p><br><br><br></p>
-               <h3><a target="_blank" href="#">Medical Clinic</a></h3>
+               <h3><a target="_blank" href="#">Online Doctor Appointment Management System</a></h3>
            
                <h3 style="color:rgb(14, 87, 136)">Hi Admin '.$request->name.' <br> Dr. '.$request->doctorname.' has received a Referral.
            
@@ -299,7 +299,7 @@ class MailController extends Controller
                    
                        <br>
                    
-                       All rights Reserved &middot; 2022
+                       All rights Reserved &middot; 2023
            
                    </h3>
                    <p><br><br><br></p>
@@ -326,24 +326,27 @@ class MailController extends Controller
     
 
     public function notify_patient(Request $request){
-        $receiver = $request->email;
+       
+            $receiver = $request->email;
         $name = $request->name;
         $this->token = session()->get('token');
+
+       
+      
         $mail = new PHPMailer(true);
 
         
         if($request->tp == 'approved'){
-            $subj = 'APPROVED APPOINTMENT BOOKING';
+            $subj = 'BOOKING APPROVED!';
             $typo = '<span style="color:green">APPROVED</span>';
             $stat = 'approved!';
-            $guided = 'Please Be at the '.$request->cname.' at the Dates and Time Stated Above.
-            <br>
-            Location : '.$request->loc.'';
+            $guided = 'Please Be at the Hospital at the Dates and Time Stated Above.
+            ';
             $prop = '';
         }else if ($request->tp == 'disapproved'){
-            $subj = 'DISAPPROVED APPOINTMENT BOOKING';
+            $subj = 'BOOKING DISAPPROVED!';
             $typo = '<span style="color:red">DISAPPROVED</span>';
-            $stat = 'disapproved! you can resend your appointment after 24 hours';
+            $stat = 'disapproved!';
             $guided = 'Remarks: <br>'.$request->remarks;
             $prop = '';
         }else if ($request->tp == 'completed'){
@@ -402,18 +405,18 @@ class MailController extends Controller
                <title></title>
            </head>
            
-           <body style="background-color: aquamarine; ">
+           <body style="background-color: white; ">
            <p><br><br><br></p>
            <div style="padding:20px">
-               <h2><a target="_blank" href="#">Medical Clinic</a></h2>
+               <h2><a target="_blank" href="#">Online Doctor Appointment Management System</a></h2>
            
                <h3 style="color:rgb(14, 87, 136)">BOOKING '.$typo.'
            
            
                    </h3>
-                   <h4>Hi '.$name.' Your '.$prop.' appointment Booking <br><br> Dated at : '.date('F j,Y',strtotime($request->doa)).'<br>
+                   <h4>Hi '.$name.' Your '.$prop.' Booking  <br><br> Dated at : '.date('F j,Y',strtotime($request->doa)).'<br>
                    
-                   And Time : '.date('h:i a',strtotime($request->toa)).'<br> <br>
+                   And Time Frame : '.date('h:i a',strtotime($request->timestart)).' - '.date('h:i a',strtotime($request->timeend)).' <br> <br>
                    Has Been '.$stat.' <br> '.$guided.'
                    </h4>
            
@@ -424,10 +427,10 @@ class MailController extends Controller
            
                    <br>
                    <h5>
-                      Glory be to God.
+                     
                        <br>
            
-                       All rights Reserved &middot; 2022
+                       All rights Reserved &middot; 2023
            
                    </h5>
                    </div>
@@ -467,7 +470,7 @@ class MailController extends Controller
 
     public function resetlink(Request $request){
         $receiver= $request->input('email'); 
-        $name = 'Medical_clinic Client';
+        $name = 'Online Doctor Appointment Management System Client';
         $user = User::where('email',$receiver)->get();
 
        $url =  'http://'.request()->getHttpHost().'/ResetPassword?token='.$user[0]['id'].'&code='.$user[0]['password'];
@@ -511,9 +514,9 @@ class MailController extends Controller
                <title></title>
            </head>
            
-           <body style="background-color: aquamarine;text-align:center">
+           <body style="background-color: white">
            <p><br><br><br></p>
-               <h2><a target="_blank" href="#">Medical Clinic</a></h2>
+               <h2><a target="_blank" href="#">Online Doctor Appointment Management System</a></h2>
            
                <h3 style="color:rgb(14, 87, 136)">Hi!
            
@@ -526,10 +529,10 @@ class MailController extends Controller
                    <h5>
                    If this wasnt you. Please Login and Change your password.
                    <br>
-                       Do not share this to anyone.
+                      Please Do not share this to anyone.
                        <br>
            
-                       All rights Reserved &middot; 2022
+                       All rights Reserved &middot; 2023
            
                    </h5>
                    <p><br><br><br></p>
@@ -613,7 +616,7 @@ class MailController extends Controller
            
            <body style="background-color: aquamarine;text-align:center">
            <p><br><br><br></p>
-               <h2><a target="_blank" href="#">Medical Clinic</a></h2>
+               <h2><a target="_blank" href="#">Online Doctor Appointment Management System</a></h2>
            
                <h3 style="color:rgb(14, 87, 136)">Hi '.$name.'!
            
@@ -628,7 +631,7 @@ class MailController extends Controller
                    
                        <br>
            
-                       All rights Reserved &middot; 2022
+                       All rights Reserved &middot; 2023
            
                    </h5>
                    <p><br><br><br></p>
@@ -689,9 +692,9 @@ class MailController extends Controller
                <title></title>
            </head>
            
-           <body style="background-color: aquamarine;text-align:center">
+           <body style="background-color: white">
            <p><br><br><br></p>
-               <h2><a target="_blank" href="#">Medical Clinic</a></h2>
+               <h2><a target="_blank" href="#">Online Doctor Appointment Management System</a></h2>
            
                <h3 style="color:rgb(14, 87, 136)">Hi '.Auth::user()->name.'!
            
@@ -707,7 +710,7 @@ class MailController extends Controller
                        <br>
                     <span style="color:red">Please dont share this to anyone. | No one can access your account without this PIN.</span>
                     <br/>
-                       All rights Reserved &middot; 2022
+                       All rights Reserved &middot; 2023
            
                    </h5>
                    <p><br><br><br></p>
@@ -776,9 +779,9 @@ class MailController extends Controller
                <title></title>
            </head>
            
-           <body style="background-color: aquamarine;text-align:center">
+           <body style="background-color: white">
            <p><br><br><br></p>
-               <h2><a target="_blank" href="#">Medical Clinic</a></h2>
+               <h2><a target="_blank" href="#">Online Doctor Appointment Management System</a></h2>
            
                <h3 style="color:rgb(14, 87, 136)">
                     We Have Received a Patient Feedback!
@@ -800,7 +803,7 @@ class MailController extends Controller
                        <br>
                     <span style="color:green">Login your account If you wish to response. </span>
                     <br/>
-                       All rights Reserved &middot; 2022
+                       All rights Reserved &middot; 2023
            
                    </h5>
                    <p><br><br><br></p>
@@ -869,9 +872,9 @@ class MailController extends Controller
                <title></title>
            </head>
            
-           <body style="background-color: aquamarine;text-align:center">
+           <body style="background-color: white">
            <p><br><br><br></p>
-               <h2><a target="_blank" href="#">Medical Clinic</a></h2>
+               <h2><a target="_blank" href="#">Online Doctor Appointment Management System</a></h2>
            
                <h3 style="color:rgb(14, 87, 136)">Hi '.$name.'!
            
@@ -953,9 +956,9 @@ class MailController extends Controller
                <title></title>
            </head>
            
-           <body style="background-color: aquamarine;text-align:center">
+           <body style="background-color: white">
            <p><br><br><br></p>
-               <h2><a target="_blank" href="#">Medical Clinic</a></h2>
+               <h2><a target="_blank" href="#">Online Doctor Appointment Management System</a></h2>
            
                <h3 style="color:rgb(14, 87, 136)">Hi '.$name.'!
            

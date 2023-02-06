@@ -15,8 +15,8 @@
                <div class="table-responsive">
                 <table class="table table-hover table-sm  af" style="font-size:14px;border-radius:13px" id="myTable">
                     <thead>
-                      <tr class="table-info">
-                        <th scope="col"></th>
+                      <tr class="table-success">
+                      
                         <th scope="col">Name</th>
                        
                    {{--      <th scope="col" colspan="5">Appointment-Details</th> --}}
@@ -30,11 +30,7 @@
                         @foreach ($data as $row)
                           
                       <tr>
-                        <td scope="row">
-                            <h6 style="text-align: center">
-                            <img src="https://th.bing.com/th/id/OIP.1yoSL-WO0YU5mQKROudvswHaHa?pid=ImgDet&rs=1" class="rounded-circle" style="width: 80px;height:80px" alt="">
-                        </h6>
-                        </td>
+                    
                         <td>{{$row->name}}</td>
                         <td>{{$row->email}}
                             <br>
@@ -105,26 +101,26 @@
                                                
                                                <li class="list-group-item">
                                                 @php
-                                                    $docdata = DB::select('select * from doctors where id = '.$ap->doctor.' ');
-                                                @endphp
+                                                $docdata = DB::select('select * from users where id = '.$ap->doctor.' ');
+                                            @endphp
 
-                                                @foreach ($docdata as $doc)
-                                                Type : 
-                                                <span  style="font-weight: bold;font-size:15px;" class="text-primary mb-2">
-                                                @php
-                                                    $category = DB::select('select * from categories where id = '.$doc->category.' ');
-                                                @endphp
-                                                {{$category[0]->name}}
-                                                </span> <br><br>
-                                                   Doctor : 
-                                                   <span  style="font-weight: bold;font-size:15px;" class="text-primary mb-2">Dr. {{$doc->firstname.' '.$doc->lastname}}</span> <br><br>
-                       
-                                                   Details :
-                                                   <br>
-                                                   Contact # : <span class="text-primary">{{$doc->contact}}</span><br>
-                                                   Email : <span class="text-primary">{{$doc->email}}</span>
-                                                @endforeach
-                                              
+                                            @foreach ($docdata as $doc)
+                                            Type : 
+                                            <span  style="font-weight: bold;font-size:15px;" class="text-primary mb-2">
+                                            @php
+                                                $category = DB::select('select * from categories where id = '.$doc->specialization.' ');
+                                            @endphp
+                                            {{$category[0]->name}}
+                                            </span> <br><br>
+                                               Doctor : 
+                                               <span  style="font-weight: bold;font-size:15px;" class="text-primary mb-2">Dr. {{$doc->name}}</span> <br><br>
+                   
+                                               Details :
+                                               <br>
+                                               Contact # : <span class="text-primary">{{$doc->contactno}}</span><br>
+                                               Email : <span class="text-primary">{{$doc->email}}</span>
+                                            @endforeach
+                                          
                                                </li>
                                              
                                              </ul>

@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 use App\Models\Category;
-use App\Models\Doctor;
 use App\Models\User;
 use App\Models\Appointment;
 use App\Models\Clinic;
@@ -37,28 +36,28 @@ class AdminController extends Controller
        return view('admin.dashboard',compact('tab','appt','Doctor','Appointment','Patients','category','data','user','feedback','refer'));
     }
     public function appointment(){
-
+  
      
         $id = Auth::user()->id;
         $datenow = date('Y-m-d');
-        $data = Appointment::where('doctor',$id)->where('status',0)->get();
-        $datawexpiry = DB::select('select * from appointments  where doctor = '.$id.' and status = 0 and  "'.$datenow.'" > dateofappointment;');
+        $data = Appointment::where('doctor',$id)->get();
+        // $datawexpiry = DB::select('select * from appointments  where doctor = '.$id.' and status = 0 and  "'.$datenow.'" > dateofappointment;');
         
-      if(count($datawexpiry)>=1){
-       foreach ($datawexpiry as $key => $value) {
+      // if(count($datawexpiry)>=1){
+      //  foreach ($datawexpiry as $key => $value) {
       
-        if($datenow > $value->dateofappointment){
-            if($value->laps == 0){
-              $userd = [];
-              $getuser = User::findorFail($value->user_id);
+      //   if($datenow > $value->dateofappointment){
+      //       if($value->laps == 0){
+      //         $userd = [];
+      //         $getuser = User::findorFail($value->user_id);
 
               
-              return redirect()->route('mail.notifylaps',['appt_id'=>$id,'userid'=>$getuser->id,'email'=>$getuser->email,'name'=>$getuser->name]);
-            }
+      //         return redirect()->route('mail.notifylaps',['appt_id'=>$id,'userid'=>$getuser->id,'email'=>$getuser->email,'name'=>$getuser->name]);
+      //       }
         
-        }
-      }
-      }
+      //   }
+      // }
+      // }
    
 
         $Doctor = Auth::user();  
@@ -85,7 +84,7 @@ class AdminController extends Controller
         $data = DB::select('select * from users where user_type="patient" and id in (select user_id from appointments where doctor ='.$id.') ');
         $tab = 'patient';
         $appt = Appointment::where('doctor',$id)->get();
-        return view('admin.patient',compact('tab','data','appt'));
+       return view('admin.patient',compact('tab','data','appt'));
     }
     public function referral(){
         $id = Auth::user()->clinic;

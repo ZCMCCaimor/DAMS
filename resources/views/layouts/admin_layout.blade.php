@@ -106,9 +106,7 @@
 
 
 
-                    <div class="sidebar-heading text-dark " style="font-size: 10px">
-                        REPORTS
-                    </div>
+                  
 
                     <li class="nav-item navitems" id="dashboard">
                   <a class="nav-link navlinks " href="{{route('admin.dashboard')}}">
@@ -131,9 +129,7 @@
                 {{--     <hr class="sidebar-divider">
  --}}
                     <!-- Heading -->
-                    <div class="sidebar-heading text-dark " style="font-size: 10px">
-                        MANAGE
-                    </div>
+                  
                     <li class="nav-item navitems" id="schedules">
                         <a class="nav-link navlinks  " href="{{route('admin.schedules')}}">
                             <i class="fas fa-clock"></i>

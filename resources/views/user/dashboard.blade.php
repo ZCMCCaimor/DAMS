@@ -2,21 +2,33 @@
 @section('content')
     <div class="container">
 
-        @if (session()->has('book'))
-            <script>
-                swal("Appointment Booked Successfully!", "Your request is still pending, and waiting for approval.", "success");
-                setInterval(() => {
-                    location.reload();
-                }, 2000);
-            </script>
-            {{ session()->forget('book') }}
+        @if (session()->has('saveappt'))
+
+        @if(session()->get('saveappt') == 'error')
+      
+        <script>
+            swal("Booking Unsuccessful!", "You have already set an appointment on your selected Schedules!", "error").then(()=>{
+                location.reload();
+            });
+        </script>
+
+        @else 
+        <script>
+            swal("Booked Successfully!", "Your request is still pending, and waiting for approval.", "success").then(()=>{
+                location.reload();
+            });
+            
+        </script>
+        @endif
+         
+            {{ session()->forget('saveappt') }}
         @endif
         <div class="titlebar">
             <h4 class="hf mb-3">Dashboard</h4>
 
 
         </div>
-
+       
         @if (Session::has('upt'))
             <script>
                 swal("Updated!", "Account updated successfully!", "success")

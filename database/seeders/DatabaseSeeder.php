@@ -41,7 +41,7 @@ class DatabaseSeeder extends Seeder
 
         Email::create([
             'email'=>'noreplymedicalclinic@gmail.com',
-            'name' =>'Medical Clinic',
+            'name' =>'Online Doctor Appointment MS',
             'token' => '1//0e8Oo6ZeAN33qCgYIARAAGA4SNwF-L9IrrriLXUCpHHBtuRXoQiJputY9_EzfSdsB5xNRHPt8BqUnU3zxxJzi1Ly4nKf20Hr3JKQ',
         ]);
 

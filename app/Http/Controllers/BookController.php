@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use App\Models\Clinic;
 use App\Models\Category;
+use App\Models\Schedule;
 use App\Models\Doctor;
 use App\Models\User;
 use App\Models\Appointment;
@@ -44,93 +45,73 @@ class BookController extends Controller
      }
 
      public function book(Request $request){
-        $request->validate([
-            'Clinic' => 'required',
-            'Category' =>'required',
-            'Doctor' => 'required',
-
-        ]);
         
-        $data =  $request->all();
+         $schedid = $request->schedid;
+         $specialization = $request->specialization;
+         $doctorid = $request->doctorid;
+         $datas = [
+            'schedid'=>$schedid,
+            'specialization'=>$specialization,
+            'doctorid'=>$doctorid,
+            'purpose' =>$request->purpose
+         ];
 
-        $clinic = $request->input('Clinic');
-        $category = $request->input('Category');
-        $doctor = $request->input('Doctor');
-        $doa=$request->input('dateofappointment');
-        $toa = $request->input('timeofappointment');
-
-        
-        $qry = DB::select('
-        select * from appointments 
-        where 
-        clinic ='.$clinic.' 
-        and category = '.$category.' 
-        and doctor = '.$doctor.' 
-        and dateofappointment = "'.$doa.'" 
-        and "'.$toa.'" BETWEEN timeofappointment and ADDTIME(timeofappointment, "1:00")');
-
-        $clinicname = Clinic::findorFail($clinic)->name;
-
-        if(count($qry)){
-         return redirect()->back()->with('cannotbe','The Date : '.$doa.' and  Time Schedule : '.$toa.' ,  has already been reserved at '.$clinicname.' . please Select Another Date or Time.');
-        }else {
-           session(['book'=>$data]);
-
-          return redirect('../');
-
-        }
-
-
-      
+        session(['saveappt' => $datas]);
+        return redirect('/');
     
      }
 
      public function disapprove_booking(Request $request){
+    
       $appt = Appointment::where('id',$request->id)->get();
       $userid = $appt[0]['user_id'];
-      $clinicid = $appt[0]['clinic'];
-      $adate = $appt[0]['dateofappointment'];
-      $atime = $appt[0]['timeofappointment'];
+      $apptID =$appt[0]['apptID'];
+
+      $schedule =Schedule::findorFail($apptID);
+
+      $adate = $schedule->dateofappt;
+      $timestart = $schedule->timestart;
+      $timeend = $schedule->timeend;
       $udetails = User::where('id',$userid)->get();
       $email = $udetails[0]['email'];
       $name = $udetails[0]['name'];
-      $clinicdetails = Clinic::where('id',$clinicid)->get();
-      $clinicname = $clinicdetails[0]['name'];
-      $cliniclocation =  $clinicdetails[0]['street'].' ,'.$clinicdetails[0]['barangay'].' '.$clinicdetails[0]['city'];
 
-
-       Appointment::where('id',$request->id)->update([
-         'status'=>2,
+     
+ Appointment::where('id',$request->id)->update([
+         'status'=>3,
          'remarks'=>$request->remarks,
        ]);
 
-       return redirect()->route('mail.notify_patient',['email'=>$email,'name'=>$name,'doa'=>$adate,'toa'=>$atime,'cname'=>$clinicname,'loc'=>$cliniclocation,'tp' =>'disapproved','remarks'=>$request->remarks]);
+      
+ return redirect()->route('mail.notify_patient',['email'=>$email,'name'=>$name,'doa'=>$adate,'timestart'=>$timestart,'timeend'=>$timeend,'tp' =>'disapproved','remarks'=>$request->remarks]);
 
 
 
-    /*    return redirect()->back()->with('Success','Patient Booking Disapproved Successfully. Patient will be able to resend it after 24 hours'); */
      }
 
      public function approve_booking(Request $request){
+    
       $appt = Appointment::where('id',$request->id)->get();
       $userid = $appt[0]['user_id'];
-      $clinicid = $appt[0]['clinic'];
-      $adate = $appt[0]['dateofappointment'];
-      $atime = $appt[0]['timeofappointment'];
+      $apptID =$appt[0]['apptID'];
+
+      $schedule =Schedule::findorFail($apptID);
+
+      $adate = $schedule->dateofappt;
+      $timestart = $schedule->timestart;
+      $timeend = $schedule->timeend;
       $udetails = User::where('id',$userid)->get();
       $email = $udetails[0]['email'];
       $name = $udetails[0]['name'];
-      $clinicdetails = Clinic::where('id',$clinicid)->get();
-      $clinicname = $clinicdetails[0]['name'];
-      $cliniclocation =  $clinicdetails[0]['street'].' ,'.$clinicdetails[0]['barangay'].' '.$clinicdetails[0]['city'];
+
      
  Appointment::where('id',$request->id)->update([
         'status'=>1,
       ]);
       
-      return redirect()->route('mail.notify_patient',['email'=>$email,'name'=>$name,'doa'=>$adate,'toa'=>$atime,'cname'=>$clinicname,'loc'=>$cliniclocation,'tp' =>'approved','remarks'=>$request->remarks]);
+ return redirect()->route('mail.notify_patient',['email'=>$email,'name'=>$name,'doa'=>$adate,'timestart'=>$timestart,'timeend'=>$timeend,'tp' =>'approved','remarks'=>$request->remarks]);
 
-     /*  return redirect()->back()->with('Success','Patient Booking Approved Successfully. ');  */
+   
     }
 
     public function complete_booking(Request $request){
