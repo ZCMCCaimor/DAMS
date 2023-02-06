@@ -53,7 +53,7 @@
                       
                         <div class="col-md-5">
                             <div class="container">
-                                <div class="card p-2 shadow mt-5" id="logincard">
+                                <div class="card p-2  mt-5" id="logincard">
                                
                                    
                                     <div class="card-body">
@@ -124,11 +124,9 @@
                             </h4>
    
                             <div class="btns">
-                                <button onclick="window.location.href='/Book'" class="btnbook">
+                               
+                                <button onclick="window.location.href='/Schedules'" style="background-color:gray" class="btnbook">
                                    Book Now
-                                </button>
-                                <button onclick="window.location.href='/Schedules'" class="btnbook">
-                                    Schedules
                                 </button>
 
                                 <button onclick="window.location.href='/Doctors'" class="btnbook">

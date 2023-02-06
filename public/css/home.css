@@ -201,7 +201,16 @@ nav .tabs ul li:hover a {
     right: 20px;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (min-width:800px) {
+    
+#logincard {
+    position: absolute;
+    left: 15%;
+    top: 20%;
+}
+}
+
+@media screen and (max-width: 1000px) {
     #bannerbg {
         display: none;
     }

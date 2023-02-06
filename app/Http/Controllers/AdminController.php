@@ -92,7 +92,6 @@ class AdminController extends Controller
         $cli = Clinic::where('id',$id)->get();
         $clinicsName =  $cli[0]['name'];
         $data = DB::select('select * from appointments where clinic = '.$id.' and status=1 or  refferedto = '.$id.'  ');
-        $doctor = Doctor::all();
         $user = User::all();
         $clinic = Clinic::all();
         $refhistory = Ref_history::all();

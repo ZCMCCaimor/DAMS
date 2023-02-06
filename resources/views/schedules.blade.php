@@ -39,14 +39,14 @@
 
    
 
-    <div class=" mb-5">
+    <div class=" ">
             <a href="/" class="btn btn-light mt-5 ml-3 text-primary">Back to Home </a>
         <div class="container">
             <div class="row">
                 <div class="col-md-1"></div>
                 <div class="col-md-10">
                 <div class="row">
-                        <div class="col-md-4 mb-5">
+                        <!-- <div class="col-md-4 mb-5">
                             <img src="{{asset('img/doctors.svg')}}" class="imgbanner" width="100%" alt="">
                             <br>
                             <h3 style="text-align: center;font-weight:bold;color:#269444">
@@ -59,14 +59,14 @@
                             </h6>
                        
                            
-                        </div>
-                        <div class="col-md-8" style="margin-top: 120px;">
+                        </div> -->
+                        <div class="col-md-12" style="margin-top: 120px;">
                                         <h3 style="font-weight:bold;color:rgb(78, 142, 226)">Doctor Schedules</h3>
                             <div class="container reveal table-responsive" >
                             <table class="table table-sm table-bordered mt-4 table-hover" style="font-size:14px">
   <thead>
     <tr class="table-success">
-      <th scope="col">Doctor</th>
+      <th scope="col">Action</th>
       <th scope="col">Date of Appointment</th>
       <th scope="col">Time | Start</th>
       <th scope="col">Time | End</th>
@@ -83,7 +83,50 @@
     <tr class="table-primary">
         <td colspan="9" style="font-weight:bold;text-align:center">Dr. {{$row->name}} Schedules</td>
     </tr>
-    
+    @foreach($sched as $item)
+        @if($item->doctorid == $row->id )
+          <tr>
+            <td>
+                <button class="btn btn-primary btn-sm  px-5">Book Now <i class="fas fa-arrow-right"></i></button>
+            </td>
+            <td>
+              {{date('F j,Y',strtotime($item->dateofappt))}}
+            </td>
+            <td>{{date('h:ia',strtotime($item->timestart))}}</td>
+            <td>{{date('h:ia',strtotime($item->timeend))}}</td>
+            <td>{{$item->noofpatients}}</td>
+            <td></td>
+            <td>
+                @php
+                $spez = DB::select('SELECT * FROM `categories`');
+                $datenow = date('Y-m-d');
+                @endphp
+
+                @foreach($spez as $sp)
+                @if($sp->id == $row->specialization)
+
+                {{$sp->name}}
+
+
+                @endif
+                @endforeach
+            </td>
+            <td>
+                @if($datenow > $item->dateofappt )
+                <span class="badge bg-danger">Inactive</span>
+                @else
+                <span class="badge bg-success">Active</span>
+                @endif
+            </td>
+            <td>
+                {{$item->remarks}}
+
+            </td>
+
+          </tr>
+
+        @endif
+    @endforeach
 
  @endforeach
   </tbody>
