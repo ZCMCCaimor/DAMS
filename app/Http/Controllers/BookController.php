@@ -115,28 +115,28 @@ class BookController extends Controller
     }
 
     public function complete_booking(Request $request){
-     
-
       $appt = Appointment::where('id',$request->id)->get();
       $userid = $appt[0]['user_id'];
-      $clinicid = $appt[0]['clinic'];
-      $adate = $appt[0]['dateofappointment'];
-      $atime = $appt[0]['timeofappointment'];
+      $apptID =$appt[0]['apptID'];
+
+      $schedule =Schedule::findorFail($apptID);
+
+      $adate = $schedule->dateofappt;
+      $timestart = $schedule->timestart;
+      $timeend = $schedule->timeend;
       $udetails = User::where('id',$userid)->get();
       $email = $udetails[0]['email'];
       $name = $udetails[0]['name'];
-      $clinicdetails = Clinic::where('id',$clinicid)->get();
-      $clinicname = $clinicdetails[0]['name'];
-      $cliniclocation =  $clinicdetails[0]['street'].' ,'.$clinicdetails[0]['barangay'].' '.$clinicdetails[0]['city'];
 
-
-      Appointment::where('id',$request->id)->update([
-         'status'=>3,
+     
+Appointment::where('id',$request->id)->update([
+         'status'=>4,
          'remarks'=>$request->remarks,
          'diagnostics'=>$request->diagnostics,
          'treatment'=>$request->treatment,
        ]);
-       return redirect()->route('mail.notify_patient',['email'=>$email,'name'=>$name,'doa'=>$adate,'toa'=>$atime,'cname'=>$clinicname,'loc'=>$cliniclocation,'tp' =>'completed','remarks'=>$request->remarks,'treatment'=>$request->treatment]);
+      
+ return redirect()->route('mail.notify_patient',['email'=>$email,'name'=>$name,'doa'=>$adate,'timestart'=>$timestart,'timeend'=>$timeend,'tp' =>'completed','treatment'=>$request->treatment,'remarks'=>$request->remarks]);
      
     /*    return redirect()->back()->with('Success','Appointment Completed Successfully. '); */
     }
@@ -158,5 +158,47 @@ class BookController extends Controller
       
 
     } 
+
+
+    public function viewbook(Request $request){
+      
+      $datenow = date('Y-m-d');
+      function retrView($stats){
+         $id = Auth::user()->id;
+         $data = Appointment::where('doctor',$id)->where('status',$stats)->get();
+         return $data;
+      }
+
+      switch ($request->types) {
+         case 'pending':
+            $data = retrView(0);
+            return view('admin.viewappt',compact('data'));
+         break;
+         case 'approved':
+            $data = retrView(1);
+            return view('admin.viewappt',compact('data'));
+         break;
+         
+         case 'cancelled':
+            $data = retrView(2);
+            return view('admin.viewappt',compact('data'));
+         break;
+
+         case 'disapproved':
+            $data = retrView(3);
+            return view('admin.viewappt',compact('data'));
+         break;
+
+         case 'completed':
+            $completeappt = Appointment::where('status',4)->where('doctor',Auth::user()->id)->get();
+            $alldoctor = User::where('user_type','doctor')->get();
+
+            $data = retrView(4);
+            return view('admin.viewappt',compact('data','completeappt','alldoctor'));
+         break;
+         
+         
+      }
+    }
  
 }

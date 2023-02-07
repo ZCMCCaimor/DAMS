@@ -74,6 +74,8 @@ Route::controller(App\Http\Controllers\BookController::class)->group(function(){
         Route::get('complete/booking','complete_booking')->name('complete_booking');
 
         Route::get('Cxhasd','checkifexist')->name('checkifexist');
+
+        Route::get('viewbook','viewbook')->name('viewbook');
         
      
         

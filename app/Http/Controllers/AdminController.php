@@ -40,7 +40,7 @@ class AdminController extends Controller
      
         $id = Auth::user()->id;
         $datenow = date('Y-m-d');
-        $data = Appointment::where('doctor',$id)->get();
+        $data = Appointment::where('doctor',$id)->where('status',0)->orWhere('status',1)->get();
         // $datawexpiry = DB::select('select * from appointments  where doctor = '.$id.' and status = 0 and  "'.$datenow.'" > dateofappointment;');
         
       // if(count($datawexpiry)>=1){
@@ -61,11 +61,12 @@ class AdminController extends Controller
    
 
         $Doctor = Auth::user();  
-        $completeappt = Appointment::where('status',3)->get();
+        $completeappt = Appointment::where('status',4)->where('doctor',Auth::user()->id)->get();
         $user = User::all();
         $tab = 'appointment';
+        $alldoctor = User::where('user_type','doctor')->get();
 
-        return view('admin.appointment',compact('tab','data','Doctor','user','completeappt'));
+        return view('admin.appointment',compact('tab','data','Doctor','user','completeappt','alldoctor'));
     }
 
     public function schedules(){

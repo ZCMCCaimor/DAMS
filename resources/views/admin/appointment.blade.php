@@ -26,18 +26,18 @@
       </button>
       <ul class="dropdown-menu">
       
-        <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#exampleModal" style="font-size: 13px" >Pending</a></li>
-        <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#exampleModal" style="font-size: 13px" >Approved</a></li>
-        <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#exampleModal" style="font-size: 13px">Cancelled</a></li>
-        <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#exampleModal" style="font-size: 13px" >Disapproved</a></li>
-        <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#exampleModal" style="font-size: 13px">Completed</a></li>
+        <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#exampleModal" id="pendingtab" style="font-size: 13px" >Pending</a></li>
+        <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#exampleModal" id="approvedtab" style="font-size: 13px" >Approved</a></li>
+        <li><a class="dropdown-item" id="cancelledtab" data-bs-toggle="modal" data-bs-target="#exampleModal" style="font-size: 13px">Cancelled</a></li>
+        <li><a class="dropdown-item" id="disapprovedtab" data-bs-toggle="modal" data-bs-target="#exampleModal" style="font-size: 13px" >Disapproved</a></li>
+        <li><a class="dropdown-item" id="completedtab" data-bs-toggle="modal" data-bs-target="#exampleModal" style="font-size: 13px">Completed</a></li>
       </ul>
     </div>
 
 
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
+  <div class="modal-dialog modal-xl">
     <div class="modal-content">
       <div class="modal-header">
         <h6 class="modal-title fs-5" id="exampleModalLabel"></h6>
@@ -59,7 +59,8 @@
     <div class="row">
       @if(count($data)>=1)
       @foreach ($data as $row)
-      <div class="col-md-6">
+      
+      <div class="col-md-12">
  <div class="card shadow mb-2">
     <div class="card-body text-secondary" style="font-size:14px">
            @php
@@ -95,10 +96,17 @@
            <span style="font-weight:bold;text-transform:uppercase">
             Appointment No: {{$row->id}}
            </span>
+
+           @include('admin.history')
           <hr>
           <h6 style="text-align:center;font-size:13px">-- Patient Details --</h6>
            <h6 class="text-primary">
             @foreach ($userinfo as $user)
+
+            @php
+           $p_id = $user->id;
+                                       
+             @endphp
             {{$user->name}}
             <br>
             <span style="font-size:12px" class="text-secondary">{{$user->email}} </span>
@@ -149,14 +157,6 @@
             <button data-id="{{$row->id}}" class="btn btn-light btnapprove text-primary btn-sm">Approve <i class="fas fa-check-circle"></i></button>
             <button  data-id="{{$row->id}}" class="btn btncancel btn-light text-danger btn-sm">Disapprove <i class="fas fa-times-circle"></i></button>
 
-            @elseif($row->status == 1)
-
-            @elseif($row->status == 2)
-
-            @elseif($row->status == 3)
-
-            @elseif($row->status == 4)
-
             @endif
 
        
@@ -164,6 +164,15 @@
 
        </div>
         </h6>
+          @if($row->status == 1)
+            @include('admin.approve_appointment')
+            @elseif($row->status == 2)
+
+            @elseif($row->status == 3)
+
+            @elseif($row->status == 4)
+
+            @endif
       
 
 
@@ -171,6 +180,7 @@
       </div>
     
     </div>
+   
       @endforeach
       @else
        <h5 class="text-secondary" style="text-align: center;font-weight:bold">
@@ -234,21 +244,43 @@
  }
 });
        
-     /*    swal({
-  title: "Are you sure to Disapproved this Booking? ",
-  text: "Patient can still resend the request after 1 day of disapproval",
-  icon: "warning",
-  buttons: true,
-  dangerMode: true,
-})
-.then((willDelete) => {
-  if (willDelete) {
-    $(this).removeClass('btn-primary').addClass('btn-light').html('<span class="text-danger" style="font-size:12px">Disapproving..</span>'); 
-   window.location.href='{{route("home.disapprove_booking")}}'+'?id='+id;
-  } else {
-  
-  }
-}); */
+   
+    })
+  function RequestPage(types){
+  var request = $.ajax({
+  url: "{{route('home.viewbook')}}",
+  method: "get",
+  data: { types:types },
+  dataType: "html"
+});
+ 
+request.done(function( msg ) {
+  $('#viewappts').html(msg);
+
+});
+ 
+request.fail(function( jqXHR, textStatus ) {
+  console.log(textStatus);
+});
+    }
+    $('#pendingtab').click(function(){
+      RequestPage('pending'); 
+    })
+
+    $('#approvedtab').click(function(){
+      RequestPage('approved'); 
+    })
+
+    $('#cancelledtab').click(function(){
+      RequestPage('cancelled'); 
+    })
+
+    $('#disapprovedtab').click(function(){
+      RequestPage('disapproved'); 
+    })
+
+    $('#completedtab').click(function(){
+      RequestPage('completed'); 
     })
 </script>
 @endsection

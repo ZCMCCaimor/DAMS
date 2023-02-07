@@ -10,7 +10,7 @@
         <div class="card shadow-sm">
             <div class="card-body">
            <div class="container">
-            <button class="btn btn-dark btn-sm px-3 mb-2" onclick="window.location.href='{{route('superadmin.add_patient')}}'" >Add</button>
+            {{-- <button class="btn btn-secondary btn-sm px-3 mb-2" onclick="window.location.href='{{route('superadmin.add_patient')}}'" >Add</button> --}}
             @if(Session::get('Success'))
             <div class="row">
              <div class="col-md-8"></div>
@@ -31,7 +31,7 @@
                         <th scope="col">Email & Contact No</th>
                         <th scope="col">No of Appointment</th>
                         <th scope="col">Date-registered</th>
-                        <th scope="col">Action</th>
+                        {{-- <th scope="col">Action</th> --}}
                       </tr>
                     </thead>
                     <tbody>
@@ -106,23 +106,23 @@
                                                    
                                                    <li class="list-group-item">
                                                     @php
-                                                        $docdata = DB::select('select * from doctors where id = '.$ap->doctor.' ');
+                                                        $docdata = DB::select('select * from users where id = '.$ap->doctor.' ');
                                                     @endphp
     
                                                     @foreach ($docdata as $doc)
                                                     Type : 
                                                     <span  style="font-weight: bold;font-size:15px;" class="text-primary mb-2">
                                                     @php
-                                                        $category = DB::select('select * from categories where id = '.$doc->category.' ');
+                                                        $category = DB::select('select * from categories where id = '.$doc->specialization.' ');
                                                     @endphp
                                                     {{$category[0]->name}}
                                                     </span> <br><br>
                                                        Doctor : 
-                                                       <span  style="font-weight: bold;font-size:15px;" class="text-primary mb-2">Dr. {{$doc->firstname.' '.$doc->lastname}}</span> <br><br>
+                                                       <span  style="font-weight: bold;font-size:15px;" class="text-primary mb-2">Dr. {{$doc->name}}</span> <br><br>
                            
                                                        Details :
                                                        <br>
-                                                       Contact # : <span class="text-primary">{{$doc->contact}}</span><br>
+                                                       Contact # : <span class="text-primary">{{$doc->contactno}}</span><br>
                                                        Email : <span class="text-primary">{{$doc->email}}</span>
                                                     @endforeach
                                                   
@@ -150,12 +150,12 @@
                             </td>
                            
                             <td>{{Date('h:ia F j,Y',strtotime($row->created_at))}}</td>
-                            <td>
+                            {{-- <td>
                                 <div class="btn-group">
                                     <button onclick="window.location.href='{{route('superadmin.edit_patient',$row->id)}}' " class="btn btn-light btn-sm text-success"><i class="fas fa-edit"></i></button>
                                     <button data-id="{{$row->id}}" class="btndelete btn btn-light btn-sm text-danger"><i class="fas fa-trash-can"></i></button>
                                 </div>
-                            </td>
+                            </td> --}}
                           </tr>
                             
                         @endforeach

@@ -107,7 +107,11 @@
                         </thead>
                         <tbody>
                             @foreach ($data as $row)
-                            
+                            @php
+                                   
+                            $used = DB::select('select * from appointments where apptID='.$row->id.'  ');
+                      
+                        @endphp
                             <tr>
                                 <td>{{date('F j,Y',strtotime($row->dateofappt))}}</td>
                                 <td>{{date('H:ia',strtotime($row->timestart))}}</td>
@@ -118,9 +122,7 @@
                                 @if(date('Y-m-d') > $row->dateofappt)
                                 <span class="badge bg-danger">Inactive/Expired</span>
                                 @else 
-                                @php
-                                    $used = DB::select('select * from appointments where apptID='.$row->id.'  ');
-                                @endphp
+                            
 
                                     @if(count($used)>=1)
                                     <span class="badge bg-success">Active/USED</span>
@@ -139,6 +141,7 @@
                                         <button data-id = "{{$row->id}}"
                                             @if(count($used)>=1)
                                                 disabled
+                                             
                                             @endif
                                          
                                           

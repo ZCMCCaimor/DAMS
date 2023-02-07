@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Medical CLinic</title>
+        <title>Doctor Appointment-MS</title>
 
         <!-- Fonts -->
           <!-- Fonts -->
@@ -28,11 +28,11 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     
     </head>
-    <body style="background-color: rgb(210, 216, 218)">
+    <body style="background-color: #F1DBBF">
      
        {{--     --}}
 
-       <nav class="shadow">
+       <nav class="shadow" style="background-color:#698269">
        
 
        
@@ -43,7 +43,7 @@
 
                  
 
-                <div class="main-book reveal">
+                <div class="main-book ">
          
                       <div class="row">
                         <div class="col-md-3"></div>
@@ -59,7 +59,7 @@
            $route = route("superadmin.dashboard");
             break;
 
-            case 'admin':
+            case 'doctor':
           $route = route("admin.dashboard");
               break;
 
@@ -74,7 +74,7 @@
                          <h5 class="hf mt-2">My Account</h5>
 
                          @if(Auth::user()->image == null)
-                         <img src="https://cdn.dribbble.com/users/244309/screenshots/14872040/01_4x.jpg" alt="" class="img-thumbnnail shadow rounded-circle"
+                         <img src="https://img.freepik.com/free-icon/user_318-875902.jpg?w=2000" alt="" class="img-thumbnnail shadow rounded-circle"
                          style="width: 60px;height: 60px;border-radius: 30px;">
                          @else 
                          <img src="{{asset('profile'.'/'.Auth::user()->image)}}" alt="" class="img-thumbnnail shadow rounded-circle"
@@ -104,7 +104,7 @@
                          <span style="font-size:12px" name="password" class="text-danger">Put a Value to update the password</span>
 
                          <br>
-                         <button class="btn btn-dark btn-sm mt-5">UPDATE ACCOUNT</button>
+                         <button class="btn btn-success btn-sm mt-5">UPDATE ACCOUNT</button>
                         </form>
 
 

@@ -350,9 +350,9 @@ class MailController extends Controller
             $guided = 'Remarks: <br>'.$request->remarks;
             $prop = '';
         }else if ($request->tp == 'completed'){
-            $subj = 'APPOINTMENT BOOKING COMPLETED';
+            $subj = 'BOOKING COMPLETED';
             $typo = '<span style="color:blue">ACCOMPLISHED</span>';
-            $stat = 'Completed! We do appreciate if youll send us some feedbacks <br>';
+            $stat = 'Completed! Thank you for using our webapp. <br>';
             $guided = 'Remarks: <br>'.$request->remarks.'<br> Treatment : <br>'.$request->treatment;
             $prop = '';
         }else if ($request->tp == 'refered'){
