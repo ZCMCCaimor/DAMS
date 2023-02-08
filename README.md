@@ -92,7 +92,7 @@ composer i
 
 php artisan key:generate
 
--- after running the command below. make sure xampp server is running.
+-- before running the command below. make sure xampp server is running.
 
 php artisan migrate --seed
 
