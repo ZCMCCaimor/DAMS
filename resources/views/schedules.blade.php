@@ -40,7 +40,7 @@
    
 
     <div class=" ">
-            <a href="/" class="btn btn-light mt-5 ml-3 text-primary">Back to Home </a>
+            <a href="{{route('home')}}" class="btn btn-light mt-5 ml-3 text-primary">Back to Home </a>
         <div class="container">
             <div class="row">
                 <div class="col-md-1"></div>
@@ -84,9 +84,20 @@
         <td colspan="9" style="font-weight:bold;text-align:center">Dr. {{$row->name}} Schedules</td>
     </tr>
     @foreach($sched as $item)
+    
         @if($item->doctorid == $row->id )
+        @php
+        $counttotalapt = DB::select('select * from appointments where apptID = '.$item->id.' ');
+        
+        
+    @endphp
           <tr>
             <td>
+               
+                @if( $item->noofpatients <= count($counttotalapt) )
+                <span class="badge bg-danger">Full Slot</span>
+                @else 
+
                 <form action="{{route('home.submit')}}" method="post">
                     @csrf
                 <textarea style="font-size:13px" name="purpose" class="form-control" placeholder="State your purpose *" required id="" cols="5" rows="5"></textarea>
@@ -95,6 +106,9 @@
                     <input type="hidden" name="doctorid" value="{{$row->id}}">
                 <button type="submit" class="btn btn-primary btn-sm  px-5">Book Now <i class="fas fa-arrow-right"></i></button>
             </form>
+                @endif
+
+              
             </td>
             <td>
               {{date('F j,Y',strtotime($item->dateofappt))}}
@@ -102,7 +116,11 @@
             <td>{{date('h:ia',strtotime($item->timestart))}}</td>
             <td>{{date('h:ia',strtotime($item->timeend))}}</td>
             <td>{{$item->noofpatients}}</td>
-            <td></td>
+            <td>
+              
+                    {{$item->noofpatients - count($counttotalapt )}}
+             
+            </td>
             <td>
                 @php
                 $spez = DB::select('SELECT * FROM `categories`');

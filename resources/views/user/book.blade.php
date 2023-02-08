@@ -2,111 +2,44 @@
 @section('content')
     <div class="container">
         <div class="titlebar">
-            <h4 class="hf mb-3">Book Appointment</h4>         
+            <h4 class="hf mb-3">My Appointments</h4>         
         </div>
 
         <div class="row">
-          
-            <div class="col-md-8">
-              @if(Session()->has('cannotbe'))
-              <div class="alert alert-danger">
-                {{Session()->get('cannotbe')}}
-              </div>
-              @endif
-              <form method ="post" action="{{route('user.submit')}}" id="booknow">
-                @csrf
-                
-                        <div class="card mb-5 mt-4 shadow" style="background-color: rgba(210, 233, 245, 0.185)">
-                         <div class="card-body login">
-                                 
-                                    <div class="row">
-                    <div class="col-md-6">
+          <div class="card">
+            <div class="card-header">
+              <button class="btn btn-success btn-sm" onclick="window.location.href='/Schedules'">Book For Appointment <i class="fas fa-arrow-right"></i></button>
+            </div>
+            <div class="card-body">
+              <ul class="nav nav-tabs" id="myTab" role="tablist" style="font-size:14px">
+                <li class="nav-item" role="presentation">
+                  <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">My Appointments</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                  <button class="nav-link text-info" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">Histories</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                  <button class="nav-link text-danger" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact-tab-pane" type="button" role="tab" aria-controls="contact-tab-pane" aria-selected="false">Cancelled/Disapproved</button>
+                </li>
               
-                 <label for="">Date :</label>
-                @php
-                    $date = date('Y-m-d');
-                @endphp
-
-               <input type="date" id="dop" name="dateofappointment" class="authbox mb-2 @error('dateofappointment') is-invalid  @enderror form-control" placeholder="" value="{{old('dateofappointment')}}" autofocus required min="{{date('Y-m-d',strtotime(date("Y-m-d", strtotime($date)) . " +1 day"))}}" >
-
-               <div class="invalid-feedback">
-                <span style="font-size:12px">Please Provide Date or the Date you have entered is already reserved</span>
-               </div>
-                     </div>
-                     <div class="col-md-6">
-                        <label for="">Time :</label>
-                        <input type="time" name="timeofappointment" class="authbox @error('timeofappointment') is-invalid @enderror form-control" placeholder="" value="{{old('timeofappointment')}}" required>
-
-                        <div class="invalid-feedback">
-                          <span style="font-size:12px">Please Provide Time or the Time you have entered is already reserved</span>
-                         </div>
-            </div>
-
-            <div class="col-md-12">
-              <label for="">Purpose :</label>
-              <textarea name="purpose" class="form-control mb-2" id=""  rows="5" placeholder="Type your purpose.." required></textarea>
-            </div>
-
-                        <div class="col-md-6">
-                <label for="">Clinic :</label>
-              <select name="Clinic"  class="authbox form-select @error('Clinic') is-invalid @enderror" id="clinic" >
-                <option value="">Select Clinic</option>
-                @foreach ($clinic as $item)
-                <option value="{{$item->id}}">{{$item->name}}</option> 
-                @endforeach
-                                  
-            </select> 
-            @error('Clinic')
-              <div class="invalid-feedback">
-                <span style="font-size:12px">Please Select Clinic</span>
-              </div>
-            @enderror
-                        </div>
-             <div class="col-md-6">
-                <label for="">Category :</label>
-                <div id="category">
-                  <select name="Category" class="authbox form-select @error('Category') is-invalid @enderror" id="" disabled>
-                  
-                               
-        </select>    
-        @error('Category')
-        <div class="invalid-feedback">
-          <span style="font-size:12px">Please Select Category</span>
-        </div>
-      @enderror
+              </ul>
+              <div class="tab-content" id="myTabContent">
+                <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
+                  @include('user.allappt')
                 </div>
-             
-                        </div>
-
-             <div class="col-md-12">
-                <label for="">Doctor :</label>
-                <div id="doctor">
-              <select name="Doctor" class="authbox form-select  @error('Doctor') is-invalid @enderror" id="" disabled>
-                                   
-            </select>   
-            @error('Doctor')
-            <div class="invalid-feedback">
-              <span style="font-size:12px">Please Select your Doctor</span>
+                <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
+                  <br>
+                  @include('user.history')
+                </div>
+                <div class="tab-pane fade" id="contact-tab-pane" role="tabpanel" aria-labelledby="contact-tab" tabindex="0">
+                  @include('user.cancelled')
+                </div>
+                <div class="tab-pane fade" id="disabled-tab-pane" role="tabpanel" aria-labelledby="disabled-tab" tabindex="0">...</div>
+              </div>
             </div>
-          @enderror 
           </div>
-                        </div>
-                <div class="col-md-12">
-              <button type="submit" id="submit" class="authbtn btn btn-primary form-control mt-4 py-3">Submit</button>
-                        </div>
-                   
-                                 </div>
-                           
-                                 
-
-                          </div>
-                        </div>
-                      </form>
-
-            </div>
-          
-          </div>
-    </div>
+           
+        </div>
 
     @if(Session::get('Success'))
     <script>

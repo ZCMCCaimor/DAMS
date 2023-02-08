@@ -2,27 +2,28 @@
 @section('content')
     <div class="container">
 
-        @if (session()->has('saveappt'))
 
-        @if(session()->get('saveappt') == 'error')
-      
+        
+        @if (session()->has('Error'))
         <script>
             swal("Booking Unsuccessful!", "You have already set an appointment on your selected Schedules!", "error").then(()=>{
                 location.reload();
             });
         </script>
 
-        @else 
+            {{session()->forget('saveappt')}}
+        @endif
+        @if(session()->has('Successbooked'))
         <script>
             swal("Booked Successfully!", "Your request is still pending, and waiting for approval.", "success").then(()=>{
                 location.reload();
             });
             
         </script>
+            {{session()->forget('saveappt')}}
         @endif
-         
-            {{ session()->forget('saveappt') }}
-        @endif
+
+
         <div class="titlebar">
             <h4 class="hf mb-3">Dashboard</h4>
 

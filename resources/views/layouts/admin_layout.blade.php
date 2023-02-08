@@ -147,11 +147,11 @@
                             <span>Referral Stations</span></a>
                     </li>
 
-                    <li class="nav-item navitems" id="feedback">
+                    {{-- <li class="nav-item navitems" id="feedback">
                         <a class="nav-link navlinks  " href="{{route('admin.feedback')}}">
                             <i class="fas fa-comments"></i>
                             <span>Feedbacks</span></a>
-                    </li>
+                    </li> --}}
 
                    
 

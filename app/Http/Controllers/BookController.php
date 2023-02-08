@@ -45,7 +45,55 @@ class BookController extends Controller
      }
 
      public function book(Request $request){
-        
+      $schedid = $request->schedid;
+      $specialization = $request->specialization;
+      $doctorid = $request->doctorid;
+         if(auth()->check()){
+               if(Auth::user()->user_type == 'patient'){
+                  $tab = 'dashboard';
+                  $check = Appointment::where('user_id',Auth::user()->id)->where('apptID',$schedid)->get();
+
+                  if(count($check)>=1){
+                    
+                           
+                      return redirect()->route('user.dashboard',compact('tab'))->with('Error','Booking unsuccessful!');
+                      
+                     
+                      
+                  }else {
+                         
+                 $save = Appointment::create([
+                  'user_id'=>Auth::user()->id,
+                  'apptID'=>$schedid,
+                  'category'=> $specialization,
+                  'doctor'=>  $doctorid ,
+                  'dateofappointment'=>null,
+                  'timeofappointment'=>null,
+                  'refferedto'=>0,
+                  'refferedto_doctor'=>0,
+                  'remarks'=>'',
+                  'purpose'=>$request->purpose,
+                  'diagnostics'=>'',
+                  'treatment'=>'',
+                  'attachedfile'=>null,
+                  'status'=>0,
+                  'ad_status'=>0,
+                  'laps'=>0
+              ]);
+  
+                 if($save){
+  
+             
+                  return redirect()->route('user.dashboard',compact('tab'))->with('Successbooked','Booked Successfully!');
+  
+                 }
+                  }
+
+               }else {
+                  return redirect('/');
+               }
+
+         }else {
          $schedid = $request->schedid;
          $specialization = $request->specialization;
          $doctorid = $request->doctorid;
@@ -58,6 +106,8 @@ class BookController extends Controller
 
         session(['saveappt' => $datas]);
         return redirect('/');
+         }
+    
     
      }
 
@@ -168,37 +218,40 @@ Appointment::where('id',$request->id)->update([
          $data = Appointment::where('doctor',$id)->where('status',$stats)->get();
          return $data;
       }
-
+      $alldoctor = User::where('user_type','doctor')->get();
       switch ($request->types) {
          case 'pending':
+            $completeappt = Appointment::where('status',0)->where('doctor',Auth::user()->id)->get();
             $data = retrView(0);
-            return view('admin.viewappt',compact('data'));
+            
          break;
          case 'approved':
+            $completeappt = Appointment::where('status',1)->where('doctor',Auth::user()->id)->get();
             $data = retrView(1);
-            return view('admin.viewappt',compact('data'));
+           
          break;
          
          case 'cancelled':
+            $completeappt = Appointment::where('status',2)->where('doctor',Auth::user()->id)->get();
             $data = retrView(2);
-            return view('admin.viewappt',compact('data'));
+          
          break;
 
          case 'disapproved':
+            $completeappt = Appointment::where('status',3)->where('doctor',Auth::user()->id)->get();
             $data = retrView(3);
-            return view('admin.viewappt',compact('data'));
+          
          break;
 
          case 'completed':
             $completeappt = Appointment::where('status',4)->where('doctor',Auth::user()->id)->get();
-            $alldoctor = User::where('user_type','doctor')->get();
-
             $data = retrView(4);
-            return view('admin.viewappt',compact('data','completeappt','alldoctor'));
+           
          break;
          
          
       }
+      return view('admin.viewappt',compact('data','completeappt','alldoctor'));
     }
  
 }

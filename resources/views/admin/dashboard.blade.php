@@ -1,6 +1,6 @@
 @extends('layouts.admin_layout')
 @section('content')
-    <div class="container" style="background: url(https://img.freepik.com/free-vector/medical-science-healthcare-blue-banner_1017-23667.jpg?w=900&t=st=1660978750~exp=1660979350~hmac=4045ef40e2b6bb31cd3d7bdd34deb90c9cf66d9b3911f4b9a933889e52c77820); background-position:right;background-repeat:no-repeat;background-attachment:fixed">
+    <div class="container" style="">
         <div class="titlebar">
             <h4 class="hf mb-3">Dashboard</h4>
             
@@ -17,14 +17,14 @@
                 <div class="card shadow" style="height: 100px;border-left:10px solid rgb(121, 146, 179)">
                     <div class="card-body">
                         <h5 class="text-primary af" style="font-weight:bold" >
-                           Doctors
+                           Appointments
                              
                              
                          </h5>
-                        <span class="badge bg-danger">{{count($Doctor)}}</span>
+                        <span class="badge bg-danger">{{count($allnew)}}</span>
                         <h1 style="position: absolute;right:10px;top:0;padding:10px">
                            
-                            <i class="fas fa-user-doctor text-secondary"></i>
+                            <i class="fas fa-clipboard-list text-secondary"></i>
                         </h1>
 
                     </div>
@@ -122,33 +122,9 @@
             </div>
 
             <div class="col-md-4">
-                <h5 class="hf">All Doctors</h5>
-                <div class="list-group">
-                    @foreach ($Doctor as $doc)
-                    @if($doc->isavailable == 0)
-                    <a href="#" class="list-group-item list-group-item-action list-group-item-primary af">
-                        Dr . {{$doc->firstname.' '.$doc->lastname}}
-                        
-                        <span class="badge text-bg-primary" style="float: right">Available</span>
+          
 
-                    </a>
-                        @else
-                        <a href="#" class="list-group-item list-group-item-action list-group-item-danger">
-                            Dr . {{$doc->firstname.' '.$doc->lastname}}
-                            <span class="badge text-bg-danger" style="float: right">Unavailable</span>
-        
-                        </a>
-                        @endif
-                    @endforeach
-                
-                
-                  </div>
-
-                  <div class="card mt-2">
-                    <div class="card-body">
-                        Total Number of Appointments: <span class="text-secondary" style="font-weight: bold">{{count($Appointment)}}</span>
-                    </div>
-                  </div>
+               
 
                   <div class="card shadow mt-2">
                     <div class="card-header">

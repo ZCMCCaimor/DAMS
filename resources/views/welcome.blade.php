@@ -168,7 +168,7 @@
     </div>
     @if (session('Success'))
         <script>
-            swal("Your Password Changed Successfully!", "You can now login and feel free to give us some feedbacks. Thank you!",
+            swal("Your Password Changed Successfully!", "You can now login . Thank you for using our website!",
                 "success");
         </script>
     @endif

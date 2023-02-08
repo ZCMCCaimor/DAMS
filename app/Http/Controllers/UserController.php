@@ -30,13 +30,13 @@ class UserController extends Controller
         if(session()->has('saveappt')){
 
             //checkpoint 
-
-                $check = Appointment::where('user_id',Auth::user()->id)->where('apptID',session()->get('saveappt')['schedid'])->get();
+         
+                $check = Appointment::where('user_id',Auth::user()->id)->where('apptID',session()->get('saveappt')['schedid'])->get();;
 
                 if(count($check)>=1){
-                    session(['saveappt' => 'error']);
+                  //  session(['saveappt' => 'error']);
                          
-                        return view('user.dashboard',compact('tab'))->with('Error','Booking unsuccessful!');
+                    return redirect()->route('user.dashboard',compact('tab'))->with('Error','Booking unsuccessful!');
                     
                    
                     
@@ -64,7 +64,8 @@ class UserController extends Controller
                if($save){
 
            
-              return view('user.dashboard',compact('tab'))->with('Success','Booked Successfully!');
+                return redirect()->route('user.dashboard',compact('tab'))->with('Successbooked','Booked Successfully!');
+  
 
                }
                 }
@@ -83,11 +84,19 @@ class UserController extends Controller
     }
 
     public function book(){
-        $clinic = DB::select('select * from clinics where id in (select clinic from doctors) ');
-        $doctor = Doctor::all();
+     
         $category = Category::all();
         $tab = 'book';
-        return view('user.book',compact('tab','clinic','doctor','category'));
+        $id = Auth::user()->id;
+        $datenow = date('Y-m-d');
+        $myappointment = Appointment::where('user_id',$id)->where('status',0)->orWhere('status',1)->get();
+
+        $cancelleddis = Appointment::where('user_id',$id)->where('status',2)->orWhere('status',3)->get();
+
+        $completeappt = Appointment::where('status',4)->where('user_id',Auth::user()->id)->get();
+        $alldoctor = User::where('user_type','doctor')->get();
+
+        return view('user.book',compact('tab','category','completeappt','myappointment','alldoctor','cancelleddis'));
     }
 
     public function view_pending(){

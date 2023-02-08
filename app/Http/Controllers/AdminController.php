@@ -16,15 +16,16 @@ use Illuminate\Support\Facades\DB;
 class AdminController extends Controller
 {
     public function dashboard(){
-
+        if(!auth()->check()){
+          return redirect('/');
+        }
         $id = Auth::user()->specialization;
-      
-      
         $appt = Appointment::where('category',$id)->get();
         $Doctor= User::where('user_type','doctor')->where('id',Auth::user()->id)->get();
         $category = Category::where('id',$id)->get();
         $Appointment = Appointment::where('category',$id)->get();
         $data = Appointment::where('category',$id)->where('status',0)->limit(4)->get();
+        $allnew =Appointment::where('category',$id)->where('status',0)->get();
          $user = User::all();
         $Patients = DB::select('select * from users where user_type="patient" and id in (select user_id from appointments where category ='.$id.' )');
       
@@ -33,7 +34,7 @@ class AdminController extends Controller
       $refer = [];
     
         $tab = 'dashboard';
-       return view('admin.dashboard',compact('tab','appt','Doctor','Appointment','Patients','category','data','user','feedback','refer'));
+       return view('admin.dashboard',compact('tab','appt','Doctor','Appointment','Patients','category','data','user','feedback','refer','allnew'));
     }
     public function appointment(){
   
@@ -88,18 +89,20 @@ class AdminController extends Controller
        return view('admin.patient',compact('tab','data','appt'));
     }
     public function referral(){
-        $id = Auth::user()->clinic;
-        $cli = Clinic::where('id',$id)->get();
-        $clinicsName =  $cli[0]['name'];
-        $data = DB::select('select * from appointments where clinic = '.$id.' and status=1 or  refferedto = '.$id.'  ');
-        $user = User::all();
-        $clinic = Clinic::all();
-        $refhistory = Ref_history::all();
-        $appr_appointments = Appointment::where('status',1)->where('clinic',$id)->get();
-        $referred = DB::select('select * from clinics where id in (select clinic from appointments where status=4 and refferedto ='.$id.' and ad_status= 0  ) ');
-        $tab = 'referral';
 
-        return view('admin.referral',compact('tab','data','user','doctor','clinic','referred','appr_appointments','clinicsName','refhistory'));
+        echo 'TO DO';
+        // $id = Auth::user()->clinic;
+        // $cli = Clinic::where('id',$id)->get();
+        // $clinicsName =  $cli[0]['name'];
+        // $data = DB::select('select * from appointments where clinic = '.$id.' and status=1 or  refferedto = '.$id.'  ');
+        // $user = User::all();
+        // $clinic = Clinic::all();
+        // $refhistory = Ref_history::all();
+        // $appr_appointments = Appointment::where('status',1)->where('clinic',$id)->get();
+        // $referred = DB::select('select * from clinics where id in (select clinic from appointments where status=4 and refferedto ='.$id.' and ad_status= 0  ) ');
+        // $tab = 'referral';
+
+        // return view('admin.referral',compact('tab','data','user','doctor','clinic','referred','appr_appointments','clinicsName','refhistory'));
     }
 
   

@@ -124,30 +124,10 @@
                         <a class="nav-link navlinks  " href="{{route('user.book')}}">
                                  
                             <i class="fas fa-book"></i>
-                            <span>Book </span></a>
+                            <span>My Appointments </span></a>
                     </li>
 
-                    <li class="nav-item navitems" id="view">
-                        <a class="nav-link navlinks  " href="{{route('user.view_pending')}}">
-                                 
-                            <i class="fas fa-list-ul"></i>
-                            <span>View </span></a>
-                    </li>
-
-
-                    <li class="nav-item navitems" id="cancel">
-                        <a class="nav-link navlinks  " href="{{route('user.cancel')}}">
-                                 
-                            <i class="fas fa-ban"></i>
-                            <span>Cancel </span></a>
-                    </li>
-
-                    <li class="nav-item navitems" id="feedback">
-                        <a class="nav-link navlinks  " href="{{route('user.feedback')}}">
-                                 
-                            <i class="fas fa-comment-dots"></i>
-                            <span>Send Feedback</span></a>
-                    </li>
+               
 
 
 
