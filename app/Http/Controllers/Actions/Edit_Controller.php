@@ -12,6 +12,7 @@ use App\Models\Ref_history;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use App\Models\Schedule;
 
 class Edit_Controller extends Controller
 {
@@ -115,52 +116,58 @@ class Edit_Controller extends Controller
        $remarks= $request->remarks;
        $doctor = $request->DoctorId;
        $clinic = $request->clinic;
+    
 
    
-   Appointment::where('id',$id)->update([
-            'remarks'=> $remarks,
-            'refferedto'=>$clinic,
-            'refferedto_doctor'=>$doctor,
-            'status' => 4,
-        ]);
+//    Appointment::where('id',$id)->update([
+//             'remarks'=> $remarks,
+//             'refferedto_doctor'=>$doctor,
+//             'status' => 5,
+//         ]);
 
       
 
         $appt = Appointment::where('id',$request->id)->get();
         $userid = $appt[0]['user_id'];
-    
-        $adate = $appt[0]['dateofappointment'];
-        $atime = $appt[0]['timeofappointment'];
+        $schedID= $appt[0]['apptID'];
+
+      
+        $schedule =Schedule::findorFail($schedID);
+
+        $adate = $schedule->dateofappt;
+        $timestart = $schedule->timestart;
+        $timeend = $schedule->timeend;
+
+      
+        
         $udetails = User::where('id',$userid)->get();
         $email = $udetails[0]['email'];
         $name = $udetails[0]['name'];
-        $clinicdetails = Clinic::where('id',$clinic)->get();
-        $clinicname = $clinicdetails[0]['name'];
-        $cliniclocation =  $clinicdetails[0]['street'].' ,'.$clinicdetails[0]['barangay'].' '.$clinicdetails[0]['city'];
+
         
 
       
-      Ref_history::create([
-            "user_id" =>$userid ,
-            "from" => $appt[0]['clinic'] ,
-            "to" =>    $clinic ,
-            "fromdoctor" => $appt[0]['doctor']  ,
-            "todoctor" =>  $doctor ,
-            "remarks"=>$remarks,
-        ]);
+//       Ref_history::create([
+//             "user_id" =>$userid ,
+//             "from" => $appt[0]['clinic'] ,
+//             "to" =>    $clinic ,
+//             "fromdoctor" => $appt[0]['doctor']  ,
+//             "todoctor" =>  $doctor ,
+//             "remarks"=>$remarks,
+//         ]);
 
 
-        $doc = Doctor::findorFail($doctor);
-        $doctorname = $doc->firstname." ".$doc->lastname;
-        $ReceivingUser = User::where('clinic',$clinic)->get();
+//         $doc = Doctor::findorFail($doctor);
+//         $doctorname = $doc->firstname." ".$doc->lastname;
+//         $ReceivingUser = User::where('clinic',$clinic)->get();
 
-        $notify_receiver=$ReceivingUser[0]['email'];
-        $notify_name=$ReceivingUser[0]['name'];
+//         $notify_receiver=$ReceivingUser[0]['email'];
+//         $notify_name=$ReceivingUser[0]['name'];
         
         
-        echo $doctorname.$notify_receiver.$notify_name;
+//         echo $doctorname.$notify_receiver.$notify_name;
 
-        return redirect()->route('mail.notify_patient',['email'=>$email,'name'=>$name,'doa'=>$adate,'toa'=>$atime,'cname'=>$clinicname,'loc'=>$cliniclocation,'tp' =>'refered','remarks'=>$request->remarks,'treatment'=>$request->treatment,'doctorname'=>$doctorname,'receiver'=>$notify_receiver,'receivername'=>$notify_name]);
+//         return redirect()->route('mail.notify_patient',['email'=>$email,'name'=>$name,'doa'=>$adate,'toa'=>$atime,'cname'=>$clinicname,'loc'=>$cliniclocation,'tp' =>'refered','remarks'=>$request->remarks,'treatment'=>$request->treatment,'doctorname'=>$doctorname,'receiver'=>$notify_receiver,'receivername'=>$notify_name]);
         
   
     }

@@ -67,9 +67,21 @@
 
                 <div class="dropdown " style="font-weight: bolder;z-index: 9999">
 
-                  @if(Auth::check())  {{ Auth::user()->name }} 
-                  
-                  @endif
+                    <h6 style="text-align:center;margin-left:20px">
+                        @if (Auth::check())
+                       {{ Auth::user()->name }}
+                        <br>
+                    @endif
+                    
+                <span id="em" class="" style="font-weight: normal;font-size: 12px">
+                    @if (Auth::check())
+                   
+                        {{ Auth::user()->email }}
+                    @endif
+    
+                </span>
+    
+                     </h6>
                
                   <span id="username" class="dropdown-toggle" type="button"
                         id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"></span>
@@ -83,11 +95,7 @@
                     </ul>
                 </div>
                 
-                <span id="em" class="" style="font-weight: normal;font-size: 12px">  @if(Auth::check())   {{ Auth::user()->email }}
-                        
-                        @endif
-        
-            </span>
+               
 
             </div>
           <br>
@@ -95,7 +103,7 @@
 
 
 
-                <ul class="navbar-nav  sidebar sidebar-dark accordion" id="accordionSidebar" style="font-size: 14px">
+                <ul class="nav accordion" id="accordionSidebar" style="font-size: 14px">
 
 
 
@@ -173,7 +181,7 @@
             @yield('content')
         </main>
     </div>
-    <h6 id="res" class="">All rights Reserved &middot; 2022</h6>
+    <h6 id="res" class="">Patient Appointment Scheduling-MS &middot; All rights Reserved &middot; 2023</h6>
     
     @if(Auth::user()->fl == 0)
 

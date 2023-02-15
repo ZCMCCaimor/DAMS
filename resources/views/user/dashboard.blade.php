@@ -52,12 +52,12 @@
 
         
 
-        <h5>Booking Updates:</h5>
+        <h5></h5>
         <div class="row">
 
             <div class="col-md-3">
-                <a href="{{ route('user.view_pending') }}" style="text-decoration:none">
-                    <div class="card shadow bg-light" style="height: 100px;border-left:10px solid rgb(99, 178, 202)">
+                <a href="{{ route('user.book') }}" style="text-decoration:none">
+                    <div class="card shadow bg-light" style="height: 100px;border-left: 10px solid rgb(99, 178, 202);border-bottom:1px dashed gray">
                         <div class="card-body">
                             <h5 class="text-primary af" style="font-weight:bold">
                                 Pending
@@ -79,8 +79,8 @@
                 </a>
             </div>
             <div class="col-md-3">
-                <a href="{{ route('user.view_approved') }}" style="text-decoration:none">
-                    <div class="card shadow" style="height: 100px;border-left:10px solid rgb(81, 129, 87)">
+                <a href="{{ route('user.book') }}" style="text-decoration:none">
+                    <div class="card shadow" style="height: 100px;border-left:10px solid rgb(81, 129, 87);border-bottom:1px dashed gray">
                         <div class="card-body">
                             <h5 class="text-primary af" style="font-weight:bold">
                                 Approved
@@ -107,8 +107,8 @@
 
 
             <div class="col-md-3">
-                <a href="{{ route('user.cancelled') }}" style="text-decoration:none">
-                    <div class="card shadow" style="height: 100px;border-left:10px solid rgb(194, 63, 63)">
+                <a href="{{ route('user.book') }}" style="text-decoration:none">
+                    <div class="card shadow" style="height: 100px;border-left:10px solid rgb(194, 63, 63);border-bottom:1px dashed gray">
                         <div class="card-body">
                             <h5 class="text-primary af" style="font-weight:bold">
                                 Cancelled
@@ -131,7 +131,7 @@
 
             <div class="col-md-3">
 
-                <div class="card shadow" style="height: 100px;border-left:10px solid rgb(168, 63, 194)">
+                <div class="card shadow" style="height: 100px;border-left:10px solid rgb(168, 63, 194);border-bottom:1px dashed gray">
                     <div class="card-body">
                         <h5 class="text-primary af" style="font-weight:bold">
                             Referred
@@ -160,201 +160,11 @@
 
         <div class="row mt-5">
             <div class="col-md-8">
-                @isset($clinic)
-                    @foreach ($clinic as $row)
-                        @php
-                            $data = DB::select('select * from appointments where clinic = ' . $row->id . ' and status= 4 or  refferedto = ' . $row->id . '  ');
-                        @endphp
-
-
-
-                        @foreach ($data as $appt)
-                            @if ($appt->clinic == $row->id)
-                                <div class="card shadow mb-2 mt-2 border-danger">
-                                    <div class="card-body">
-                                        <h4 class="text-danger">You have been Referred!</h4>
-                                        
-                                        @if($appt->ad_status == 1)
-                                        <div class="card mb-2 shadow">
-                                            <div class="card-header">
-                                                <h6>
-                                             <span class="text-success" style="font-size:12px">
-                                                Referral Accepted
-                                             </span>
-                                             <br>
-                                                    Appointment Rescheduled</h6>
-                                            </div>
-                                            <div class="card-body">
-                                                @if($appt->dateofappointment == null && $appt->timeofappointment == null)
-                                               <h6 style="fpnt-weight:bold">Set Your desired Schedule</h6>
-                                                <br>
-                                                <form action="{{route('edit.userrebook')}}" method="post">
-                                                    @csrf
-                                                    <div class="row">
-                                                        <div class="col-md-6">
-                  
-                                                            <label for="">Date :</label>
-                                                           @php
-                                                               $date = date('Y-m-d');
-                                                           @endphp
-                                           
-                                                          <input type="date" id="dop" name="dateofappointment" class="authbox mb-2 @error('dateofappointment') is-invalid  @enderror form-control" placeholder="" value="{{old('dateofappointment')}}" autofocus required min="{{date('Y-m-d',strtotime(date("Y-m-d", strtotime($date)) . " +1 day"))}}" >
-                                           
-                                                          <div class="invalid-feedback">
-                                                           <span style="font-size:12px">Please Provide Date or the Date you have entered is already reserved</span>
-                                                          </div>
-                                                                </div>
-                                                                <div class="col-md-6">
-                                                                   <label for="">Time :</label>
-                                                                   <input type="time" name="timeofappointment" class="authbox @error('timeofappointment') is-invalid @enderror form-control" placeholder="" value="{{old('timeofappointment')}}" required>
-                                           
-                                                                   <div class="invalid-feedback">
-                                                                     <span style="font-size:12px">Please Provide Time or the Time you have entered is already reserved</span>
-                                                                    </div>
-                                                       </div>
-                                                       <input type="hidden" name="id" value="{{$appt->id}}">
-                                                       
-                                                      <input type="hidden" name="ref" value="{{$appt->refferedto_doctor}}">
-                                                      <input type="hidden" name="patient" value="{{$appt->user_id}}">
-                                                      <input type="hidden" name="refclinic" value="{{$appt->refferedto}}">
-                                                    </div>
-                                                    <button type="submit" class="btn mt-2 btn-primary btn-sm">Set and Accept <i class="fas fa-check-circle"></i></button>
-                                                </form>
-
-                                                @else 
-                                                Date : {{date('F j, Y',strtotime($appt->dateofappointment))}}
-
-                                                <br>
-                                                Time : {{date('h:i a',strtotime($appt->timeofappointment))}}
-
-                                                @endif
-                                              
-
-                                            </div>
-                                            <div class="card-footer">
-                                                <div class="btn-group">
-                                                    
-                                                    @if($appt->dateofappointment == null && $appt->timeofappointment == null)
-                                                 
-
-                                                    @else
-                                                    <button data-id="{{$appt->id}}" data-ref="{{$appt->refferedto_doctor}}" data-patient="{{$appt->user_id}}"
-                                                        data-refclinic="{{$appt->refferedto}}"
-                                                        class="btnaccept btn btn-primary btn-sm" >Accept</button>
-
-                                                    <button data-id="{{$appt->id}}" class="btncancel btn btn-danger btn-sm">Decline</button>
-
-                                                    @endif
-
-                                                </div>
-
-                                            </div>
-                                        </div>
-                             
-                                        <h6 class="mt-2">Other Info :</h6>
-                                        @endif
-                                        <h5 class="text-primary" style="text-transform: uppercase">
-
-                                            <span style="font-size:13px" class="text-dark">Clinic <br> From:</span>
-                                            {{ $row->name }} <span style="font-size:13px" class="text-dark"> To:</span>
-                                            @foreach ($clinic as $to)
-                                                @if ($appt->refferedto == $to->id)
-                                                    {{ $to->name }}
-                                                @endif
-                                            @endforeach
-
-                                        </h5>
-
-                                        @foreach ($doctor as $doc)
-                                            @if ($doc->id == $appt->refferedto_doctor)
-                                                <li class="list-group-item">
-                                                    <h6 style="font-size: 14px">Referred To:</h6>
-                                                    <span style="font-weight:bold" class="text-primary"> Dr.
-                                                        {{ $doc->firstname . ' ' . $doc->lastname }}</span>
-
-
-
-                                                </li>
-                                            @endif
-                                            @if ($doc->id == $appt->doctor)
-                                                <li class="list-group-item">
-
-
-                                                    <h6 style="font-size: 14px">Referred By:</h6>
-                                                    <span style="font-weight:bold" class="text-info"> Dr.
-                                                        {{ $doc->firstname . ' ' . $doc->lastname }}</span>
-                                                    <br>
-                                                    <h6 class="text-secondary mt-2" style="font-size: 13px">
-                                                        Remarks :
-                                                        <br>
-                                                        {{ $appt->remarks }}
-                                                        <br>
-                                                        <span class="badge bg-warning mt-5 ">Pending</span>
-                                                    </h6>
-
-                                            @endif
-                                        @endforeach
-                                    </div>
-                                </div>
-                            @endif
-                        @endforeach
-                    @endforeach
-
-                    <div id="chartContainer" style="height: 300px; width: 100%;"></div>
-                    <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
-
-                    <div class="card  mt-5" style="background-color: transparent">
-                        <div class="card-body">
-                            Inspirational Quotes
-                            <h6 class="af">
-                                “I believe that the greatest gift you can give your family and the world is a healthy you.” –
-                                Joyce Meyer
-                            </h6>
-                        </div>
-                    </div>
-                @endisset
+        
             </div>
 
             <div class="col-md-4">
-                <div class="card shadow">
-                    <div class="card-header">
-                        <h6 class="text-info">
-                            All Clinics And Their Doctors
-                        </h6>
-                    </div>
-                    <div class="card-body" style="overflow-y: scroll;height:400px">
-                        <ul class="list-group list-group-flush">
-                            @isset($clinic)
-                                @foreach ($clinic as $item)
-                                    <li class="list-group-item">
-                                        <span class="hf text-secondary" style="font-weight: bold">
-                                            {{ $item->name }}
-                                        </span>
-                                        <br>
-                                        <div class="card">
-                                            <div class="card-body">
-                                                <ul class="list-group list-group-flush">
-                                                    @foreach ($doctor as $doc)
-                                                        @if ($item->id == $doc->clinic)
-                                                            <li class="list-group-item">
-                                                                <span class="af" style="font-weight: normal;font-size:13px">
-                                                                    Dr. {{ $doc->firstname . ' ' . $doc->lastname }}
-                                                                </span>
-                                                            </li>
-                                                        @endif
-                                                    @endforeach
-
-
-                                                </ul>
-                                            </div>
-                                        </div>
-
-                                    </li>
-                                @endforeach
-                            @endisset
-                        </ul>
-                    </div>
-                </div>
+            
             </div>
 
         </div>

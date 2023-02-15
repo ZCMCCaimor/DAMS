@@ -84,7 +84,7 @@ class MailController extends Controller
            
            <body style="background-color: white">
            <p><br><br><br></p>
-               <h2><a target="_blank" href="#">Online Doctor Appointment Management System</a></h2>
+               <h2><a target="_blank" href="#">Patient Appointment Scheduling  Management System</a></h2>
            
                <h3 style="color:rgb(14, 87, 136)">Welcome new Administrator!
            
@@ -175,7 +175,7 @@ class MailController extends Controller
            
            <body style="background-color:white">
            <p><br><br><br></p>
-               <h2><a target="_blank" href="#">Online Doctor Appointment Management System</a></h2>
+               <h2><a target="_blank" href="#">Patient Appointment Scheduling  Management System</a></h2>
            
                <h3 style="color:rgb(14, 87, 136)">Welcome '.$name.'!
            
@@ -262,7 +262,7 @@ class MailController extends Controller
            
            <body style="background-color: white">
            <p><br><br><br></p>
-               <h3><a target="_blank" href="#">Online Doctor Appointment Management System</a></h3>
+               <h3><a target="_blank" href="#">Patient Appointment Scheduling  Management System</a></h3>
            
                <h3 style="color:rgb(14, 87, 136)">Hi Admin '.$request->name.' <br> Dr. '.$request->doctorname.' has received a Referral.
            
@@ -408,7 +408,7 @@ class MailController extends Controller
            <body style="background-color: white; ">
            <p><br><br><br></p>
            <div style="padding:20px">
-               <h2><a target="_blank" href="#">Online Doctor Appointment Management System</a></h2>
+               <h2><a target="_blank" href="#">Patient Appointment Scheduling  Management System</a></h2>
            
                <h3 style="color:rgb(14, 87, 136)">BOOKING '.$typo.'
            
@@ -516,7 +516,7 @@ class MailController extends Controller
            
            <body style="background-color: white">
            <p><br><br><br></p>
-               <h2><a target="_blank" href="#">Online Doctor Appointment Management System</a></h2>
+               <h2><a target="_blank" href="#">Patient Appointment Scheduling  Management System</a></h2>
            
                <h3 style="color:rgb(14, 87, 136)">Hi!
            
@@ -616,7 +616,7 @@ class MailController extends Controller
            
            <body style="background-color: aquamarine;text-align:center">
            <p><br><br><br></p>
-               <h2><a target="_blank" href="#">Online Doctor Appointment Management System</a></h2>
+               <h2><a target="_blank" href="#">Patient Appointment Scheduling  Management System</a></h2>
            
                <h3 style="color:rgb(14, 87, 136)">Hi '.$name.'!
            
@@ -694,7 +694,7 @@ class MailController extends Controller
            
            <body style="background-color: white">
            <p><br><br><br></p>
-               <h2><a target="_blank" href="#">Online Doctor Appointment Management System</a></h2>
+               <h2><a target="_blank" href="#">Patient Appointment Scheduling  Management System</a></h2>
            
                <h3 style="color:rgb(14, 87, 136)">Hi '.Auth::user()->name.'!
            
@@ -781,7 +781,7 @@ class MailController extends Controller
            
            <body style="background-color: white">
            <p><br><br><br></p>
-               <h2><a target="_blank" href="#">Online Doctor Appointment Management System</a></h2>
+               <h2><a target="_blank" href="#">Patient Appointment Scheduling  Management System</a></h2>
            
                <h3 style="color:rgb(14, 87, 136)">
                     We Have Received a Patient Feedback!
@@ -874,7 +874,7 @@ class MailController extends Controller
            
            <body style="background-color: white">
            <p><br><br><br></p>
-               <h2><a target="_blank" href="#">Online Doctor Appointment Management System</a></h2>
+               <h2><a target="_blank" href="#">Patient Appointment Scheduling  Management System</a></h2>
            
                <h3 style="color:rgb(14, 87, 136)">Hi '.$name.'!
            
@@ -958,7 +958,7 @@ class MailController extends Controller
            
            <body style="background-color: white">
            <p><br><br><br></p>
-               <h2><a target="_blank" href="#">Online Doctor Appointment Management System</a></h2>
+               <h2><a target="_blank" href="#">Patient Appointment Scheduling  Management System</a></h2>
            
                <h3 style="color:rgb(14, 87, 136)">Hi '.$name.'!
            

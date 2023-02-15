@@ -20,21 +20,25 @@ class AdminController extends Controller
           return redirect('/');
         }
         $id = Auth::user()->specialization;
-        $appt = Appointment::where('category',$id)->get();
+        $dr = Auth::user()->id;
+        $appt = Appointment::where('category',$id)->where('doctor',$dr)->get();
         $Doctor= User::where('user_type','doctor')->where('id',Auth::user()->id)->get();
         $category = Category::where('id',$id)->get();
-        $Appointment = Appointment::where('category',$id)->get();
-        $data = Appointment::where('category',$id)->where('status',0)->limit(4)->get();
-        $allnew =Appointment::where('category',$id)->where('status',0)->get();
+        $Appointment = Appointment::where('category',$id)->where('doctor',$dr)->get();
+        $data = Appointment::where('category',$id)->where('doctor',$dr)->where('status',0)->limit(4)->get();
+        $allnew =Appointment::where('category',$id)->where('doctor',$dr)->where('status',0)->get();
          $user = User::all();
-        $Patients = DB::select('select * from users where user_type="patient" and id in (select user_id from appointments where category ='.$id.' )');
-      
+        $Patients = DB::select('select * from users where user_type="patient" and id in (select user_id from appointments where category ='.$id.' and doctor = '.$dr.' )');
+
+        $datenow=date('Y-m-d');
+        $schedule = DB::select('select * from schedules where doctorid = '.$dr.' and "'.$datenow.'" < dateofappt ');
+
         $feedback = Feedback::where('clinic',$id)->get();
         // $refer =   DB::select('select * from category where id in (select category from appointments where status=4 and refferedto ='.$id.' ) ');
       $refer = [];
     
         $tab = 'dashboard';
-       return view('admin.dashboard',compact('tab','appt','Doctor','Appointment','Patients','category','data','user','feedback','refer','allnew'));
+       return view('admin.dashboard',compact('tab','appt','Doctor','Appointment','Patients','category','data','user','feedback','refer','allnew','schedule'));
     }
     public function appointment(){
   
@@ -174,48 +178,12 @@ class AdminController extends Controller
         return view('admin.completed_appointment',compact('tab','data','Doctor','user','clinicsName', 'completeappt','alldoctor','allclinic'));
       }
 
-      public function cancelled(){
-        $id = Auth::user()->clinic;
-        $cli = Clinic::where('id',$id)->get();
-        $clinicsName =  $cli[0]['name'];
-        $data = Appointment::where('clinic',$id)->where('status',5)->get();
-        $Doctor = Doctor::where('clinic',$id)->get();
-        $user = User::all();
-        $tab = 'appointment';
-    
-          $completeappt = Appointment::where('status',3)->get();
-        $alldoctor = Doctor::all();
-        $allclinic = Clinic::all();
-       
-      
-        return view('admin.cancelled_appointment',compact('tab','data','Doctor','user','clinicsName' ,'completeappt','alldoctor','allclinic'));
-      }
-
-      public function disapproved(){
-        $id = Auth::user()->clinic;
-        $cli = Clinic::where('id',$id)->get();
-        $clinicsName =  $cli[0]['name'];
-        $data = Appointment::where('clinic',$id)->where('status',2)->get();
-        $Doctor = Doctor::where('clinic',$id)->get();
-        $user = User::all();
-        $tab = 'appointment';
-       
-          $completeappt = Appointment::where('status',3)->get();
-        $alldoctor = Doctor::all();
-        $allclinic = Clinic::all();
-       
-        
-        return view('admin.disapproved_appointment',compact('tab','data','Doctor','user','clinicsName', 'completeappt','alldoctor','allclinic'));
-      }
-
       public function refer(Request $request){
         $tab ='referral';
-        $clinicid = Auth::user()->clinic;
         $id = $request->id;
-        $cli = Clinic::where('id',$clinicid)->get();
-        $clinicsName =  $cli[0]['name'];
         $userpatient = User::where('id',$request->patientId)->get();
         $remarks = $request->remarks;
+     
         if($remarks == 'undefined'){
             $remarks = '';
         }else {
@@ -224,10 +192,10 @@ class AdminController extends Controller
 
         $appt_attachedfile = Appointment::findorFail($id)->attachedfile;
       
-        $clinic = Clinic::all();
-        $data = DB::select('select * from doctors where clinic != '.$clinicid.' ');
+       //DB::select('select * from doctors where clinic != '.$clinicid.' ')
+        $data = DB::select('select * from users where user_type="doctor" and id != '.Auth::user()->id.' ');
         $category = Category::all();
-         return view('admin.action.refer',compact('tab','id','remarks','data','clinic','category','userpatient','clinicsName','appt_attachedfile'));
+         return view('admin.action.refer',compact('tab','id','remarks','data','category','userpatient','appt_attachedfile'));
       }
 
       public function accept_referral(Request $request){

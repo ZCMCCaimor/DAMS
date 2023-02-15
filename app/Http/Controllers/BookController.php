@@ -48,6 +48,7 @@ class BookController extends Controller
       $schedid = $request->schedid;
       $specialization = $request->specialization;
       $doctorid = $request->doctorid;
+        
          if(auth()->check()){
                if(Auth::user()->user_type == 'patient'){
                   $tab = 'dashboard';

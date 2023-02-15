@@ -99,3 +99,18 @@ php artisan migrate --seed
 php artisan serve
 
 --------------------------------- Test ---------------------
+
+----Commands----
+
+composer i - install all dependency
+composer update - update current dependencies
+
+to check all artisan commands. ( php artisan )
+
+(php artisan) => {
+key:generate - generating application key
+migrate - create tables and schemas. found in database folder
+migrate --seed - create table and populate table with default data.
+migrate:fresh --seed - Renew tables and data to its default form.
+serve - Running the server at port 8000
+}

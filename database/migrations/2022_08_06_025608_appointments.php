@@ -22,7 +22,7 @@ return new class extends Migration
             $table->integer('doctor');
             $table->date('dateofappointment')->nullable();
             $table->time('timeofappointment')->nullable();
-            $table->integer('status')->comments('0=pending,1=approved,2=cancelled,3=disapproved,4=completed');
+            $table->integer('status')->comments('0=pending,1=approved,2=cancelled,3=disapproved,4=completed,5=referred');
             $table->integer('ad_status');
             $table->integer('refferedto');
             $table->integer('refferedto_doctor');

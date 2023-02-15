@@ -14,7 +14,7 @@
 
         <div class="row">
             <div class="col-md-3">
-                <div class="card shadow" style="height: 100px;border-left:10px solid rgb(121, 146, 179)">
+                <div class="card shadow" style="height: 100px;border-left:10px solid rgb(121, 146, 179);border-bottom:1px dashed gray">
                     <div class="card-body">
                         <h5 class="text-primary af" style="font-weight:bold" >
                            Appointments
@@ -33,17 +33,17 @@
 
 
             <div class="col-md-3">
-                <div class="card shadow bg-light" style="height: 100px;border-left:10px solid rgb(73, 133, 86)" >
+                <div class="card shadow bg-light" style="height: 100px;border-left:10px solid rgb(73, 133, 86);border-bottom:1px dashed gray" >
                     <div class="card-body">
                         <h5 class="text-primary af" style="font-weight:bold" >
-                           Categories
+                           Schedules
                             
                             
                         </h5>
-                        <span class=" badge bg-danger">{{count($category)}}</span>
+                        <span class=" badge bg-danger">{{count($schedule)}}</span>
                         <h1 style="position: absolute;right:10px;top:0;padding:10px">
                             
-                            <i class="fas fa-list text-secondary"></i>
+                            <i class="fas fa-clock text-secondary"></i>
                         </h1>
 
                     </div>
@@ -52,7 +52,7 @@
 
 
             <div class="col-md-3">
-                <div class="card shadow" style="height: 100px;border-left:10px solid rgb(63, 116, 194)">
+                <div class="card shadow" style="height: 100px;border-left:10px solid rgb(63, 116, 194);border-bottom:1px dashed gray">
                     <div class="card-body">
                         <h5 class="text-primary af" style="font-weight:bold" >
                           Patients
@@ -61,7 +61,7 @@
                         <span class="badge bg-danger">{{count($Patients)}}</span>
                         <h1 style="position: absolute;right:10px;top:0;padding:10px">
                             
-                            <i class="fas fa-bed text-secondary"></i>
+                            <i class="fas fa-users text-secondary"></i>
                         </h1>
 
                     </div>
@@ -69,16 +69,16 @@
             </div>
 
             <div class="col-md-3">
-                <div class="card shadow" style="height: 100px;border-left:10px solid rgb(194, 63, 96)">
+                <div class="card shadow" style="height: 100px;border-left:10px solid rgb(194, 63, 96);border-bottom:1px dashed gray">
                     <div class="card-body">
                         <h5 class="text-primary af" style="font-weight:bold" >
-                          Feedbacks
+                          Referred
                              
                              
                          </h5>
                         <span class="badge bg-danger">{{count($feedback)}}</span>
                         <h1 style="position: absolute;right:10px;top:0;padding:10px">
-                            <i class="fas fa-message text-secondary"></i>
+                            <i class="fas fa-sync text-secondary"></i>
                            
                         </h1>
 

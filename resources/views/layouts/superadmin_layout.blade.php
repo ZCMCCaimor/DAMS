@@ -21,7 +21,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>Doctor Appointment-MS</title>
+    <title>Patient Appointment Scheduling-MS</title>
 
     <!-- Scripts -->
     <!-- Fonts -->
@@ -55,24 +55,37 @@
     <div id="app">
         <nav class="sidenav shadow" id="navitems">
             <div class="userinfo">
-                @if(Auth::user()->image == null)
-                <img src="https://img.freepik.com/free-icon/user_318-875902.jpg?w=2000" alt="" class="img-thumbnnail shadow rounded-circle"
-                style="width: 60px;height: 60px;border-radius: 30px;">
-                @else 
-                <img src="{{asset('profile'.'/'.Auth::user()->image)}}" alt="" class="img-thumbnnail shadow rounded-circle"
-                style="width: 60px;height: 60px;border-radius: 30px;">
-
-                @endif
+             
+                    @if(Auth::user()->image == null)
+                    <img src="https://img.freepik.com/free-icon/user_318-875902.jpg?w=2000" alt="" class="img-thumbnnail shadow rounded-circle"
+                    style="width: 60px;height: 60px;border-radius: 30px;">
+                    @else 
+                    <img src="{{asset('profile'.'/'.Auth::user()->image)}}" alt="" class="img-thumbnnail shadow rounded-circle"
+                    style="width: 60px;height: 60px;border-radius: 30px;">
+    
+                    @endif
+             
 
 
 
 
                 <div class="dropdown " style="font-weight: bolder;z-index: 9999">
 
+                 <h6 style="text-align:center;margin-left:20px">
                     @if (Auth::check())
-                        {{ Auth::user()->name }}
-                    @endif
+                    {{ Auth::user()->name }}
+                    <br>
+                @endif
+                
+            <span id="em" class="" style="font-weight: normal;font-size: 12px">
+                @if (Auth::check())
+               
+                    {{ Auth::user()->email }}
+                @endif
 
+            </span>
+
+                 </h6>
                     <span id="username" class="dropdown-toggle" type="button" id="dropdownMenuButton1"
                         data-bs-toggle="dropdown" aria-expanded="false"></span>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="font-size: 13px;">
@@ -102,12 +115,6 @@
                     </ul>
                 </div>
 
-                <span id="em" class="" style="font-weight: normal;font-size: 12px">
-                    @if (Auth::check())
-                        {{ Auth::user()->email }}
-                    @endif
-
-                </span>
 
             </div>
             <br>
@@ -116,7 +123,7 @@
 
 
 
-                <ul class="navbar-nav  sidebar sidebar-dark accordion" id="accordionSidebar" style="font-size: 14px">
+                <ul class="nav accordion" id="accordionSidebar" style="font-size: 14px">
 
 
 
@@ -130,15 +137,6 @@
                     </li>
 
 
-
-
-
-
-
-                    <!-- Divider -->
-                    {{-- <hr class="sidebar-divider"> --}}
-                    <!-- Heading -->
-                 
 
                           
                     <li class="nav-item navitems" id="category">
@@ -158,9 +156,6 @@
 
                  
 
-                    <div class="sidebar-heading text-dark " style="font-size: 10px">
-                        ACCOUNTS
-                    </div>
 
                     <li class="nav-item navitems" id="admin">
                         <a class="nav-link navlinks  " href="{{ route('superadmin.admin') }}">
@@ -259,7 +254,7 @@
             </div> --}}
         </main>
     </div>
-    <h6 id="res" class="">Doctor Appointment-MS &middot; All rights Reserved | 2023</h6>
+    <h6 id="res" class="">Patient Appointment Scheduling-MS &middot; All rights Reserved | 2023</h6>
 
     @if (Auth::user()->fl == 0)
         <button type="button" id="btnfirstlogin" class="btn btn-primary" data-bs-toggle="modal"

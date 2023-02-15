@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Doctor Appointment-MS</title>
+    <title>{{$title}}</title>
 
     <!-- Fonts -->
       <!-- Fonts -->
@@ -48,12 +48,12 @@
                             <img src="{{asset('img/doctors.svg')}}" class="imgbanner" width="100%" alt="">
                             <br>
                             <h1 style="text-align: center;font-weight:bold;color:#269444">
-                               ONLINE DOCTOR
+                               Patient Appointment
                                     
                                
                             </h1>
                             <h4 style="text-align: center;color:rgb(93, 95, 107);font-weight:bold">
-                                Appointment Management System
+                                Scheduling Management System
                             </h4>
                        
                            

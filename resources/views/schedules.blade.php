@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Doctor Appointment-MS</title>
+    <title>{{$title}}</title>
 
     <!-- Fonts -->
       <!-- Fonts -->

@@ -20,22 +20,23 @@ class UserController extends Controller
         $pending = Appointment::where('user_id',$userid)->where('status',0)->get();
         $approved = Appointment::where('user_id',$userid)->where('status',1)->get();
 
-        $disapproved = Appointment::where('user_id',$userid)->where('status',2)->get();
-        $completed = Appointment::where('user_id',$userid)->where('status',3)->get();
+        $disapproved = Appointment::where('user_id',$userid)->where('status',3)->get();
+        $completed = Appointment::where('user_id',$userid)->where('status',4)->get();
 
-        $referred = Appointment::where('user_id',$userid)->where('status',4)->get();
+        $referred = Appointment::where('user_id',$userid)->where('status',5)->get();
 
-        $cancelled = Appointment::where('user_id',$userid)->where('status',5)->get();
+        $cancelled = Appointment::where('user_id',$userid)->where('status',2)->get();
 
         if(session()->has('saveappt')){
 
             //checkpoint 
          
-                $check = Appointment::where('user_id',Auth::user()->id)->where('apptID',session()->get('saveappt')['schedid'])->get();;
+                $check = Appointment::where('user_id',Auth::user()->id)->where('apptID',session()->get('saveappt')['schedid'])->get();
+               
 
                 if(count($check)>=1){
                   //  session(['saveappt' => 'error']);
-                         
+               
                     return redirect()->route('user.dashboard',compact('tab'))->with('Error','Booking unsuccessful!');
                     
                    
@@ -62,7 +63,7 @@ class UserController extends Controller
             ]);
 
                if($save){
-
+                session()->forget('saveappt');
            
                 return redirect()->route('user.dashboard',compact('tab'))->with('Successbooked','Booked Successfully!');
   

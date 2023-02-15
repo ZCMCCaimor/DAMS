@@ -22,6 +22,7 @@ use Illuminate\Http\Request;
 Auth::routes();
 
 Route::get('/', function () {
+    $title = 'Patient Appointment Scheduling MS';
     $def = Email::all();
     foreach($def as $email){
         $default = $email->email;
@@ -43,7 +44,7 @@ Route::get('/', function () {
 
    
     $clinics = Clinic::all();
-    return view('welcome',compact('clinics'));
+    return view('welcome',compact('clinics','title'));
 });
 
 Route::get('/Book',function(){
@@ -93,18 +94,20 @@ Route::get('checkpoint', [App\Http\Controllers\HomeController::class, 'checkpoin
 Route::post('/home', [App\Http\Controllers\HomeController::class, 'verify'])->name('verifyotp');
 
 Route::get('/Schedules',function(){
+    $title = 'Patient Appointment Scheduling MS';
     $sched = Schedule::all();
     $datenow = date('Y-m-d');
     $doctorwsched = DB::select('select * from users where user_type = "doctor" and id in (select doctorid from schedules where "'.$datenow.'" < dateofappt  ) ');
 
   
-    return view('schedules',compact('sched','doctorwsched'));
+    return view('schedules',compact('sched','doctorwsched','title'));
 });
 
 Route::get('/Doctors',function(){
+    $title = 'Patient Appointment Scheduling MS';
     $doctor = User::where('user_type','doctor')->get();
     $clinics = Clinic::all();
-    return view('doctors',compact('doctor','clinics'));
+    return view('doctors',compact('doctor','clinics','title'));
 });
 
 Route::get('/AboutUs',function(){
