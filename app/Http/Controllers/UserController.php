@@ -90,9 +90,9 @@ class UserController extends Controller
         $tab = 'book';
         $id = Auth::user()->id;
         $datenow = date('Y-m-d');
-        $myappointment = Appointment::where('user_id',$id)->where('status',0)->orWhere('status',1)->get();
+        $myappointment = Appointment::where('user_id',$id)->where('status',0)->orWhere('status',1)->where('user_id',$id)->get();
 
-        $cancelleddis = Appointment::where('user_id',$id)->where('status',2)->orWhere('status',3)->get();
+        $cancelleddis = Appointment::where('user_id',$id)->where('status',2)->orWhere('status',3)->where('user_id',$id)->get();
 
         $completeappt = Appointment::where('status',4)->where('user_id',Auth::user()->id)->get();
         $alldoctor = User::where('user_type','doctor')->get();
