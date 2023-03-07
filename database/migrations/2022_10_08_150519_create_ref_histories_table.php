@@ -16,8 +16,6 @@ return new class extends Migration
         Schema::create('ref_histories', function (Blueprint $table) {
             $table->id();
             $table->integer("user_id");
-            $table->string("from");
-            $table->string("to");
             $table->integer("fromdoctor");
             $table->integer("todoctor");
             $table->text("remarks");

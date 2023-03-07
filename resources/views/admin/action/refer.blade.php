@@ -33,7 +33,7 @@
                                               
                                               <td>
                                                 <div  class="btn-group">
-                                                 <button  data-id="{{$row->id}}" data-appt="{{$id}}"  class="btnselect btn btn-light text-success  btn-sm">Select <i class="fas fa-circle-arrow-right"></i></button>
+                                                 <button  data-id="{{$row->id}}" data-appt="{{$id}}"  class="btnselect btn btn-light text-success   btn-sm">Select <i class="fas fa-circle-arrow-right"></i></button>
                                                 </div>
                                             </td>
                                                 <td style="font-weight: bold">Dr. {{ $row->name}}</td>
@@ -176,8 +176,10 @@ Attach file
             var doctorid=  $(this).data('id');
             var appt = $(this).data('appt');
             var remarks = $('#'+appt+'remarks').val();
-         
-            swal({
+            if(remarks == ''){
+              $('#'+appt+'remarks').addClass('is-invalid');
+            }else{
+              swal({
                         title: "Are you sure?",
                         text: "You cannot undo actions once patient was referred",
                         icon: "warning",
@@ -191,6 +193,9 @@ Attach file
                         
                         }
                         });
+            } 
+         
+        
               
             // if($('#agreement').prop('checked') == true){
             //          if(remarks == ''){

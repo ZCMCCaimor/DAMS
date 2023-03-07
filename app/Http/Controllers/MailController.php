@@ -327,7 +327,7 @@ class MailController extends Controller
 
     public function notify_patient(Request $request){
        
-            $receiver = $request->email;
+        $receiver = $request->email;
         $name = $request->name;
         $this->token = session()->get('token');
 
@@ -360,7 +360,7 @@ class MailController extends Controller
             $prop = '';
             $typo = '<span style="color:red">REFERRED</span>';
             $stat = 'referred! For more info. Please Login to your account to check the Details of your referrals. <br>';
-            $guided = ' Referred TO : '.$request->cname.'<br> Location : '.$request->loc .'<br> Remarks: '.$request->remarks;
+            $guided = 'Referred By: Dr. '.$request->doctorname.' <br/> Referred TO : Dr. '.$request->receivername;
         }else if ($request->tp == 'rebook'){
             $subj = 'APPOINTMENT BOOKING REBOOK';
             $typo = '<span style="color:green">APPROVED AND REBOOK SUCCESSFULLY</span>';

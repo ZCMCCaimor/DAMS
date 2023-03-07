@@ -57,7 +57,11 @@
                             @endforeach
                             </td>
                             <td>
-                             <button class="btn btn-light text-primary border-success btn-sm" data-bs-toggle="modal" data-bs-target="#viewappt{{$row->id}}">View all  <span class="badge bg-danger">5</span></button>
+                              @php
+                                  $id = $row->id;
+                                  $sched = DB::select('SELECT * FROM `schedules` where doctorid = '.$id.' ');
+                              @endphp
+                             <button class="btn btn-light text-primary border-success btn-sm" data-bs-toggle="modal" data-bs-target="#viewappt{{$row->id}}">View all  <span class="badge bg-danger">{{count($sched)}}</span></button>
 
 
 <!-- Modal -->
@@ -70,7 +74,58 @@
       </div>
       <div class="modal-body">
         
+        <div class="table-responsive">
+          <table class="table table-striped table-sm af" style="font-size: 14px" id="myTable">
+              <thead>
+                <tr class="table-success">
+                  <th scope="col">Date</th>
+                  <th scope="col">Time Start</th>
+                  <th scope="col">Time End</th>
+                  <th scope="col">Number of Patients</th>
+                {{--   <th scope="col">Status</th> --}}
+                  <th scope="col">Date-added</th>
+                  <th scope="col">Status</th>
+                 
+                </tr>
+              </thead>
+              <tbody>
+                  @foreach ($sched as $e)
+                  @php
+                         
+                  $used = DB::select('select * from appointments where apptID='.$e->id.'  ');
+            
+              @endphp
+                  <tr>
+                      <td>{{date('F j,Y',strtotime($e->dateofappt))}}</td>
+                      <td>{{date('H:ia',strtotime($e->timestart))}}</td>
+                      <td>{{date('H:ia',strtotime($e->timeend))}}</td>
+                      <td>{{$e->noofpatients}}</td>
+                      <td>{{date('H:ia F j,Y',strtotime($e->created_at))}}</td>  
+                       <td>
+                      @if(date('Y-m-d') > $e->dateofappt)
+                      <span class="badge bg-danger">Inactive/Expired</span>
+                      @else 
+                  
 
+                          @if(count($used)>=1)
+                          <span class="badge bg-success">Active/USED</span>
+                          @else 
+                          <span class="badge bg-success">Active/UNUSED</span>
+                          @endif
+            
+                      @endif
+
+                      </td>
+
+                
+                  </tr>
+                      
+                  @endforeach
+                
+               
+              </tbody>
+            </table>
+      </div>
       
       </div>
       <div class="modal-footer">

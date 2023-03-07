@@ -181,7 +181,7 @@ nav .tabs ul li:hover a {
 .banner {
     height: 560px;
     width: 100%;
-    background-color: rgb(247, 252, 244);
+    background-color: rgb(255, 255, 255);
     z-index: 0;
     /*    background-image: url('../../public/img/home.jpeg');
             background-position: center;

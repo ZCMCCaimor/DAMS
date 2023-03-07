@@ -48,7 +48,7 @@
 
 </head>
 
-<body style="background-color:#F1DBBF">
+<body style="background-color:rgb(255, 255, 255)">
 
     <div id="app">
         <nav class="sidenav shadow" id="navitems">
@@ -220,8 +220,8 @@
     @if(Auth::user()->fl == 0)
 
     
- <button type="button" id="btnfirstlogin" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#firstlogin" >
-   asd
+ <button type="button" id="btnfirstlogin" class="btn btn-primary d-none" data-bs-toggle="modal" data-bs-target="#firstlogin" >
+ 
   </button>
   
 
@@ -327,7 +327,7 @@
 
 <script>
 $(document).ready( function () {
-            $('#myTable').DataTable();
+            $('#myTable').DataTable({ "order": [[ 0, "desc" ]]});
 
             $('#{{ $tab }}').attr('style', 'background-color: #EAE7B1;');
 } );

@@ -90,11 +90,11 @@ class UserController extends Controller
         $tab = 'book';
         $id = Auth::user()->id;
         $datenow = date('Y-m-d');
-        $myappointment = Appointment::where('user_id',$id)->where('status',0)->orWhere('status',1)->where('user_id',$id)->get();
+        $myappointment = Appointment::where('user_id',$id)->where('status',0)->orWhere('status',1)->where('user_id',$id)->orderBy('created_at','desc')->get();
 
-        $cancelleddis = Appointment::where('user_id',$id)->where('status',2)->orWhere('status',3)->where('user_id',$id)->get();
+        $cancelleddis = Appointment::where('user_id',$id)->where('status',2)->orWhere('status',3)->orderBy('created_at','desc')->where('user_id',$id)->get();
 
-        $completeappt = Appointment::where('status',4)->where('user_id',Auth::user()->id)->get();
+        $completeappt = Appointment::where('status',4)->where('user_id',Auth::user()->id)->orderBy('created_at','desc')->get();
         $alldoctor = User::where('user_type','doctor')->get();
 
         return view('user.book',compact('tab','category','completeappt','myappointment','alldoctor','cancelleddis'));
@@ -103,7 +103,7 @@ class UserController extends Controller
     public function view_pending(){
         $id = Auth::user()->id;
         
-        $data = Appointment::where('user_id',$id)->where('status',0)->get();
+        $data = Appointment::where('user_id',$id)->where('status',0)->orderBy('created_at','desc')->get();
         $Doctor = Doctor::all();
         $user = User::all();
         $tab = 'view';
@@ -113,7 +113,7 @@ class UserController extends Controller
     public function cancel(){
         $id = Auth::user()->id;
         
-        $data = Appointment::where('user_id',$id)->where('status',0)->get();
+        $data = Appointment::where('user_id',$id)->where('status',0)->orderBy('created_at','desc')->get();
         $Doctor = Doctor::all();
         $user = User::all();
       
@@ -124,7 +124,7 @@ class UserController extends Controller
     public function view_cancel(){
         $id = Auth::user()->id;
         
-        $data = Appointment::where('user_id',$id)->where('status',5)->get();
+        $data = Appointment::where('user_id',$id)->where('status',5)->orderBy('created_at','desc')->get();
         $Doctor = Doctor::all();
         $user = User::all();
         $tab = 'view';
@@ -134,7 +134,7 @@ class UserController extends Controller
     public function view_approved(){
         $id = Auth::user()->id;
         
-        $data = Appointment::where('user_id',$id)->where('status',1)->get();
+        $data = Appointment::where('user_id',$id)->where('status',1)->orderBy('created_at','desc')->get();
         $Doctor = Doctor::all();
         $user = User::all();
         $tab = 'view';
@@ -144,7 +144,7 @@ class UserController extends Controller
     public function view_completed(){
         $id = Auth::user()->id;
         
-        $data = Appointment::where('user_id',$id)->where('status',3)->get();
+        $data = Appointment::where('user_id',$id)->where('status',3)->orderBy('created_at','desc')->get();
         $Doctor = Doctor::all();
         $user = User::all();
         $tab = 'view';
@@ -154,7 +154,7 @@ class UserController extends Controller
     public function view_disapproved(){
         $id = Auth::user()->id;
         
-        $data = Appointment::where('user_id',$id)->where('status',2)->get();
+        $data = Appointment::where('user_id',$id)->where('status',2)->orderBy('created_at','desc')->get();
         $Doctor = Doctor::all();
         $user = User::all();
         $tab = 'view';

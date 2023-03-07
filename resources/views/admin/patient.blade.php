@@ -92,8 +92,7 @@
                                                   @elseif($ap->status == 4)
                                                   <span class="text-success">Currently Referred</span>
                                                   @elseif($ap->status == 5)
-                                                  <span class="text-danger">Cancelled</span>
-
+                                                  <span class="text-success">Currently Referred</span>
                                                 
                                                   @endif
                                                   

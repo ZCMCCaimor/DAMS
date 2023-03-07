@@ -13,7 +13,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Schedule;
-
+use Illuminate\Support\Facades\DB;
 class Edit_Controller extends Controller
 {
     //
@@ -119,13 +119,13 @@ class Edit_Controller extends Controller
     
 
    
-//    Appointment::where('id',$id)->update([
-//             'remarks'=> $remarks,
-//             'refferedto_doctor'=>$doctor,
-//             'status' => 5,
-//         ]);
+   Appointment::where('id',$id)->update([
+            'remarks'=> $remarks,
+            'refferedto_doctor'=>$doctor,
+            'status' => 5,
+        ]);
 
-      
+
 
         $appt = Appointment::where('id',$request->id)->get();
         $userid = $appt[0]['user_id'];
@@ -145,29 +145,37 @@ class Edit_Controller extends Controller
         $name = $udetails[0]['name'];
 
         
-
       
-//       Ref_history::create([
-//             "user_id" =>$userid ,
-//             "from" => $appt[0]['clinic'] ,
-//             "to" =>    $clinic ,
-//             "fromdoctor" => $appt[0]['doctor']  ,
-//             "todoctor" =>  $doctor ,
-//             "remarks"=>$remarks,
-//         ]);
-
-
-//         $doc = Doctor::findorFail($doctor);
-//         $doctorname = $doc->firstname." ".$doc->lastname;
-//         $ReceivingUser = User::where('clinic',$clinic)->get();
-
-//         $notify_receiver=$ReceivingUser[0]['email'];
-//         $notify_name=$ReceivingUser[0]['name'];
         
-        
-//         echo $doctorname.$notify_receiver.$notify_name;
+      Ref_history::create([
+            "user_id" =>$userid ,
+            "fromdoctor" => $appt[0]['doctor']  ,
+            "todoctor" =>  $doctor ,
+            "remarks"=>$remarks,
+        ]);
 
-//         return redirect()->route('mail.notify_patient',['email'=>$email,'name'=>$name,'doa'=>$adate,'toa'=>$atime,'cname'=>$clinicname,'loc'=>$cliniclocation,'tp' =>'refered','remarks'=>$request->remarks,'treatment'=>$request->treatment,'doctorname'=>$doctorname,'receiver'=>$notify_receiver,'receivername'=>$notify_name]);
+
+        $doc = DB::select('select * from users where id = '.Auth::user()->id.' ');
+        $doctorname = $doc[0]->name;
+   
+        $ReceivingUser = User::where('id',$doctor)->get();
+
+        $notify_receiver=$ReceivingUser[0]['email'];
+        $notify_name=$ReceivingUser[0]['name'];
+  
+
+    return redirect()->route('mail.notify_patient',
+    ['email'=>$email,
+    'name'=>$name,
+    'doa'=>$adate,
+    'timstart'=>$timestart,
+    'timeend' => $timeend,
+    'tp' =>'refered',
+    'remarks'=>$request->remarks,
+    'treatment'=>$request->treatment,
+    'doctorname'=>$doctorname,
+    'receiver'=>$notify_receiver,
+    'receivername'=>$notify_name]);
         
   
     }

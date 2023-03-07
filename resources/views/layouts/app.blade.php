@@ -26,7 +26,7 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
 </head>
-<body style="background-color: white;">
+<body style="background-color: rgb(247, 238, 238);">
     <div id="app">
       {{--   <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">

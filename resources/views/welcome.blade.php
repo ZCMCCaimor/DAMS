@@ -36,7 +36,7 @@
 <body style="">
 <style>
     body{
-        background-color: white;
+        background-color: rgb(255, 255, 255);
     }
 </style>
 

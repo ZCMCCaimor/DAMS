@@ -35,7 +35,7 @@ class AdminController extends Controller
 
         $feedback = Feedback::where('clinic',$id)->get();
         // $refer =   DB::select('select * from category where id in (select category from appointments where status=4 and refferedto ='.$id.' ) ');
-      $refer = [];
+      $refer = DB::select('select * from appointments where refferedto_doctor ='.$dr.' and status = 5  ');
     
         $tab = 'dashboard';
        return view('admin.dashboard',compact('tab','appt','Doctor','Appointment','Patients','category','data','user','feedback','refer','allnew','schedule'));
@@ -45,7 +45,7 @@ class AdminController extends Controller
      
         $id = Auth::user()->id;
         $datenow = date('Y-m-d');
-        $data = Appointment::where('doctor',$id)->where('status',0)->orWhere('status',1)->get();
+        $data = Appointment::where('doctor',$id)->where('status',0)->orWhere('status',1)->orderBy('created_at','desc')->get();
         // $datawexpiry = DB::select('select * from appointments  where doctor = '.$id.' and status = 0 and  "'.$datenow.'" > dateofappointment;');
         
       // if(count($datawexpiry)>=1){
@@ -66,7 +66,7 @@ class AdminController extends Controller
    
 
         $Doctor = Auth::user();  
-        $completeappt = Appointment::where('status',4)->where('doctor',Auth::user()->id)->get();
+        $completeappt = Appointment::where('status',4)->where('doctor',Auth::user()->id)->orderBy('created_at','desc')->get();
         $user = User::all();
         $tab = 'appointment';
         $alldoctor = User::where('user_type','doctor')->get();
@@ -78,8 +78,9 @@ class AdminController extends Controller
       $tab = 'schedules';
 
     
-      $data = Schedule::where('doctorid',Auth::user()->id)->get();
+      $data = Schedule::where('doctorid',Auth::user()->id)->orderBy('created_at','desc')->get();
 
+    
       return view('admin.schedules',compact('tab','data'));
     }
 
@@ -94,10 +95,7 @@ class AdminController extends Controller
     }
     public function referral(){
 
-        echo 'TO DO';
-        // $id = Auth::user()->clinic;
-        // $cli = Clinic::where('id',$id)->get();
-        // $clinicsName =  $cli[0]['name'];
+
         // $data = DB::select('select * from appointments where clinic = '.$id.' and status=1 or  refferedto = '.$id.'  ');
         // $user = User::all();
         // $clinic = Clinic::all();

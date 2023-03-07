@@ -11,8 +11,6 @@ class Ref_history extends Model
 
     protected $fillable = [
         "user_id",
-        "from",
-        "to",
         "fromdoctor",
         "todoctor",
         "remarks",

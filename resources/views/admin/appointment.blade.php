@@ -156,7 +156,7 @@
             @if($row->status == 0)
             <button data-id="{{$row->id}}" class="btn btn-light btnapprove text-primary btn-sm">Approve <i class="fas fa-check-circle"></i></button>
             <button  data-id="{{$row->id}}" class="btn btncancel btn-light text-danger btn-sm">Disapprove <i class="fas fa-times-circle"></i></button>
-
+            <button data-id="{{$row->id}}" data-pid="{{$p_id}}" style=" font-weight: bold" class="btnrefer  btn btn-light text-danger btn-sm af">REFER <i class="fas fa-arrow-right"></i></button>
             @endif
 
        
@@ -281,6 +281,18 @@ request.fail(function( jqXHR, textStatus ) {
 
     $('#completedtab').click(function(){
       RequestPage('completed'); 
+    })
+
+    
+    $('.btnrefer').click(function(){
+        var id = $(this).data('id');
+        var pid = $(this).data('pid');
+        var val = $('#'+id+'remarks').val();
+       if(val == ''){
+        $('#'+id+'remarks').addClass('is-invalid');
+       }else {
+        window.location.href='{{route("admin.refer")}}'+'?id='+id+'&remarks='+val+'&patientId='+pid;
+       }
     })
 </script>
 @endsection

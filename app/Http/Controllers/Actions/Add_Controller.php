@@ -199,12 +199,13 @@ class Add_Controller extends Controller
       $timeend   = $request->timeend;
       $remarks   = $request->remarks;
       $noofpatient = $request->noofpatient;
+      $id = Auth::user()->id;
 
       if(date('Y-m-d') > $doa){
         return redirect()->back()->with('Error','Date is Invalid. Please provide future dates.');
       }
     
-        $check = DB::select('SELECT * FROM `schedules` WHERE dateofappt = "'.$doa.'" and "'.$timestart.'" between timestart and timeend and "'.$timeend.'" between timestart and timeend');
+        $check = DB::select('SELECT * FROM `schedules` WHERE doctorid ='.$id.' and dateofappt = "'.$doa.'" and "'.$timestart.'" between timestart and timeend and "'.$timeend.'" between timestart and timeend');
 
         if(count($check)>=1){
          

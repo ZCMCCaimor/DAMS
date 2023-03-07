@@ -50,7 +50,7 @@
 
 </head>
 
-<body style="background-color:#F1DBBF">
+<body style="background-color:rgb(255, 255, 255)">
 
     <div id="app">
         <nav class="sidenav shadow" id="navitems">
@@ -257,9 +257,9 @@
     <h6 id="res" class="">Patient Appointment Scheduling-MS &middot; All rights Reserved | 2023</h6>
 
     @if (Auth::user()->fl == 0)
-        <button type="button" id="btnfirstlogin" class="btn btn-primary" data-bs-toggle="modal"
+        <button type="button" id="btnfirstlogin" class="btn btn-primary d-none" data-bs-toggle="modal"
             data-bs-target="#firstlogin">
-            asd
+           
         </button>
 
 
