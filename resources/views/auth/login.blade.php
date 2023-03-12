@@ -97,6 +97,9 @@
                                     {{ __('Login') }}
                                 </button>
 
+
+                               
+
                                 <a href="{{route('register')}}" class="btn btn-link" style="margin-left:5px">Register</a>
 
                         </div>

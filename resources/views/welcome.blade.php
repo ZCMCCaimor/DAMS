@@ -100,6 +100,7 @@
                                             <a href="{{ route('password.request') }}" class="mt-5" style="text-decoration: none;font-size:14px">Forgot Password?</a>
                                             <button class="mt-3 py-2 mb-4 form-control btn btn-success" style="text-transform:uppercase">Login</button>
 
+                                            <a href="{{ route('google.login') }}">Sign in with Google</a>
                                             <a href="{{route('register')}}" class="mt-5" style="text-decoration: none;font-size:14px">Register Here</a>
                                      
                                         </div>

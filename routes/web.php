@@ -244,7 +244,7 @@ Route::controller(App\Http\Controllers\Actions\Edit_Controller::class)->group(fu
         Route::get('firslogin','firslogin')->name('firslogin');
 
         Route::get('accept_newSchedule','accept_newSchedule')->name('accept_newSchedule');
-
+        Route::post('saveoutbook','saveoutbook')->name('saveoutbook');
         Route::post('userrebook','userrebook')->name('userrebook');
     });
 
@@ -324,4 +324,12 @@ Route::get('ResetPassword',function(Request $request){
 Route::get('test',function(){
   
     return view('testmail'); 
+});
+
+
+
+Route::namespace('App\Http\Controllers')->group(function () {
+    Route::get('/google/login', 'GauthController@redirectToGoogle')->name('google.login');
+    Route::get('/google/callback', 'GAuthController@handleGoogleCallback')->name('google.callback');
+    
 });

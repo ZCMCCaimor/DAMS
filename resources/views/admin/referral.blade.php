@@ -23,8 +23,9 @@
               
               @endif
               <ul class="list-group list-group-flush">
+                @if(count($data)>=1)
                 @foreach ($data as $appt)
-                  <div class="card mb-4 shadow">
+                  <div class="card mb-4 border-danger shadow">
                     <div class="card-body">
                       @foreach ($user as $item)
                       
@@ -81,19 +82,24 @@
                   </div>
 
                 @endforeach
+                @else
+                <div style="text-align: center">
+                  <img src="https://cdn.iconscout.com/icon/free/png-256/data-not-found-1965034-1662569.png" alt="">
+                  <h5>No referral found.</h5>
+                </div>
+                @endif
 
               </ul>
 
             </div>
             <div class="col-md-5">
-              <h5 class="hf">Approved Appointments</h5>
-              <hr>
+           
               @if(count($appr_appointments)>=1)
               @foreach ($appr_appointments as $row)
                 @foreach ($user as $patient)
                   @if($patient->id == $row->user_id)
             
-                  <div class="card shadow mb-2">
+                  <div class="card  mb-2 border-success">
                     <div class="card-body">
 
                       <button style="float:right;text-decoration:none;font-size:13px" class="btn btn-link btn-sm" data-bs-toggle="modal" data-bs-target="#medhistory">Referral History</button>
@@ -104,11 +110,11 @@
                           <div class="modal-content">
                             <div class="modal-body">
                               <button type="button" style="float:right" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                              <div class="badge mb-4 bg-primary" style="font-size: 15px" id="exampleModalLabel">Referral History</div>
+                              <div class="badge mb-4 bg-success" style="font-size: 15px" id="exampleModalLabel">Referral History</div>
                               <div class="container">
                                 <table class="table table-striped table-sm ">
                                   <thead>
-                                    <tr class="table-primary text-secondary">
+                                    <tr class="table-success text-secondary">
                                     <th>Date-Referred</th>
                                     <th>From</th>
                                     <th>To</th>
@@ -124,42 +130,26 @@
                                 
                                     @if($hist->user_id == $row->user_id)
                                     <tr style="font-size: 14px" >
-                                      <td>{{date("@h:ia F j,Y",strtotime($hist->created_at))}}</td>
+                                      <td>{{date("h:ia F j,Y",strtotime($hist->created_at))}}</td>
                                       <td style="font-style: italic" class="text-secondary">
-                                        Clinic : <br> 
-                                       <span class="text-dark" style="font-style:normal">
-                                        @foreach ($clinic as $item1)
-                                        @if($item1->id == $hist->from)
-                                          {{$item1->name}}
-                                        @endif
-                                      @endforeach
-                                       </span>
-                                        <br>
-                                       Referredby : <br>  
+                                  
+                                       Referred : <br>  
                                        <span class="text-dark" style="font-style: normal">
                                         Dr.
                                         @foreach ($doctor as $item1)
                                         @if($item1->id == $hist->fromdoctor)
-                                          {{$item1->firstname." ".$item1->lastname}}
+                                          {{$item1->name}}
                                         @endif
                                       @endforeach</span>
                                       </td>
                                       <td style="font-style: italic" class="text-secondary">
-                                        Clinic : <br> 
-                                       <span class="text-dark" style="font-style:normal">
-                                        @foreach ($clinic as $item1)
-                                        @if($item1->id == $hist->to)
-                                          {{$item1->name}}
-                                        @endif
-                                      @endforeach
-                                       </span>
-                                        <br>
-                                       Referredby : <br>  
+                                     
+                                       Referred : <br>  
                                        <span class="text-dark" style="font-style: normal">
                                         Dr.
                                         @foreach ($doctor as $item1)
                                         @if($item1->id == $hist->todoctor)
-                                          {{$item1->firstname." ".$item1->lastname}}
+                                          {{$item1->name}}
                                         @endif
                                       @endforeach</span>
                                       </td>
@@ -189,7 +179,7 @@
                   <br>
                  <i class="fas fa-phone"></i>   {{$patient->contactno}}
                   <br>
-                  <button onclick="window.location.href='{{route('admin.approved')}}' " class="btn btn-light text-primary btn-sm">View Booking</button>
+                  <button onclick="window.location.href='{{route('admin.appointment')}}' " class="btn btn-light text-primary btn-sm">View Booking</button>
                   <button  data-id="{{$row->id}}" data-pid="{{$patient->id}}" class="btn btn-light text-danger btn-sm btnrefer" style="font-weight: bold;float:right" >REFER</button>
                 
                     </div>

@@ -188,34 +188,35 @@ class Edit_Controller extends Controller
         $categoryid = $request->categoryid;
        
 
-        echo $shedID.$id.$doctor.$patient.$categoryid;
+        //echo $shedID.$id.$doctor.$patient.$categoryid;
 
-        $schedule = Schedule::findorFail($id);
-        $doa = $schedule->dateofappointment;
+        $schedule = Schedule::findorFail($shedID);
+        $doa = $schedule->dateofappt;
         $timestart = $schedule->timestart;
         $timeend   = $schedule->timeend;
 
-        echo $doa.$timestart.$timeend;
+       
         $appt = Appointment::findorFail($id);
-
-        //$appt->update([
-        //     'dateofappt'=>$dop,
-        //     'timestart' =>$timestart,
-        //     'timeend'   =>$timeend,
-        //     'ad_status' =>1,
-
-        // ]);
+       
+        $appt->update([
+            'apptID'=>$shedID, 
+            'ad_status' =>0,
+            'doctor'=>$doctor,
+            'status'=>1,
+            'category'=>$categoryid,
+        ]);
  
 
-        //$userid = $appt->user_id;
-    
-        // $adate = $doa;
-        // $timestart 
-        // $udetails = User::where('id',$userid)->get();
-        // $email = $udetails[0]['email'];
-        // $name = $udetails[0]['name'];
-     
-        // return redirect()->route('mail.notify_patient',['email'=>$email,'name'=>$name,'doa'=>$dop,'toa'=>$top,'cname'=>$clinicname,'loc'=>$cliniclocation,'tp' =>'rebook','remarks'=>$request->remarks,'treatment'=>$request->treatment]);
+        $userid = $appt->user_id;
+           
+      
+        $udetails = User::where('id',$userid)->get();
+        $email = $udetails[0]['email'];
+        $name = $udetails[0]['name'];
+
+       
+          
+      return redirect()->route('mail.notify_patient',['email'=>$email,'name'=>$name,'doa'=>$doa,'timestart'=>$timestart,'timeend'=>$timeend,'tp' =>'rebook']);
         // }else {
         //     Appointment::where('id',$id)->update([
         //         'dateofappointment'=>null,
@@ -265,25 +266,12 @@ class Edit_Controller extends Controller
     }
 
     public function userrebook(Request $request){
+       $schedid = $request->schedid;
         $id = $request->id;
-        $doctorid = $request->ref;
-        $clinicid = $request->refclinic;
-        $specialization = Doctor::findorFail($doctorid)->category;
-        $dop = $request->dateofappointment;
-        $top = $request->timeofappointment;
-        
-      
-
       Appointment::where('id',$id)->update([
-        'dateofappointment'=>$dop,
-        'timeofappointment'=>$top,
-        'clinic'=>$clinicid,
-        'category'=>$specialization,
-        'doctor'=>$doctorid,
-        'status'=>1,
-        'ad_status'=>0,
-        'refferedto'=>0,
+        'apptID'=>$schedid,
         'refferedto_doctor'=>0,
+        'ad_status'=>0,
         'remarks'=>'',
     ]);
 
@@ -403,6 +391,38 @@ User::where('id',Auth::user()->id)->update([
             'password'=>Hash::make($request->newpass),
         ]);
        
+    }
+
+    public function saveoutbook(Request $request){
+        $id     = $request->id;
+        $doctor = $request->doctor;
+        $patient= $request->patient;
+        $categoryid = $request->categoryid;
+       
+       
+        $appt = Appointment::findorFail($id);
+        $appt->update([
+            'apptID'=>0,
+            'ad_status' =>3,
+            'doctor'=>$doctor,
+            'status'=>1,
+            'category'=>$categoryid,
+        ]);
+
+        
+        $userid = $appt->user_id;
+           
+      
+        $udetails = User::where('id',$userid)->get();
+        $email = $udetails[0]['email'];
+        $name = $udetails[0]['name'];
+
+        return redirect()->route('mail.notify_userrebook',
+        ['email'=>$email,
+        'name'=>$name,
+       ]);
+
+
     }
 
 }

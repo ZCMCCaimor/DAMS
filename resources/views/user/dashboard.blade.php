@@ -159,11 +159,150 @@
 
 
         <div class="row mt-5">
+            <div class="col-md-2">
+            
+            </div>
             <div class="col-md-8">
-        
+               <div class="card shadow">
+                <div class="card-body">
+                    @if(count($resched)>=1)
+                    @foreach ($resched as $row)
+                    <div class="card shadow mb-2">
+                        <div class="card-body text-secondary" style="font-size:14px">
+                               @php
+                                   $schedule = DB::select('select * from schedules where doctorid ='.$row->doctor.' ');
+                                   $category = DB::select('select * from categories where id = '.$row->category.'');
+                                  //  $doctor   = DB::select('select * from users where id = '.$row->doctor.' ');
+                                   $doctorinfo = DB::select('select * from users where id = '.$row->doctor.' ')
+                               @endphp
+                    
+                               <span style="float:right">
+                                @php
+                                   switch ($row->status) {
+                                    case '0':
+                                      echo '<span class="badge bg-warning">Pending</span>';
+                                      break;
+                                      case '1':
+                                      echo '<span class="badge bg-primary">Approved</span>';
+                                      break;
+                                      case '2':
+                                      echo '<span class="badge bg-danger">Cancelled</span>';
+                                      break;
+                                      case '3':
+                                      echo '<span class="badge bg-danger">Disapproved</span>';
+                                      break;
+                                      case '4':
+                                      echo '<span class="badge bg-success">Completed</span>';
+                                      break;
+                                    
+                                   }
+                                @endphp
+                              </span>
+                    
+                               <span style="font-weight:bold;text-transform:uppercase">
+                                Appointment No: {{$row->id}}
+                               </span>
+                    
+                           
+                              <hr>
+                              <h6 style="text-align:center;font-size:13px">-- Doctors Details --</h6>
+                               <h6 class="text-primary">
+                                @foreach ($doctorinfo as $user)
+                    
+                                @php
+                               $p_id = $user->id;
+                                                           
+                                 @endphp
+                               Dr. {{$user->name}}
+                                <br>
+                                <span style="font-size:12px" class="text-secondary"> {{$user->email}} </span>
+                                <br>
+                               <span class="text-secondary" style="font-size:13px">
+                                
+                                  {{$user->address}}
+                    
+                               
+                              </span>
+                                    
+                                @endforeach
+                               </h6>
+                    
+                               <br>
+                               <h6 style="text-align:center;font-size:13px">-- Appointment Details --</h6>
+                             
+                               <h6 style="font-size:14px">Specialization : <span class="text-primary" style="font-weight:bold">
+                              @foreach ($category as $cat)
+                                  {{$cat->name}}
+                              @endforeach
+                              </span>
+                             
+                            </h6>
+                            <h6 style="text-align:center;font-size:13px">-- Actions --</h6>
+                            <h6 style="text-align: center"> 
+                                <div class="card mb-5 mt-2 shadow" style="background-color: rgba(210, 233, 245, 0.185)">
+                                    <div class="card-body login">
+                                    
+                                           <h6>Set a Schedule</h6>
+                                           <div class="row">
+                                             <table class="table table-sm table-striped ">
+                                               <thead>
+                                                <tr class=" table-success">
+                                                 <th>Date of Appointment</th>
+                                                 <th>Time Start</th>
+                                                 <th>Time End</th>
+                                                 <th>No. of Patients</th>
+                                                 <th>Action</th>
+                                                </tr>
+                                               </thead>
+                                               <tbody>
+                                                 @foreach ($schedule as $item)
+                                                 <tr>
+                                                   <td>{{date('F j, Y',strtotime($item->dateofappt))}}</td>
+                                                   <td>{{date('h:ia',strtotime($item->timestart))}}</td>
+                                                   <td>{{date('h:ia',strtotime($item->timeend))}}</td>
+                                                   <td>{{$item->noofpatients}}</td>
+                                                   <td>
+                                                     <form method ="post" action="{{route('edit.userrebook')}}" id="booknow">
+                                                       @csrf
+                                                    <input type="hidden" name="schedid" value="{{$item->id}}">
+                                                    <input type="hidden" name="id" value="{{$row->id}}">
+                                                     <button class="btn btn-success btn-sm" type="submit">Select</button>
+                                                   </form>
+                                                   </td>
+                                                 </tr>
+                                                 @endforeach
+                                               </tbody>
+                                             </table>
+                                         
+                              
+                                           </div>
+                                      
+                                            
+
+                                     </div>
+                                   </div>
+                            </h6>
+                             
+                          
+                    
+                    
+                              </div>
+                          </div>
+                    @endforeach
+
+                    @else 
+
+                    <div style="text-align:center">
+                      
+                        <img src="https://cdn.iconscout.com/icon/free/png-256/data-not-found-1965034-1662569.png" alt="">
+                        <h5>You dont have any appointment referred to another doctor.</h5>
+                    </div>
+                    @endif
+                </div>
+               </div>
             </div>
 
-            <div class="col-md-4">
+            <div class="col-md-2">
             
             </div>
 

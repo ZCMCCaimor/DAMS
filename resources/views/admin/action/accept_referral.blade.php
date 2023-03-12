@@ -26,9 +26,16 @@
                                     <div class="card-body">
                                       <h6>Let the patient Rebook or Reschedule based on your available schedules ..</h6>
                                     <br>
-
+                                    <form action="{{route('edit.saveoutbook')}}" method="post">
+                                      @csrf
+                                      <input type="hidden" value="{{$id}}" name="id">
+                                      <input type="hidden" value="{{$doctor}}" name="doctor">
+                                      <input type="hidden" value="{{$patId}}" name="patient">
+                                      <input type="hidden" value="{{$categoryid}}" name="categoryid">
                                       <input type="checkbox" id="userbook" style="width:18px;height:18px"  name="userrebook"> <span class="text-danger">Check here and click Save.</span>
-                                   
+                                      <button type="submit" class="btn btn-primary">Save</button>
+                                    </form>
+                                  
                                     </div>
                                    </div>
                                       </div>

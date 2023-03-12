@@ -45,7 +45,7 @@ class AdminController extends Controller
      
         $id = Auth::user()->id;
         $datenow = date('Y-m-d');
-        $data = Appointment::where('doctor',$id)->where('status',0)->orWhere('status',1)->orderBy('created_at','desc')->get();
+        $data = Appointment::where('doctor',$id)->where('status',0)->where('ad_status',0)->orWhere('status',1)->where('ad_status',0)->where('doctor',$id)->orderBy('created_at','desc')->get();
         // $datawexpiry = DB::select('select * from appointments  where doctor = '.$id.' and status = 0 and  "'.$datenow.'" > dateofappointment;');
         
       // if(count($datawexpiry)>=1){
@@ -108,11 +108,12 @@ class AdminController extends Controller
         $user = User::all();
         
         $refhistory = Ref_history::all();
-        $appr_appointments = Appointment::where('status',1)->where('refferedto_doctor',$id)->get();
+        $appr_appointments = Appointment::where('status',1)->where('ad_status',0)->where('doctor',$id)->get();
   
         $tab = 'referral';
-
-        return view('admin.referral',compact('tab','data','user','appr_appointments','refhistory'));
+        $doctor = User::where('user_type','doctor')->get();
+      
+        return view('admin.referral',compact('tab','data','user','appr_appointments','refhistory','doctor'));
     }
 
   

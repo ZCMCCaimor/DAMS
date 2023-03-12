@@ -181,7 +181,7 @@
             @yield('content')
         </main>
     </div>
-    <h6 id="res" class="">Patient Appointment Scheduling-MS &middot; All rights Reserved &middot; 2023</h6>
+    <h6 id="res" class="">Patient Appointment Scheduling-MS &middot; All rights Reserved | 2023</h6>
     
     @if(Auth::user()->fl == 0)
 

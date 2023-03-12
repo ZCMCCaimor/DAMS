@@ -264,7 +264,7 @@ class MailController extends Controller
            <p><br><br><br></p>
                <h3><a target="_blank" href="#">Patient Appointment Scheduling  Management System</a></h3>
            
-               <h3 style="color:rgb(14, 87, 136)">Hi Admin '.$request->name.' <br> Dr. '.$request->doctorname.' has received a Referral.
+               <h3 style="color:rgb(14, 87, 136)">Hi Dr. '.$request->name.' <br>you have has received a Referral.
            
             
                    </h3>
@@ -362,13 +362,14 @@ class MailController extends Controller
             $stat = 'referred! For more info. Please Login to your account to check the Details of your referrals. <br>';
             $guided = 'Referred By: Dr. '.$request->doctorname.' <br/> Referred TO : Dr. '.$request->receivername;
         }else if ($request->tp == 'rebook'){
+   
             $subj = 'APPOINTMENT BOOKING REBOOK';
             $typo = '<span style="color:green">APPROVED AND REBOOK SUCCESSFULLY</span>';
             $prop = 'new';
             $stat = 'rebook and set!';
-            $guided = 'Please Be at the '.$request->cname.' at the Dates and Time Stated Above.
-            <br>
-            Location : '.$request->loc.'';
+            $guided = 'Please Be at the Hospital at the Dates and Time Stated Above. <br/> Dr.'.Auth::user()->name.' is waiting for you..';
+           
+           
         }
 
        try {
@@ -964,7 +965,7 @@ class MailController extends Controller
            
             
                    </h3>
-                   <h4>Your appointment booking has been referred. and you are requested to rebook your schedule. <br> please login to your account and set your wished schedule. thank you.</h4>
+                   <h4>Your appointment booking has been referred to Dr. '.Auth::user()->name.' . and you are requested to rebook your schedule. <br> please login to your account and set your wished schedule. thank you.</h4>
 
 
                    <br>

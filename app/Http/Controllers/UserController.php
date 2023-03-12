@@ -26,6 +26,7 @@ class UserController extends Controller
         $referred = Appointment::where('user_id',$userid)->where('status',5)->get();
 
         $cancelled = Appointment::where('user_id',$userid)->where('status',2)->get();
+        $resched = Appointment::where('user_id',$userid)->where('status',1)->where('ad_status',3)->get();
 
         if(session()->has('saveappt')){
 
@@ -73,7 +74,7 @@ class UserController extends Controller
                 
      
        }else{
-         return view('user.dashboard',compact('tab','pending','approved','disapproved','completed','referred','cancelled'));
+         return view('user.dashboard',compact('tab','pending','approved','disapproved','completed','referred','cancelled' , 'resched'));
        }
 
    
@@ -90,14 +91,14 @@ class UserController extends Controller
         $tab = 'book';
         $id = Auth::user()->id;
         $datenow = date('Y-m-d');
-        $myappointment = Appointment::where('user_id',$id)->where('status',0)->orWhere('status',1)->where('user_id',$id)->orderBy('created_at','desc')->get();
+        $myappointment = Appointment::where('user_id',$id)->where('status',0)->where('ad_status',0)->orWhere('status',1)->where('ad_status',0)->where('user_id',$id)->orderBy('created_at','desc')->get();
 
         $cancelleddis = Appointment::where('user_id',$id)->where('status',2)->orWhere('status',3)->orderBy('created_at','desc')->where('user_id',$id)->get();
 
         $completeappt = Appointment::where('status',4)->where('user_id',Auth::user()->id)->orderBy('created_at','desc')->get();
         $alldoctor = User::where('user_type','doctor')->get();
 
-        return view('user.book',compact('tab','category','completeappt','myappointment','alldoctor','cancelleddis'));
+       return view('user.book',compact('tab','category','completeappt','myappointment','alldoctor','cancelleddis'));
     }
 
     public function view_pending(){
