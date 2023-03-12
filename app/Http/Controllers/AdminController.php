@@ -94,17 +94,16 @@ class AdminController extends Controller
        return view('admin.patient',compact('tab','data','appt'));
     }
     public function referral(){
+        
+      $id = Auth::user()->id;
+        $data = DB::select('select * from appointments where clinic = '.$id.' and status=1 or  refferedto = '.$id.'  ');
+        $user = User::all();
+        $refhistory = Ref_history::all();
+        $appr_appointments = Appointment::where('status',1)->where('doctor',$id)->get();
+        $referred = DB::select('select * from clinics where id in (select clinic from appointments where status=4 and refferedto ='.$id.' and ad_status= 0  ) ');
+        $tab = 'referral';
 
-
-        // $data = DB::select('select * from appointments where clinic = '.$id.' and status=1 or  refferedto = '.$id.'  ');
-        // $user = User::all();
-        // $clinic = Clinic::all();
-        // $refhistory = Ref_history::all();
-        // $appr_appointments = Appointment::where('status',1)->where('clinic',$id)->get();
-        // $referred = DB::select('select * from clinics where id in (select clinic from appointments where status=4 and refferedto ='.$id.' and ad_status= 0  ) ');
-        // $tab = 'referral';
-
-        // return view('admin.referral',compact('tab','data','user','doctor','clinic','referred','appr_appointments','clinicsName','refhistory'));
+        return view('admin.referral',compact('tab','data','user','doctor','clinic','referred','appr_appointments','clinicsName','refhistory'));
     }
 
   
