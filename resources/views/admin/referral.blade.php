@@ -5,14 +5,14 @@
     <div class="titlebar">
         <h4 class="hf mb-3">Referral Station</h4>
         
-    </div>
+       </div>
    
         <div class="container">
           <div class="row">
             <div class="col-md-7">
               @if(Session::get('Success'))
               <div class="row">
-           
+              
                <div class="col-md-12">
                    <div class="alert alert-success alert-dismissible fade af show" role="alert">
                       {{Session::get('Success')}}
@@ -21,114 +21,69 @@
                </div>
               </div>
               
-           @endif
-              @if(count($referred)>=1)
-              @foreach ($referred as $referals)
-               
-
-              
-                    <h5 class="text-primary" style="text-transform: uppercase">
-                    <span style="font-size:13px" class="text-dark">  Clinic:</span>  {{$referals->name}} 
-                    </h5>
-               
-               
-
-
-                    <ul class="list-group list-group-flush">
-
-                    @foreach ($data as $appt)
-                  
-                      @if($appt->clinic == $referals->id)
-                      <div class="card shadow mb-2">
-                        <div class="card-body">
-                        
+              @endif
+              <ul class="list-group list-group-flush">
+                @foreach ($data as $appt)
+                  <div class="card mb-4 shadow">
+                    <div class="card-body">
+                      @foreach ($user as $item)
                       
-                      @foreach ($doctor as $doc)
-                      @if($doc->id == $appt->refferedto_doctor)
-                      <li class="list-group-item">
-                      <h6 style="font-size: 14px">Referred To:</h6>
-                      <span style="font-weight:bold" class="text-primary">     Dr.  {{$doc->firstname.' '.$doc->lastname}}</span>
-
-                    
-                  <div class="btn-group" style="float: right">
-                    <button data-id="{{$appt->id}}" data-ref ="{{$appt->refferedto_doctor}}" data-patient="{{$appt->user_id}}" class="btnaccept btn btn-primary btn-sm" >Accept</button>
-
-                      
-                    <button data-id="{{$appt->id}}" class="btncancel btn btn-danger btn-sm">Decline</button>
-                  </div>
-                    </li>
-                        @endif
-                      @if($doc->id == $appt->doctor)
-                     
-                      <li class="list-group-item">
-                  
-                       
-                          <h6 style="font-size: 14px">Referred By:</h6>
-                      <span style="font-weight:bold" class="text-info">  Dr.  {{$doc->firstname.' '.$doc->lastname}}</span>
-                          <br >
-
-                          
+                
+                      @if($item->id == $appt->doctor)
+                      <h6 style="font-size: 14px">Referred By:</h6>
+                      <h6 class="text-primary" style="font-weight:bold">Dr. {{$item->name}}</h6>
+                      <hr>
+                      @endif
+                      @if($item->id == $appt->user_id )
+                      <div>
                         <h6 style="font-size: 14px">Patient Details:</h6>
-                          @foreach ($user as $item)
-                          @if($appt->user_id == $item->id)
-                          {{$item->name}} ( <span style="font-size:13px">{{$item->email}} </span> )
-                          <br>
-                         <i class="fas fa-phone"></i>   {{$item->contactno}}
-                          <br>
-                          <h6 class="mt-3" style="font-size: 12px">REMARKS:</h6>
-                          <span class="text-danger">{{$appt->remarks}}</span>
-                          <br>
-                       
-                       @if($appt->attachedfile == null)
-                        <span style="font-size:12px">No attached File.</span>
-                         @else
-                         <div class="p-2">
-                          <span style="font-size: 12px;color:rgb(59, 58, 58)">Attached Medical Certificate </span>
-                          <br>
-                        <a href="{{asset('attachments/').'/'.$appt->attachedfile}}" target="_blank">
-                          <i class="fas fa-image"></i> {{$appt->attachedfile}}
-                        </a>
-                     
+                       <h6>   {{$item->name}} ( <span style="font-size:13px">{{$item->email}} </span> )
+                         <br>
+                        <i class="fas fa-phone"></i>   {{$item->contactno}}
+                         <br>
+                         <h6 class="mt-3" style="font-size: 12px">REMARKS:</h6>
+                         <span class="text-danger">{{$appt->remarks}}</span>
+                         <br></h6>
                       </div>
-                         @endif 
-                        </li>
-                          
-                          @endif
-                          
-                          @endforeach
+                      @endif  
 
-                       
-                     
-
-                         @endif
-
-                       
-
-                         
-                          
-                        
-                       
+                      {{-- @if($appt->attachedfile == null)
+                      <span style="font-size:12px">No attached File.</span>
+                       @else
+                       <div class="p-2">
+                        <span style="font-size: 12px;color:rgb(59, 58, 58)">Attached Medical Certificate </span>
+                        <br>
+                      <a href="{{asset('attachments/').'/'.$appt->attachedfile}}" target="_blank">
+                        <i class="fas fa-image"></i> {{$appt->attachedfile}}
+                      </a>
+                   
+                    </div>
+                       @endif  --}}
+ 
+                  
 
                       @endforeach
+
+
+
+
+
+                      
+
+
+                      <div class="" style="float: right">
+                        <button data-id="{{$appt->id}}" data-ref ="{{$appt->refferedto_doctor}}" data-patient="{{$appt->user_id}}" class="btnaccept btn btn-link text-primary btn-sm" >Accept</button>
+                  
+                          
+                        <button data-id="{{$appt->id}}" class="btncancel btn btn-link text-danger btn-sm">Decline</button>
+                      </div>
                     </div>
                   </div>
-                      @endif
-                   
-                    @endforeach
 
-                          
-                     </ul>
-                   
-               
+                @endforeach
 
-              @endforeach
-              @else 
-              <h6 style="text-align: center" class="af">
-                <img src="https://image.freepik.com/free-vector/no-data-concept-illustration_114360-626.jpg" class="img-fluid" alt="">
-                <br>
-                No Referrals yet..
-            </h6>
-              @endif
+              </ul>
+
             </div>
             <div class="col-md-5">
               <h5 class="hf">Approved Appointments</h5>

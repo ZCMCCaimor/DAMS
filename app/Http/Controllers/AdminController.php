@@ -95,15 +95,24 @@ class AdminController extends Controller
     }
     public function referral(){
         
-      $id = Auth::user()->id;
-        $data = DB::select('select * from appointments where clinic = '.$id.' and status=1 or  refferedto = '.$id.'  ');
+      // $id = Auth::user()->id;
+      //   $data = DB::select('select * from appointments where clinic = '.$id.' and status=1 or  refferedto = '.$id.'  ');
+      //   $user = User::all();
+      //   $refhistory = Ref_history::all();
+      //   $appr_appointments = Appointment::where('status',1)->where('doctor',$id)->get();
+      //   $referred = DB::select('select * from clinics where id in (select clinic from appointments where status=4 and refferedto ='.$id.' and ad_status= 0  ) ');
+      //   $tab = 'referral';
+
+        $id = Auth::user()->id; 
+        $data = DB::select('select * from appointments where refferedto_doctor = '.$id.' and status = 5 and ad_status = 0  ');
         $user = User::all();
+        
         $refhistory = Ref_history::all();
-        $appr_appointments = Appointment::where('status',1)->where('doctor',$id)->get();
-        $referred = DB::select('select * from clinics where id in (select clinic from appointments where status=4 and refferedto ='.$id.' and ad_status= 0  ) ');
+        $appr_appointments = Appointment::where('status',1)->where('refferedto_doctor',$id)->get();
+  
         $tab = 'referral';
 
-        return view('admin.referral',compact('tab','data','user','doctor','clinic','referred','appr_appointments','clinicsName','refhistory'));
+        return view('admin.referral',compact('tab','data','user','appr_appointments','refhistory'));
     }
 
   
@@ -200,30 +209,20 @@ class AdminController extends Controller
         $doctor = $request->ref;
         $patient = $request->patient;
 
-       
-
         $data = Appointment::where('id',$id)->get();
-        $clinicid = Auth::user()->clinic;
-        $cli = Clinic::where('id',$clinicid)->get();
-        $clinicsName =  $cli[0]['name'];
-        $clinic= DB::select('select * from clinics where id in (select clinic from doctors where  id='.$doctor.' ) ');
-        $category =DB::select('select * from categories where id in (select category from doctors where id = '.$doctor.' ) ');
-        $doc = Doctor::where('id',$doctor)->get();
-
+        $category =DB::select('select * from categories where id in (select specialization from users where id = '.$doctor.' ) ');
+        $doc = User::where('id',$doctor)->get();
         $user = User::where('id',$patient)->get();
-
-        foreach($clinic as $cl){
-            $clinicname = $cl->name;
-           
-        }
-       
-
-       
+        $patId = $patient;
+      
         foreach($doc as $dc){
-            $docname = $dc->firstname.' '.$dc->lastname;
+            $docname = $dc->name;
         }
+        $categoryid = $category[0]->id;
+        $authid = Auth::user()->id;
+        $schedule = Schedule::where('doctorid',$authid)->get();
         $tab = 'referral';
-        return view('admin.action.accept_referral',compact('tab','data','clinicid','clinicname','category','doc','docname','doctor','user','id','clinicsName'));
+        return view('admin.action.accept_referral',compact( 'categoryid','schedule','tab','data','category','doc','docname','doctor','user','id','patId'));
       }
 
       public function attachedfile(Request $request){

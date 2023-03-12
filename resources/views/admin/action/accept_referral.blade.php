@@ -24,7 +24,7 @@
 
                                    <div class="card mt-2">
                                     <div class="card-body">
-                                      <h6>Let the patient Rebook or Reschedule his/her appointment base on his/her availability ..</h6>
+                                      <h6>Let the patient Rebook or Reschedule based on your available schedules ..</h6>
                                     <br>
 
                                       <input type="checkbox" id="userbook" style="width:18px;height:18px"  name="userrebook"> <span class="text-danger">Check here and click Save.</span>
@@ -38,75 +38,61 @@
                                  
                                         
                                     @endforeach
-                                    <form method ="post" action="{{route('edit.rebook')}}" id="booknow">
-                                      @csrf
+                                
+          
+                                  </div>
+                                  <div class="col-md-6">
+                                  
                                     
                                               <div class="card mb-5 mt-2 shadow" style="background-color: rgba(210, 233, 245, 0.185)">
                                                <div class="card-body login">
                                                
-                                                      <h5>Set an Appointment</h5>
-                                                          <div class="row">
-                                          <div class="col-md-6">
-                                    
-                                       <label for="">Date :</label>
-                                      @php
-                                          $date = date('Y-m-d');
-                                      @endphp
-                                     <input type="date" id="da" name="dateofappointment" class="authbox mb-2 form-control" placeholder="" value="{{old('dateofappointment')}}" autofocus required min="{{date('Y-m-d',strtotime(date("Y-m-d", strtotime($date)) . " +1 day"))}}" >
-                                           </div>
-                                           <div class="col-md-6">
-                                              <label for="">Time :</label>
-                                              <input type="time" id="ta" name="timeofappointment" class="authbox form-control " placeholder="" value="{{old('timeofappointment')}}" required>
-          
-                                  </div>
-                                  <input type="hidden" name="apptid" value="{{$id}}">
-          
-                                              <div class="col-md-6">
-                                      <label for="">Clinic :</label>
-                                      <input type="hidden" name="Clinic" class="form-control"  value="{{$clinicid}}">
-                                      <input type="text" class="form-control" disabled value="{{$clinicname}}">
-                        
-                              
-                                              </div>
-                                   <div class="col-md-6">
-                                      <label for="">Category :</label>
-                                      <div id="category">
-                                       {{--  <select name="Category" class="authbox form-select @error('Category') is-invalid @enderror" id="" >
-                                        
-                          
-                                                     
-                              </select>  --}}
-                              @foreach ($category as $item)
-                         
-                         <input type="hidden" name="Category" value="{{$item->id}}">
-                         <input type="text" disabled class="form-control" value="{{$item->name}}">
-                        @endforeach   
-                           
-                                      </div>
-                                   
-                                              </div>
-          
-                                   <div class="col-md-12">
-                                      <label for="">Doctor :</label>
-                                      <div id="doctor">
-                                                <input type="hidden" name="Doctor" value="{{$doctor}}" >
-                                                <input type="text" readonly  value="Dr. {{$docname}}" class="form-control" disabled>
-                           
-                                </div>
-                                              </div>
-                                      <div class="col-md-12">
-                                    <button type="submit" id="submit" class="btn btn-primary form-control mt-4 py-3">Save</button>
-                                              </div>
+                                                      <h6>Set a Schedule</h6>
+                                                      <div class="row">
+                                                        <table class="table table-sm table-striped ">
+                                                          <thead>
+                                                           <tr class=" table-success">
+                                                            <th>Date of Appointment</th>
+                                                            <th>Time Start</th>
+                                                            <th>Time End</th>
+                                                            <th>No. of Patients</th>
+                                                            <th>Action</th>
+                                                           </tr>
+                                                          </thead>
+                                                          <tbody>
+                                                            @foreach ($schedule as $item)
+                                                            <tr>
+                                                              <td>{{date('F j, Y',strtotime($item->dateofappt))}}</td>
+                                                              <td>{{date('h:ia',strtotime($item->timestart))}}</td>
+                                                              <td>{{date('h:ia',strtotime($item->timeend))}}</td>
+                                                              <td>{{$item->noofpatients}}</td>
+                                                              <td>
+                                                                <form method ="post" action="{{route('edit.rebook')}}" id="booknow">
+                                                                  @csrf
+                                                                  <input type="hidden" value="{{$item->id}}" name="scheduleid">
+                                                                  <input type="hidden" value="{{$id}}" name="id">
+                                                                  <input type="hidden" value="{{$doctor}}" name="doctor">
+                                                                  <input type="hidden" value="{{$patId}}" name="patient">
+                                                                  <input type="hidden" value="{{$categoryid}}" name="categoryid">
+                                                                <button class="btn btn-success btn-sm" type="submit">Select</button>
+                                                              </form>
+                                                              </td>
+                                                            </tr>
+                                                            @endforeach
+                                                          </tbody>
+                                                        </table>
+                                                    
                                          
-                                                       </div>
+                                                      </div>
                                                  
                                                        
           
                                                 </div>
                                               </div>
-                                            </form>
-          
+                                           
                                   </div>
+
+                                  
             </div>
     </div>
 

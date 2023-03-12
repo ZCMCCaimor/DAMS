@@ -181,75 +181,65 @@ class Edit_Controller extends Controller
     }
 
     public function rebook(Request $request){
-        $id = $request->input('apptid');
-        $clinic = $request->input('Clinic');
-        $category = $request->input('Category');
-        $doctor = $request->input('Doctor');
-        $top = $request->input('timeofappointment');
-        $dop = $request->input('dateofappointment');
-          
-
-        if($dop&&$top){
-        Appointment::where('id',$id)->update([
-        'dateofappointment'=>$dop,
-        'timeofappointment'=>$top,
-         'ad_status'=>1,
-        ]);
-        //status = 1
-
-        $appt = Appointment::where('id',$id)->get();
-        $userid = $appt[0]['user_id'];
-    
-        $adate = $appt[0]['dateofappointment'];
-        $atime = $appt[0]['timeofappointment'];
-        $udetails = User::where('id',$userid)->get();
-        $email = $udetails[0]['email'];
-        $name = $udetails[0]['name'];
-        $clinicdetails = Clinic::where('id',$clinic)->get();
-        $clinicname = $clinicdetails[0]['name'];
-        $cliniclocation =  $clinicdetails[0]['street'].' ,'.$clinicdetails[0]['barangay'].' '.$clinicdetails[0]['city'];
-
-        return redirect()->route('mail.notify_patient',['email'=>$email,'name'=>$name,'doa'=>$dop,'toa'=>$top,'cname'=>$clinicname,'loc'=>$cliniclocation,'tp' =>'rebook','remarks'=>$request->remarks,'treatment'=>$request->treatment]);
-        }else {
-            Appointment::where('id',$id)->update([
-                'dateofappointment'=>null,
-                'timeofappointment'=>null,
-                 'ad_status'=>1,
-                ]);
-
-                $appt = Appointment::where('id',$id)->get();
-                $userid = $appt[0]['user_id'];
-            
-                $adate = $appt[0]['dateofappointment'];
-                $atime = $appt[0]['timeofappointment'];
-                $udetails = User::where('id',$userid)->get();
-                $email = $udetails[0]['email'];
-                $name = $udetails[0]['name'];
-                $clinicdetails = Clinic::where('id',$clinic)->get();
-                $clinicname = $clinicdetails[0]['name'];
-                $cliniclocation =  $clinicdetails[0]['street'].' ,'.$clinicdetails[0]['barangay'].' '.$clinicdetails[0]['city'];
-        
-                return redirect()->route('mail.notify_userrebook',['email'=>$email,'name'=>$name,'doa'=>$dop,'toa'=>$top,'cname'=>$clinicname,'loc'=>$cliniclocation,'tp' =>'rebook','remarks'=>$request->remarks,'treatment'=>$request->treatment]);
-
-        }
-
-        // // Appointment::where('id',$id)->update([
-        // //     'clinic'=>$clinic,
-        // //     'category'=>$category,
-        // //     'doctor'=>$doctor,
-        // //     'dateofappointment'=>$dop,
-        // //     'timeofappointment'=>$top,
-        // //     'status'=>1,
-        // //     'refferedto'=>0,
-        // //     'refferedto_doctor'=>0,
-        // //     'remarks'=>'',
-        // // ]);
-
-    
-
-
-      /*   */
+        $shedID = $request->scheduleid;
+        $id     = $request->id;
+        $doctor = $request->doctor;
+        $patient= $request->patient;
+        $categoryid = $request->categoryid;
        
+
+        echo $shedID.$id.$doctor.$patient.$categoryid;
+
+        $schedule = Schedule::findorFail($id);
+        $doa = $schedule->dateofappointment;
+        $timestart = $schedule->timestart;
+        $timeend   = $schedule->timeend;
+
+        echo $doa.$timestart.$timeend;
+        $appt = Appointment::findorFail($id);
+
+        //$appt->update([
+        //     'dateofappt'=>$dop,
+        //     'timestart' =>$timestart,
+        //     'timeend'   =>$timeend,
+        //     'ad_status' =>1,
+
+        // ]);
+ 
+
+        //$userid = $appt->user_id;
+    
+        // $adate = $doa;
+        // $timestart 
+        // $udetails = User::where('id',$userid)->get();
+        // $email = $udetails[0]['email'];
+        // $name = $udetails[0]['name'];
+     
+        // return redirect()->route('mail.notify_patient',['email'=>$email,'name'=>$name,'doa'=>$dop,'toa'=>$top,'cname'=>$clinicname,'loc'=>$cliniclocation,'tp' =>'rebook','remarks'=>$request->remarks,'treatment'=>$request->treatment]);
+        // }else {
+        //     Appointment::where('id',$id)->update([
+        //         'dateofappointment'=>null,
+        //         'timeofappointment'=>null,
+        //          'ad_status'=>1,
+        //         ]);
+
+        //         $appt = Appointment::where('id',$id)->get();
+        //         $userid = $appt[0]['user_id'];
+            
+        //         $adate = $appt[0]['dateofappointment'];
+        //         $atime = $appt[0]['timeofappointment'];
+        //         $udetails = User::where('id',$userid)->get();
+        //         $email = $udetails[0]['email'];
+        //         $name = $udetails[0]['name'];
+        //         $clinicdetails = Clinic::where('id',$clinic)->get();
+        //         $clinicname = $clinicdetails[0]['name'];
+        //         $cliniclocation =  $clinicdetails[0]['street'].' ,'.$clinicdetails[0]['barangay'].' '.$clinicdetails[0]['city'];
+        
+        //         return redirect()->route('mail.notify_userrebook',['email'=>$email,'name'=>$name,'doa'=>$dop,'toa'=>$top,'cname'=>$clinicname,'loc'=>$cliniclocation,'tp' =>'rebook','remarks'=>$request->remarks,'treatment'=>$request->treatment]);
+
+        // }
+
+    
     }
 
     public function accept_newSchedule(Request $request){
