@@ -74,12 +74,15 @@
                                           @endphp
     
                                           @foreach ($userappt as $ap)
-                                          <h6 style="font-size:13px" class="af mb-3 bg-light shadow p-3">
-                                            <span style="float: right">   Date :  <span style="font-weight: bold" class="text-danger">{{date('F j,Y',strtotime($ap->dateofappointment))}}</span>
-                   
-                                               <br>
-                                               Time : <span style="font-weight: bold" class="text-danger">{{date('h:i a',strtotime($ap->timeofappointment))}}</span>
-                                           </span>
+                                            @php
+                                        $schedule = DB::select('SELECT * FROM `schedules` where id = '.$ap->apptID.' ');
+                                      @endphp
+                                           <h6 style="font-size:13px" class="af mb-3 bg-light shadow p-3">
+                                        <span style="float: right">   Date :  <span style="font-weight: bold" class="text-danger">{{date('F j,Y',strtotime($schedule[0]->dateofappt))}}</span>
+               
+                                           <br>
+                                           Time : <span style="font-weight: bold" class="text-danger">{{date('h:i a',strtotime($schedule[0]->timestart)).' - '.date('h:i a',strtotime($schedule[0]->timeend))}}</span>
+                                       </span>
                                                <br><br><br>
                                                <ul class="list-group list-group-flush">
                                                    <li class="list-group-item">
