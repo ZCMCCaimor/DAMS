@@ -1,5 +1,8 @@
 @extends('layouts.superadmin_layout')
 @section('content')
+<script>
+    window.location.href='{{route("superadmin.specialization")}}';
+</script>
     <div class="container">
 
     @if(session()->has('success'))
