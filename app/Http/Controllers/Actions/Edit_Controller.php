@@ -313,6 +313,11 @@ class Edit_Controller extends Controller
     }
 
     public function updateaccount(Request $request){
+        if($request->contactno){
+            $Contact = $request->contactno;
+        }else{
+            $Contact = "";
+        }
        
      if($request->input('password') == Auth::user()->password){
      
@@ -323,15 +328,15 @@ class Edit_Controller extends Controller
 
    User::where('id',Auth::user()->id)->update([
             'name'=>$request->input('name'),
-            'address'=>$request->input('address'),
-            'contactno'=>$request->input('contactno'),
+            'address'=>$request->input('address')? $request->input('address') :"",
+            'contactno'=>$Contact,
             'image'=>$imagefile
         ]);
             }else{
          User::where('id',Auth::user()->id)->update([
             'name'=>$request->input('name'),
-            'address'=>$request->input('address'),
-            'contactno'=>$request->input('contactno'),
+            'address'=>$request->input('address')? $request->input('address'):"",
+            'contactno'=>$Contact,
         ]);
             }
 
@@ -345,16 +350,16 @@ class Edit_Controller extends Controller
 
 User::where('id',Auth::user()->id)->update([
         'name'=>$request->input('name'),
-        'address'=>$request->input('address'),
-        'contactno'=>$request->input('contactno'),
+        'address'=>$request->input('address')? $request->input('address'):"",
+        'contactno'=>$Contact,
         'image'=>$imagefile,
         'password'=>Hash::make($request->input('password')),
     ]);
         }else{
      User::where('id',Auth::user()->id)->update([
             'name'=>$request->input('name'),
-            'address'=>$request->input('address'),
-            'contactno'=>$request->input('contactno'),
+            'address'=>$request->input('address')? $request->input('address'):"",
+            'contactno'=>$Contact,
             'password'=>Hash::make($request->input('password')),
         ]);
         }
