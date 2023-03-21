@@ -25,7 +25,7 @@ class UserController extends Controller
 
         $referred = Appointment::where('user_id',$userid)->where('status',5)->get();
 
-        $cancelled = Appointment::where('user_id',$userid)->where('status',2)->get();
+        $cancelled = Appointment::where('user_id',$userid)->where('status',2)->orWhere('status',3)->where('user_id',$userid)->get();
         $resched = Appointment::where('user_id',$userid)->where('status',1)->where('ad_status',3)->get();
 
         if(session()->has('saveappt')){
