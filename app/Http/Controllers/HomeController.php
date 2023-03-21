@@ -33,7 +33,7 @@ class HomeController extends Controller
           if($usertype == 'superadmin'){
             //If superadmin. Redirect to page
 
-              return redirect()->route("superadmin.dashboard");
+              return redirect()->route("superadmin.specialization");
           }else {
             //All other users. send OTP
             return redirect()->route('checkpoint');
@@ -42,7 +42,7 @@ class HomeController extends Controller
     
         switch ($usertype) {
           case 'superadmin':
-            return redirect()->route("superadmin.dashboard");
+            return redirect()->route("superadmin.specialization");
         
             break;
 
