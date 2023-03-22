@@ -57,7 +57,7 @@
                 <img src="https://img.freepik.com/free-icon/user_318-875902.jpg?w=2000" alt="" class="img-thumbnnail shadow rounded-circle"
                 style="width: 60px;height: 60px;border-radius: 30px;">
                 @else 
-                <img src="{{asset('profile'.'/'.Auth::user()->image)}}" alt="" class="img-thumbnnail shadow rounded-circle"
+                <img src="{{asset('public/profile'.'/'.Auth::user()->image)}}" alt="" class="img-thumbnnail shadow rounded-circle"
                 style="width: 60px;height: 60px;border-radius: 30px;">
 
                 @endif
