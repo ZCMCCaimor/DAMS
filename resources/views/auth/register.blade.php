@@ -4,7 +4,8 @@
 <div class="container">
     <div class="row">
         <div class="col-md-6 " >
-                    <form method="POST" action="{{ route('register') }}">
+            {{-- {{ route('register') }} --}}
+                    <form method="POST" action="{{route('registerUser')}}">
                         @csrf
                         <h5 style="color:rgb(68, 68, 71);font-weight:bold" class="mb-3">REGISTER</h5>
                         

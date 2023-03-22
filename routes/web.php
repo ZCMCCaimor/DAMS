@@ -19,8 +19,13 @@ use Illuminate\Http\Request;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Auth::routes();
+// Auth::routes();
 
+Route::post('logged',[App\Http\Controllers\AuthController::class, 'index'])->name('login');
+Route::post('loggedout',[App\Http\Controllers\AuthController::class, 'logout'])->name('logout');
+Route::get('register',[App\Http\Controllers\AuthController::class, 'register'])->name('register');
+Route::post('register',[App\Http\Controllers\AuthController::class, 'registerUser'])->name('registerUser');
+Route::get('resetpassword',[App\Http\Controllers\AuthController::class, 'passwordrequest'])->name('password.request');
 Route::get('/', function () {
     $title = 'Patient Appointment Scheduling MS';
     $def = Email::all();
