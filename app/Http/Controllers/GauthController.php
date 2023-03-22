@@ -53,7 +53,7 @@ class GauthController extends Controller
             'email' =>$email,
           ];
           if(Auth::attempt($credentials)){
-            return redirect()->route('login');
+            return redirect()->route('home');
           }else{
             return redirect('/');
           }
