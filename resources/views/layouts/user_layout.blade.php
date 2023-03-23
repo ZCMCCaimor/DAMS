@@ -21,7 +21,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>Doctor Appointment-MS</title>
+    <title>Patient Appointment Scheduling-MS</title>
 
     <!-- Scripts -->
      <!-- Fonts -->
